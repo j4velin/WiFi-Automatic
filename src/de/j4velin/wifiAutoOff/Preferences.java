@@ -38,6 +38,7 @@ public class Preferences extends PreferenceActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
+		// action bar overflow menu
 		switch (item.getItemId()) {
 		case R.id.action_wifi_adv:
 			try {
@@ -66,6 +67,8 @@ public class Preferences extends PreferenceActivity {
 	}
 
 	/**
+	 * Checks if the WiFi sleep policy will keep WiFi when the screen goes off
+	 * 
 	 * @param c
 	 *            Context
 	 * @return true if WiFi will be kept on during sleep

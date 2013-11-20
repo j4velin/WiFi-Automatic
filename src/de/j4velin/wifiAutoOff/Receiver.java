@@ -13,6 +13,10 @@ import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
+/**
+ * Class for receiving various events and react on them.
+ *
+ */
 public class Receiver extends BroadcastReceiver {
 
 	static final boolean LOG = false;
@@ -30,8 +34,10 @@ public class Receiver extends BroadcastReceiver {
 	static final String OFF_AT_TIME = "22:00";
 
 	/**
+	 * Starts one of the timersto turn WiFi off
+	 * 
 	 * @param context
-	 *            Context
+	 *            the context
 	 * @param id
 	 *            TIMER_SCREEN_OFF or TIMER_NO_NETWORK
 	 * @param time
@@ -45,6 +51,14 @@ public class Receiver extends BroadcastReceiver {
 				PendingIntent.getBroadcast(context, id, timerIntent, 0));
 	}
 
+	/**
+	 * Stops the timer
+	 * 
+	 * @param context
+	 *            the context
+	 * @param id
+	 *            TIMER_SCREEN_OFF or TIMER_NO_NETWORK
+	 */
 	private void stopTimer(Context context, int id) {
 		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		Intent timerIntent = new Intent(context, Receiver.class).putExtra("timer", true).setAction(
@@ -52,6 +66,12 @@ public class Receiver extends BroadcastReceiver {
 		am.cancel(PendingIntent.getBroadcast(context, id, timerIntent, 0));
 	}
 
+	/**
+	 * Changes the WiFi state
+	 * 
+	 * @param context
+	 * @param on true to turn WiFi on, false to turn it off
+	 */
 	private static void changeWiFi(Context context, boolean on) {
 		if (LOG)
 			android.util.Log.d("WiFiAutoOff", on ? "turning wifi on" : "disabling wifi");
@@ -69,9 +89,11 @@ public class Receiver extends BroadcastReceiver {
 		if (LOG)
 			android.util.Log.d("WiFiAutoOff", "received: " + action);
 		if (ScreenOffDetector.SCREEN_OFF_ACTION.equals(action)) {
+			// screen went off -> start TIMER_SCREEN_OFF
 			startTimer(context, TIMER_SCREEN_OFF,
 					PreferenceManager.getDefaultSharedPreferences(context).getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
 		} else if (Intent.ACTION_USER_PRESENT.equals(action)) {
+			// user unlocked the device -> stop TIMER_SCREEN_OFF, might turn on WiFi
 			stopTimer(context, TIMER_SCREEN_OFF);
 			if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("on_unlock", true)) {
 				stopTimer(context, TIMER_NO_NETWORK);
@@ -101,10 +123,13 @@ public class Receiver extends BroadcastReceiver {
 				}
 			}
 		} else if (intent.hasExtra("timer")) {
+			// one of the timers expired -> turn wifi off
 			changeWiFi(context, false);
 		} else if (intent.hasExtra("changeWiFi")) {
+			// TODO Is this still necessary?
 			changeWiFi(context, intent.getBooleanExtra("changeWiFi", false));
 		} else if (intent.getAction().equals(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION)) {
+			// wifi direct connection changed
 			NetworkInfo nwi = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
 			if (LOG)
 				android.util.Log.d("WiFiAutoOff", "new state: "+nwi.getState());

@@ -7,6 +7,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 
+/**
+ * Background service which detects SCREEN_OFF events.
+ * 
+ * Necessary for the 'turn wifi off if screen is off' option
+ * 
+ */
 public class ScreenOffDetector extends Service {
 
 	final static String SCREEN_OFF_ACTION = "SCREEN_OFF";

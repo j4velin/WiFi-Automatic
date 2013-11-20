@@ -9,8 +9,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+/**
+ * 
+ * Utility class to set all necessary timers / start the background service
+ * 
+ */
 public class Start {
 
+	/**
+	 * Sets all necessary timers / starts the background service depending on
+	 * the user settings
+	 * 
+	 * @param c
+	 *            the context
+	 */
 	static void start(Context c) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
 		if (prefs.getBoolean("off_screen_off", true)) {
@@ -37,8 +49,8 @@ public class Start {
 			am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(c, Receiver.TIMER_ON_AT,
 					new Intent(c, Receiver.class).putExtra("changeWiFi", true).setAction("ON_AT"), 0));
 		} else { // stop timer
-			am.cancel(PendingIntent.getBroadcast(c, Receiver.TIMER_ON_AT, new Intent(c,
-					Receiver.class).putExtra("changeWiFi", true).setAction("ON_AT"), 0));
+			am.cancel(PendingIntent.getBroadcast(c, Receiver.TIMER_ON_AT,
+					new Intent(c, Receiver.class).putExtra("changeWiFi", true).setAction("ON_AT"), 0));
 		}
 		if (prefs.getBoolean("off_at", false)) {
 			String[] time = prefs.getString("off_at_time", Receiver.OFF_AT_TIME).split(":");
@@ -55,8 +67,8 @@ public class Start {
 					PendingIntent.getBroadcast(c, Receiver.TIMER_OFF_AT,
 							new Intent(c, Receiver.class).putExtra("changeWiFi", false).setAction("OFF_AT"), 0));
 		} else { // stop timer
-			am.cancel(PendingIntent.getBroadcast(c, Receiver.TIMER_OFF_AT, new Intent(c,
-					Receiver.class).putExtra("changeWiFi", false).setAction("OFF_AT"), 0));
+			am.cancel(PendingIntent.getBroadcast(c, Receiver.TIMER_OFF_AT,
+					new Intent(c, Receiver.class).putExtra("changeWiFi", false).setAction("OFF_AT"), 0));
 		}
 		if (prefs.getBoolean("on_every", false)) {
 			am.setInexactRepeating(
@@ -66,8 +78,8 @@ public class Start {
 					PendingIntent.getBroadcast(c, Receiver.TIMER_ON_EVERY,
 							new Intent(c, Receiver.class).putExtra("changeWiFi", true).setAction("ON_EVERY"), 0));
 		} else { // stop timer
-			am.cancel(PendingIntent.getBroadcast(c, Receiver.TIMER_ON_EVERY, new Intent(c,
-					Receiver.class).putExtra("changeWiFi", true).setAction("ON_EVERY"), 0));
+			am.cancel(PendingIntent.getBroadcast(c, Receiver.TIMER_ON_EVERY,
+					new Intent(c, Receiver.class).putExtra("changeWiFi", true).setAction("ON_EVERY"), 0));
 		}
 
 		if (Receiver.LOG)
