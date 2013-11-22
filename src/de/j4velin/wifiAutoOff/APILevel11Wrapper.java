@@ -38,6 +38,7 @@ public class APILevel11Wrapper {
 		new AlertDialog.Builder(c).setTitle(title).setView(np).setPositiveButton(android.R.string.ok, new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				np.clearFocus();
 				prefs.edit().putInt(setting, np.getValue()).apply();
 				if (changeTitle)
 					p.setTitle(c.getString(summary, np.getValue()));
