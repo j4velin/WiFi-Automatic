@@ -2,7 +2,7 @@ WiFi-Auto-Off
 =============
 
 
-This simple app can help you increase the standby time of your device: "WiFi Auto-Off" automatically disable your WiFi radio when you don't need it and thereby lowers the battery consumption.
+This simple Android app can help you increase the standby time of your device: "WiFi Auto-Off" automatically disable your WiFi radio when you don't need it and thereby lowers the battery consumption.
 It is designed to be used with WiFi-only tablets - these devices normally don't require a constant internet connection if you're not using them and turning WiFi off can save a lot of battery power.
 
 You can also specify to automatically turn on WiFi again, if you turn on your device. This way, you are always connected to your WiFi network when using the the tablet.
