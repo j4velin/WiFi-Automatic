@@ -1,6 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/enable"
+        android:actionViewClass="android.widget.Switch"
+        android:showAsAction="always"/>
+    <item
         android:id="@+id/action_wifi_adv"
         android:orderInCategory="100"
         android:showAsAction="never"

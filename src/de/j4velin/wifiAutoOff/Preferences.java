@@ -16,14 +16,17 @@
 
 package de.j4velin.wifiAutoOff;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
+import android.content.pm.PackageManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -33,22 +36,59 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.text.InputType;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 public class Preferences extends PreferenceActivity {
 
+	@SuppressLint("NewApi")
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
+		getMenuInflater().inflate(R.menu.menu, menu);
+		if (android.os.Build.VERSION.SDK_INT >= 11) {
+			CompoundButton enable = (CompoundButton) menu.findItem(R.id.enable).getActionView();
+			if (android.os.Build.VERSION.SDK_INT < 14) {
+				enable.setText("Enable");
+			}
+			enable.setChecked(getPackageManager().getComponentEnabledSetting(new ComponentName(this, Receiver.class)) != PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
+			// disable initially if not checked
+			if (!enable.isChecked()) {
+				@SuppressWarnings("deprecation")
+				PreferenceScreen ps = getPreferenceScreen();
+				for (int i = 0; i < ps.getPreferenceCount(); i++) {
+					ps.getPreference(i).setEnabled(false);
+				}
+			}			
+			enable.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					@SuppressWarnings("deprecation")
+					PreferenceScreen ps = getPreferenceScreen();
+					for (int i = 0; i < ps.getPreferenceCount(); i++) {
+						ps.getPreference(i).setEnabled(isChecked);
+					}
+					getPackageManager().setComponentEnabledSetting(
+							new ComponentName(Preferences.this, Receiver.class),
+							isChecked ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+									: PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+					if (!isChecked)
+						stopService(new Intent(Preferences.this, ScreenOffDetector.class));
+					getPackageManager().setComponentEnabledSetting(
+							new ComponentName(Preferences.this, ScreenOffDetector.class),
+							isChecked ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+									: PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+				}
+			});
+		}
 		return true;
 	}
 
@@ -56,6 +96,9 @@ public class Preferences extends PreferenceActivity {
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		// action bar overflow menu
 		switch (item.getItemId()) {
+		case R.id.enable:
+
+			break;
 		case R.id.action_wifi_adv:
 			try {
 				startActivity(new Intent(Settings.ACTION_WIFI_IP_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));

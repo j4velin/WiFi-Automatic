@@ -42,9 +42,9 @@ public class Start {
 	static void start(Context c) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
 		if (prefs.getBoolean("off_screen_off", true)) {
-			c.startService(new Intent(c, ScreenOffDetector.class).putExtra("start", true));
+			c.startService(new Intent(c, ScreenOffDetector.class));
 		} else {
-			c.startService(new Intent(c, ScreenOffDetector.class).putExtra("start", false));
+			c.stopService(new Intent(c, ScreenOffDetector.class));
 		}
 
 		AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);

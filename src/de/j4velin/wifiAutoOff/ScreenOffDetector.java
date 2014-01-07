@@ -16,11 +16,15 @@
 
 package de.j4velin.wifiAutoOff;
 
+import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.IBinder;
 
 /**
@@ -43,20 +47,15 @@ public class ScreenOffDetector extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
-		if (intent == null || intent.getBooleanExtra("start", false)) {
-			if (br == null) {
-				if (Receiver.LOG)
-					android.util.Log.d("WiFiAutoOff", "creating screen off receiver");
-				br = new ScreenOffReceiver();
-				IntentFilter intf = new IntentFilter();
-				intf.addAction(Intent.ACTION_SCREEN_OFF);
-				registerReceiver(br, intf);
-			}
-			return START_STICKY;
-		} else {
-			stopSelf();
-			return START_NOT_STICKY;
+		if (br == null) {
+			if (Receiver.LOG)
+				android.util.Log.d("WiFiAutoOff", "creating screen off receiver");
+			br = new ScreenOffReceiver();
+			IntentFilter intf = new IntentFilter();
+			intf.addAction(Intent.ACTION_SCREEN_OFF);
+			registerReceiver(br, intf);
 		}
+		return START_STICKY;
 	}
 
 	@Override
@@ -83,5 +82,15 @@ public class ScreenOffDetector extends Service {
 			}
 		}
 
+	}
+
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	@Override
+	public void onTaskRemoved(final Intent rootIntent) {
+		super.onTaskRemoved(rootIntent);
+		// Workaround for "Android 4.4.2 ignoring START_STICKY bug"
+		// Restart service in 500 ms
+		((AlarmManager) getSystemService(Context.ALARM_SERVICE)).set(AlarmManager.RTC, System.currentTimeMillis() + 500,
+				PendingIntent.getService(this, 0, new Intent(this, ScreenOffDetector.class), 0));
 	}
 }
