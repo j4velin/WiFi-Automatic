@@ -6,9 +6,9 @@
      <string name="advanced_wifi_settings">Advanced WiFi settings</string>
      <string name="more_apps">More apps</string>
      <string name="donate">Donate</string>
-     <string name="turn_wifi_on_">Turn WiFi on...</string>
+     <string name="turn_wifi_on_">Turn WiFi on&#8230;</string>
      <string name="when_device_gets_unlocked">when device gets unlocked</string>
-     <string name="turn_wifi_off_when_">Turn WiFi off when...</string>
+     <string name="turn_wifi_off_when_">Turn WiFi off when&#8230;</string>
      <string name="screen_is_off">screen is off</string>
      <string name="not_connected_to_any_network">not connected to any network</string>
      <string name="sleep_policy">Your WiFi sleep policy is set to automatically disable WiFi as soon as the display goes off. You can change the policy in the Android \'Advanced WiFi settings\'</string>
@@ -17,6 +17,8 @@
      <string name="minutes_before_turning_off_wifi_">Minutes before turning off WiFi:</string>
      <string name="turn_wifi_on_at_">Turn WiFi on at:</string>
      <string name="turn_wifi_off_at_">Turn WiFi off at:</string>
-     <string name="turn_wifi_on_every_hour_s_">Turn WiFi on every ... hour(s):</string>
+     <string name="turn_wifi_on_every_hour_s_">Turn WiFi on every &#8230; hour(s):</string>
      <string name="invalid_input_number_has_to_be_">Invalid input: Number has to be >= %1$d and &lt;= %2$d</string>
+     <string name="airplane">Don\'t enable WiFi when in airplane mode</string>
+     <string name="power_title">when connected to external power supply</string>
 </resources>

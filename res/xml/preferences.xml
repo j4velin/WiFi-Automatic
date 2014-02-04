@@ -12,6 +12,10 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="on_every" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="power_connected"
+            android:title="@string/power_title" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/turn_wifi_off_when_" >
         <CheckBoxPreference
@@ -26,6 +30,12 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="off_at" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="General settings" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="airplane"
+            android:title="@string/airplane" />
     </PreferenceCategory>
 
 </PreferenceScreen>
