@@ -52,7 +52,7 @@ public class Receiver extends BroadcastReceiver {
 	static final String OFF_AT_TIME = "22:00";
 
 	/**
-	 * Starts one of the timersto turn WiFi off
+	 * Starts one of the timers to turn WiFi off
 	 * 
 	 * @param context
 	 *            the context
