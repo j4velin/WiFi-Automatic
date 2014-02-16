@@ -168,7 +168,7 @@ public class Preferences extends PreferenceActivity {
 		screen_off.setSummary(getString(R.string.for_at_least, prefs.getInt("screen_off_timeout", Receiver.TIMEOUT_SCREEN_OFF)));
 
 		final CheckBoxPreference no_network_off = (CheckBoxPreference) findPreference("off_no_network");
-		no_network_off.setSummary(getString(R.string.for_at_least, 1));
+		no_network_off.setSummary(getString(R.string.for_at_least, prefs.getInt("no_network_timeout", Receiver.TIMEOUT_NO_NETWORK)));
 
 		if (!keepWiFiOn(this)) {
 			screen_off.setChecked(false);
@@ -208,6 +208,24 @@ public class Preferences extends PreferenceActivity {
 						showPre11NumberPicker(Preferences.this, prefs, screen_off, R.string.for_at_least, 1, 60,
 								getString(R.string.minutes_before_turning_off_wifi_), "screen_off_timeout",
 								Receiver.TIMEOUT_SCREEN_OFF, false);
+					}
+				}
+				return true;
+			}
+		});
+		
+		no_network_off.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				if ((Boolean) newValue) {
+					if (android.os.Build.VERSION.SDK_INT >= 11) {
+						APILevel11Wrapper.showNumberPicker(Preferences.this, prefs, no_network_off, R.string.for_at_least, 1, 60,
+								getString(R.string.minutes_before_turning_off_wifi_), "no_network_timeout",
+								Receiver.TIMEOUT_NO_NETWORK, false);
+					} else {
+						showPre11NumberPicker(Preferences.this, prefs, no_network_off, R.string.for_at_least, 1, 60,
+								getString(R.string.minutes_before_turning_off_wifi_), "no_network_timeout",
+								Receiver.TIMEOUT_NO_NETWORK, false);
 					}
 				}
 				return true;

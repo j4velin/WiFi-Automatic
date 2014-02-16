@@ -45,7 +45,7 @@ public class Receiver extends BroadcastReceiver {
 	static final int TIMER_OFF_AT = 4;
 	static final int TIMER_ON_EVERY = 5;
 
-	private static final int TIMEOUT_NO_NETWORK = 1;
+	static final int TIMEOUT_NO_NETWORK = 1;
 	static final int TIMEOUT_SCREEN_OFF = 10;
 	static final int ON_EVERY_TIME = 2;
 	static final String ON_AT_TIME = "8:00";
