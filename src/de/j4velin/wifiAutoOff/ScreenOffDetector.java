@@ -48,8 +48,8 @@ public class ScreenOffDetector extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		super.onStartCommand(intent, flags, startId);
 		if (br == null) {
-			if (Receiver.LOG)
-				android.util.Log.d("WiFiAutoOff", "creating screen off receiver");
+			if (Logger.LOG)
+				Logger.log("creating screen off receiver");
 			br = new ScreenOffReceiver();
 			IntentFilter intf = new IntentFilter();
 			intf.addAction(Intent.ACTION_SCREEN_OFF);
@@ -61,8 +61,8 @@ public class ScreenOffDetector extends Service {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if (Receiver.LOG)
-			android.util.Log.d("WiFiAutoOff", "destroying screen off receiver");
+		if (Logger.LOG)
+			Logger.log("destroying screen off receiver");
 		if (br != null) {
 			try {
 				unregisterReceiver(br);

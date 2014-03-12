@@ -37,8 +37,6 @@ import android.widget.Toast;
  */
 public class Receiver extends BroadcastReceiver {
 
-	static final boolean LOG = false;
-
 	private static final int TIMER_SCREEN_OFF = 1;
 	private static final int TIMER_NO_NETWORK = 2;
 	static final int TIMER_ON_AT = 3;
@@ -99,8 +97,8 @@ public class Receiver extends BroadcastReceiver {
 				if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 ? APILevel17Wrapper
 						.isAirplaneModeOn(context) : Settings.System.getInt(context.getContentResolver(),
 						Settings.System.AIRPLANE_MODE_ON) == 1) {
-					if (LOG)
-						android.util.Log.d("WiFiAutoOff", "not turning wifi on because device is in airplane mode");
+					if (Logger.LOG)
+						Logger.log("not turning wifi on because device is in airplane mode");
 					return;
 				}
 			} catch (final SettingNotFoundException e) {
@@ -109,8 +107,8 @@ public class Receiver extends BroadcastReceiver {
 				e.printStackTrace();
 			}
 		}
-		if (LOG)
-			android.util.Log.d("WiFiAutoOff", on ? "turning wifi on" : "disabling wifi");
+		if (Logger.LOG)
+			Logger.log(on ? "turning wifi on" : "disabling wifi");
 		try {
 			((WifiManager) context.getSystemService(Context.WIFI_SERVICE)).setWifiEnabled(on);
 		} catch (Exception e) {
@@ -122,8 +120,8 @@ public class Receiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
 		final String action = intent.getAction();
-		if (LOG)
-			android.util.Log.d("WiFiAutoOff", "received: " + action);
+		if (Logger.LOG)
+			Logger.log("received: " + action);
 		if (ScreenOffDetector.SCREEN_OFF_ACTION.equals(action)) {
 			// screen went off -> start TIMER_SCREEN_OFF
 			startTimer(context, TIMER_SCREEN_OFF,
@@ -140,8 +138,8 @@ public class Receiver extends BroadcastReceiver {
 			final NetworkInfo nwi = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
 			if (nwi == null)
 				return;
-			if (LOG)
-				android.util.Log.d("WiFiAutoOff", "new state: " + nwi.getState());
+			if (Logger.LOG)
+				Logger.log("new state: " + nwi.getState());
 			if (nwi.isConnected()) {
 				stopTimer(context, TIMER_NO_NETWORK);
 				if (!((PowerManager) context.getSystemService(Context.POWER_SERVICE)).isScreenOn()
@@ -168,8 +166,8 @@ public class Receiver extends BroadcastReceiver {
 		} else if (intent.getAction().equals(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION)) {
 			// wifi direct connection changed
 			NetworkInfo nwi = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
-			if (LOG)
-				android.util.Log.d("WiFiAutoOff", "new state: " + nwi.getState());
+			if (Logger.LOG)
+				Logger.log("new state: " + nwi.getState());
 			if (nwi.isConnected()) {
 				stopTimer(context, TIMER_NO_NETWORK);
 			} else {
@@ -179,8 +177,9 @@ public class Receiver extends BroadcastReceiver {
 			}
 		} else if (intent.getAction().equals(Intent.ACTION_POWER_CONNECTED)) {
 			// connected to external power supply
-			if (LOG)
-				android.util.Log.d("WiFiAutoOff", "power connected setting: " + PreferenceManager.getDefaultSharedPreferences(context).getBoolean("power_connected", false));
+			if (Logger.LOG)
+				Logger.log("power connected setting: "
+						+ PreferenceManager.getDefaultSharedPreferences(context).getBoolean("power_connected", false));
 			if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("power_connected", false)) {
 				changeWiFi(context, true);
 			}

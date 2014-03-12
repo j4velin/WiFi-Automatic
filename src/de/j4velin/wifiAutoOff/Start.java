@@ -98,7 +98,7 @@ public class Start {
 					new Intent(c, Receiver.class).putExtra("changeWiFi", true).setAction("ON_EVERY"), 0));
 		}
 
-		if (Receiver.LOG)
-			android.util.Log.d("WiFiAutoOff", "all timers set/cleared");
+		if (Logger.LOG)
+			Logger.log("all timers set/cleared");
 	}
 }

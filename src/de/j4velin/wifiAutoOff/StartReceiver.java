@@ -31,8 +31,8 @@ public class StartReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		if (Receiver.LOG)
-			android.util.Log.d("WiFiAutoOff", "received: "+intent.getAction());
+		if (Logger.LOG)
+			Logger.log("received: "+intent.getAction());
 		Start.start(context);
 	}
 
