@@ -161,7 +161,7 @@ public class Receiver extends BroadcastReceiver {
 			// one of the timers expired -> turn wifi off
 			changeWiFi(context, false);
 		} else if (intent.hasExtra("changeWiFi")) {
-			// TODO Is this still necessary?
+			// for "ON AT" or "OFF AT" options
 			changeWiFi(context, intent.getBooleanExtra("changeWiFi", false));
 		} else if (intent.getAction().equals(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION)) {
 			// wifi direct connection changed
