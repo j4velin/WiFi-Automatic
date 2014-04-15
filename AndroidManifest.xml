@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.j4velin.wifiAutoOff"
-    android:versionCode="10"
-    android:versionName="1.3.3" >
+    android:versionCode="134"
+    android:versionName="1.3.4" >
 
     <uses-sdk
         android:minSdkVersion="7"
@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <!-- only required in the debug version -->
-    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -41,7 +41,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".ScreenOffDetector" >
+        <service android:name=".ScreenChangeDetector" >
         </service>
 
         <receiver android:name=".StartReceiver" >

@@ -17,6 +17,7 @@
 package de.j4velin.wifiAutoOff;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -39,12 +40,13 @@ public class Start {
 	 * @param c
 	 *            the context
 	 */
+	@SuppressWarnings("deprecation")
 	static void start(Context c) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-		if (prefs.getBoolean("off_screen_off", true)) {
-			c.startService(new Intent(c, ScreenOffDetector.class));
+		if (prefs.getBoolean("off_screen_off", true) || prefs.getBoolean("on_unlock", true)) {
+			c.startService(new Intent(c, ScreenChangeDetector.class));
 		} else {
-			c.stopService(new Intent(c, ScreenOffDetector.class));
+			c.stopService(new Intent(c, ScreenChangeDetector.class));
 		}
 
 		AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
@@ -64,6 +66,9 @@ public class Start {
 
 			am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(c, Receiver.TIMER_ON_AT,
 					new Intent(c, Receiver.class).putExtra("changeWiFi", true).setAction("ON_AT"), 0));
+			if (Logger.LOG)
+				Logger.log("ON_AT alarm set at " + new Date(cal.getTimeInMillis()).toLocaleString());
+
 		} else { // stop timer
 			am.cancel(PendingIntent.getBroadcast(c, Receiver.TIMER_ON_AT,
 					new Intent(c, Receiver.class).putExtra("changeWiFi", true).setAction("ON_AT"), 0));
@@ -82,6 +87,9 @@ public class Start {
 					cal.getTimeInMillis(),
 					PendingIntent.getBroadcast(c, Receiver.TIMER_OFF_AT,
 							new Intent(c, Receiver.class).putExtra("changeWiFi", false).setAction("OFF_AT"), 0));
+
+			if (Logger.LOG)
+				Logger.log("OFF_AT alarm set at " + new Date(cal.getTimeInMillis()).toLocaleString());
 		} else { // stop timer
 			am.cancel(PendingIntent.getBroadcast(c, Receiver.TIMER_OFF_AT,
 					new Intent(c, Receiver.class).putExtra("changeWiFi", false).setAction("OFF_AT"), 0));

@@ -81,9 +81,9 @@ public class Preferences extends PreferenceActivity {
 							isChecked ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
 									: PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
 					if (!isChecked)
-						stopService(new Intent(Preferences.this, ScreenOffDetector.class));
+						stopService(new Intent(Preferences.this, ScreenChangeDetector.class));
 					getPackageManager().setComponentEnabledSetting(
-							new ComponentName(Preferences.this, ScreenOffDetector.class),
+							new ComponentName(Preferences.this, ScreenChangeDetector.class),
 							isChecked ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
 									: PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
 				}

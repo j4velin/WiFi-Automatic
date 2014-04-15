@@ -33,8 +33,9 @@ import android.os.IBinder;
  * Necessary for the 'turn wifi off if screen is off' option
  * 
  */
-public class ScreenOffDetector extends Service {
+public class ScreenChangeDetector extends Service {
 
+	final static String SCREEN_ON_ACTION = "SCREEN_ON";
 	final static String SCREEN_OFF_ACTION = "SCREEN_OFF";
 
 	private static BroadcastReceiver br;
@@ -49,9 +50,10 @@ public class ScreenOffDetector extends Service {
 		super.onStartCommand(intent, flags, startId);
 		if (br == null) {
 			if (Logger.LOG)
-				Logger.log("creating screen off receiver");
+				Logger.log("creating screen receiver");
 			br = new ScreenOffReceiver();
 			IntentFilter intf = new IntentFilter();
+			intf.addAction(Intent.ACTION_SCREEN_ON);
 			intf.addAction(Intent.ACTION_SCREEN_OFF);
 			registerReceiver(br, intf);
 		}
@@ -62,7 +64,7 @@ public class ScreenOffDetector extends Service {
 	public void onDestroy() {
 		super.onDestroy();
 		if (Logger.LOG)
-			Logger.log("destroying screen off receiver");
+			Logger.log("destroying screen receiver");
 		if (br != null) {
 			try {
 				unregisterReceiver(br);
@@ -79,6 +81,8 @@ public class ScreenOffDetector extends Service {
 		public void onReceive(Context context, Intent intent) {
 			if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
 				sendBroadcast(new Intent(context, Receiver.class).setAction(SCREEN_OFF_ACTION));
+			} else if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
+				sendBroadcast(new Intent(context, Receiver.class).setAction(SCREEN_ON_ACTION));
 			}
 		}
 
@@ -91,6 +95,6 @@ public class ScreenOffDetector extends Service {
 		// Workaround for "Android 4.4.2 ignoring START_STICKY bug"
 		// Restart service in 500 ms
 		((AlarmManager) getSystemService(Context.ALARM_SERVICE)).set(AlarmManager.RTC, System.currentTimeMillis() + 500,
-				PendingIntent.getService(this, 0, new Intent(this, ScreenOffDetector.class), 0));
+				PendingIntent.getService(this, 0, new Intent(this, ScreenChangeDetector.class), 0));
 	}
 }

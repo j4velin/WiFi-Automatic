@@ -122,11 +122,11 @@ public class Receiver extends BroadcastReceiver {
 		final String action = intent.getAction();
 		if (Logger.LOG)
 			Logger.log("received: " + action);
-		if (ScreenOffDetector.SCREEN_OFF_ACTION.equals(action)) {
+		if (ScreenChangeDetector.SCREEN_OFF_ACTION.equals(action)) {
 			// screen went off -> start TIMER_SCREEN_OFF
 			startTimer(context, TIMER_SCREEN_OFF,
 					PreferenceManager.getDefaultSharedPreferences(context).getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
-		} else if (Intent.ACTION_USER_PRESENT.equals(action)) {
+		} else if (Intent.ACTION_USER_PRESENT.equals(action) || ScreenChangeDetector.SCREEN_ON_ACTION.equals(action)) {
 			// user unlocked the device -> stop TIMER_SCREEN_OFF, might turn on
 			// WiFi
 			stopTimer(context, TIMER_SCREEN_OFF);
