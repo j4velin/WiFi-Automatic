@@ -31,7 +31,9 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".Receiver" >
+        <receiver
+            android:name=".Receiver"
+            android:process=":background" >
             <intent-filter>
                 <action android:name="android.net.wifi.STATE_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
@@ -41,7 +43,9 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".ScreenChangeDetector" >
+        <service
+            android:name=".ScreenChangeDetector"
+            android:process=":background" >
         </service>
 
         <receiver android:name=".StartReceiver" >
