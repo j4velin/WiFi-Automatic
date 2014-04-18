@@ -22,6 +22,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pManager;
@@ -91,12 +92,14 @@ public class Receiver extends BroadcastReceiver {
 	 */
 	@SuppressWarnings("deprecation")
 	private static void changeWiFi(Context context, boolean on) {
-		if (on && PreferenceManager.getDefaultSharedPreferences(context).getBoolean("airplane", true)) {
+		if (on
+				&& PreferenceManager.getDefaultSharedPreferences(context).getBoolean("airplane",
+						true)) {
 			// check for airplane mode
 			try {
 				if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 ? APILevel17Wrapper
-						.isAirplaneModeOn(context) : Settings.System.getInt(context.getContentResolver(),
-						Settings.System.AIRPLANE_MODE_ON) == 1) {
+						.isAirplaneModeOn(context) : Settings.System.getInt(
+						context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON) == 1) {
 					if (Logger.LOG)
 						Logger.log("not turning wifi on because device is in airplane mode");
 					return;
@@ -112,7 +115,8 @@ public class Receiver extends BroadcastReceiver {
 		try {
 			((WifiManager) context.getSystemService(Context.WIFI_SERVICE)).setWifiEnabled(on);
 		} catch (Exception e) {
-			Toast.makeText(context, "Can not change WiFi state: " + e.getClass().getName(), Toast.LENGTH_LONG).show();
+			Toast.makeText(context, "Can not change WiFi state: " + e.getClass().getName(),
+					Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -122,15 +126,17 @@ public class Receiver extends BroadcastReceiver {
 		final String action = intent.getAction();
 		if (Logger.LOG)
 			Logger.log("received: " + action);
-		if (ScreenChangeDetector.SCREEN_OFF_ACTION.equals(action)) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		if (ScreenChangeDetector.SCREEN_OFF_ACTION.equals(action) && prefs.getBoolean("off_screen_off", true)) {
 			// screen went off -> start TIMER_SCREEN_OFF
 			startTimer(context, TIMER_SCREEN_OFF,
-					PreferenceManager.getDefaultSharedPreferences(context).getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
-		} else if (Intent.ACTION_USER_PRESENT.equals(action) || ScreenChangeDetector.SCREEN_ON_ACTION.equals(action)) {
+					prefs.getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
+		} else if ((Intent.ACTION_USER_PRESENT.equals(action)
+				|| ScreenChangeDetector.SCREEN_ON_ACTION.equals(action)) && prefs.getBoolean("on_unlock", true)) {
 			// user unlocked the device -> stop TIMER_SCREEN_OFF, might turn on
 			// WiFi
 			stopTimer(context, TIMER_SCREEN_OFF);
-			if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("on_unlock", true)) {
+			if (prefs.getBoolean("on_unlock", true)) {
 				stopTimer(context, TIMER_NO_NETWORK);
 				changeWiFi(context, true);
 			}
@@ -143,17 +149,14 @@ public class Receiver extends BroadcastReceiver {
 			if (nwi.isConnected()) {
 				stopTimer(context, TIMER_NO_NETWORK);
 				if (!((PowerManager) context.getSystemService(Context.POWER_SERVICE)).isScreenOn()
-						&& PreferenceManager.getDefaultSharedPreferences(context).getBoolean("off_screen_off", true)) {
+						&& prefs.getBoolean("off_screen_off", true)) {
 					// screen off -> start screen off timer
-					startTimer(
-							context,
-							TIMER_SCREEN_OFF,
-							PreferenceManager.getDefaultSharedPreferences(context).getInt("screen_off_timeout",
-									TIMEOUT_SCREEN_OFF));
+					startTimer(context, TIMER_SCREEN_OFF,
+							prefs.getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
 				}
 			} else if (nwi.getState().equals(NetworkInfo.State.DISCONNECTED)
 					|| nwi.getState().equals(NetworkInfo.State.DISCONNECTING)) {
-				if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("off_no_network", true)) {
+				if (prefs.getBoolean("off_no_network", true)) {
 					startTimer(context, TIMER_NO_NETWORK, TIMEOUT_NO_NETWORK);
 				}
 			}
@@ -171,16 +174,15 @@ public class Receiver extends BroadcastReceiver {
 			if (nwi.isConnected()) {
 				stopTimer(context, TIMER_NO_NETWORK);
 			} else {
-				if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("off_no_network", true)) {
+				if (prefs.getBoolean("off_no_network", true)) {
 					startTimer(context, TIMER_NO_NETWORK, TIMEOUT_NO_NETWORK);
 				}
 			}
 		} else if (intent.getAction().equals(Intent.ACTION_POWER_CONNECTED)) {
 			// connected to external power supply
 			if (Logger.LOG)
-				Logger.log("power connected setting: "
-						+ PreferenceManager.getDefaultSharedPreferences(context).getBoolean("power_connected", false));
-			if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("power_connected", false)) {
+				Logger.log("power connected setting: " + prefs.getBoolean("power_connected", false));
+			if (prefs.getBoolean("power_connected", false)) {
 				changeWiFi(context, true);
 			}
 		}
