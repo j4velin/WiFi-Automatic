@@ -1,4 +1,4 @@
-WiFi-Auto-Off
+WiFi Automatic
 =============
 
 
