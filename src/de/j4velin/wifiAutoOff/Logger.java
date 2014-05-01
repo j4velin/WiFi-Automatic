@@ -30,7 +30,7 @@ public class Logger {
 
 	private static FileWriter fw;
 	private static Date date = new Date();
-	private final static String APP = "WiFi-Auto-Off";
+	private final static String APP = "WiFi-Automatic";
 
 	public static void log(Throwable ex) {
 		log(ex.getMessage());
