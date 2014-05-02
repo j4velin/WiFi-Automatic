@@ -10,7 +10,7 @@ You can also specify to automatically turn on WiFi again, if you turn on your de
 This app has a similiar effect like setting the "WiFi sleep policy" in Android to "always", except that you can now exactly define the timeout between turning the screen off and actually turning off WiFi.
 
 
-* if your device has a cell radio, it might switch to 2G/3G which may consume more power then staying on WiFi
+*if your device has a cell radio, it might switch to 2G/3G which may consume more power then staying on WiFi
 
 
 
