@@ -21,18 +21,18 @@ import android.content.Context;
 import android.content.Intent;
 
 /**
- * BroadcastReceiver which receives BOOT_COMPLETE & PACKAGE_REPLACED
- * and then starts all necessary timers
+ * BroadcastReceiver which receives BOOT_COMPLETE & PACKAGE_REPLACED and then
+ * starts all necessary timers
  * 
  * @see Start
- *
+ * 
  */
 public class StartReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		if (Logger.LOG)
-			Logger.log("received: "+intent.getAction());
+			Logger.log("received: " + intent.getAction());
 		Start.start(context);
 	}
 
