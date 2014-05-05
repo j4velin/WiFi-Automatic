@@ -50,6 +50,8 @@ import android.widget.Toast;
 
 public class Preferences extends PreferenceActivity {
 
+	private final static int[] time_values = { 5, 15, 30, 60, 120, 300, 600 };
+
 	@SuppressLint("NewApi")
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
@@ -67,7 +69,7 @@ public class Preferences extends PreferenceActivity {
 				for (int i = 0; i < ps.getPreferenceCount(); i++) {
 					ps.getPreference(i).setEnabled(false);
 				}
-			}			
+			}
 			enable.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -168,7 +170,8 @@ public class Preferences extends PreferenceActivity {
 		screen_off.setSummary(getString(R.string.for_at_least, prefs.getInt("screen_off_timeout", Receiver.TIMEOUT_SCREEN_OFF)));
 
 		final CheckBoxPreference no_network_off = (CheckBoxPreference) findPreference("off_no_network");
-		no_network_off.setSummary(getString(R.string.for_at_least, prefs.getInt("no_network_timeout", Receiver.TIMEOUT_NO_NETWORK)));
+		no_network_off.setSummary(getString(R.string.for_at_least,
+				prefs.getInt("no_network_timeout", Receiver.TIMEOUT_NO_NETWORK)));
 
 		if (!keepWiFiOn(this)) {
 			screen_off.setChecked(false);
@@ -213,7 +216,7 @@ public class Preferences extends PreferenceActivity {
 				return true;
 			}
 		});
-		
+
 		no_network_off.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -290,19 +293,23 @@ public class Preferences extends PreferenceActivity {
 		});
 
 		final CheckBoxPreference on_every = (CheckBoxPreference) findPreference("on_every");
-		on_every.setTitle(getString(R.string.every_summary, prefs.getInt("on_every_time", Receiver.ON_EVERY_TIME)));
+		final String[] time_names = getResources().getStringArray(R.array.time_names);
+		// default 2 hours
+		on_every.setTitle(getString(R.string.every_summary, prefs.getString("on_every_str", time_names[4])));
 		on_every.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
 				if ((Boolean) newValue) {
-
-					if (android.os.Build.VERSION.SDK_INT >= 11) {
-						APILevel11Wrapper.showNumberPicker(Preferences.this, prefs, on_every, R.string.every_summary, 1, 23,
-								getString(R.string.turn_wifi_on_every_hour_s_), "on_every_time", Receiver.ON_EVERY_TIME, true);
-					} else {
-						showPre11NumberPicker(Preferences.this, prefs, on_every, R.string.every_summary, 1, 23,
-								getString(R.string.turn_wifi_on_every_hour_s_), "on_every_time", Receiver.ON_EVERY_TIME, true);
-					}
+					AlertDialog.Builder builder = new AlertDialog.Builder(Preferences.this);
+					builder.setTitle(R.string.turn_wifi_on_every).setItems(time_names,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int which) {
+									prefs.edit().putInt("on_every_time_min", time_values[which])
+											.putString("on_every_str", time_names[which]).commit();
+									on_every.setTitle(getString(R.string.every_summary, time_names[which]));
+								}
+							});
+					builder.create().show();
 				}
 				return true;
 			}

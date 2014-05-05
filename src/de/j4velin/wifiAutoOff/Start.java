@@ -95,10 +95,13 @@ public class Start {
 					new Intent(c, Receiver.class).putExtra("changeWiFi", false).setAction("OFF_AT"), 0));
 		}
 		if (prefs.getBoolean("on_every", false)) {
+			long interval = prefs.contains("on_every_time_min") ? 1000 * 60 * prefs.getInt("on_every_time_min",
+					Receiver.ON_EVERY_TIME_MIN) : AlarmManager.INTERVAL_HOUR
+					* prefs.getInt("on_every_time", Receiver.ON_EVERY_TIME_MIN / 60);
 			am.setInexactRepeating(
 					AlarmManager.RTC_WAKEUP,
 					System.currentTimeMillis(),
-					AlarmManager.INTERVAL_HOUR * prefs.getInt("on_every_time", Receiver.ON_EVERY_TIME),
+					interval,
 					PendingIntent.getBroadcast(c, Receiver.TIMER_ON_EVERY,
 							new Intent(c, Receiver.class).putExtra("changeWiFi", true).setAction("ON_EVERY"), 0));
 		} else { // stop timer
