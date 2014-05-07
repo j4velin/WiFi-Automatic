@@ -31,7 +31,7 @@
             android:defaultValue="false"
             android:key="off_at" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="General settings" >
+    <PreferenceCategory android:title="@string/general_settings" >
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="airplane"

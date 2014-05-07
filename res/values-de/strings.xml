@@ -33,4 +33,6 @@
         <item>10 Stunden</item>
     </string-array>
 
+    <string name="general_settings">Allgemein</string>
+
 </resources>
