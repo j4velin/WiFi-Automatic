@@ -61,10 +61,16 @@ public class Receiver extends BroadcastReceiver {
 	 */
 	private void startTimer(Context context, int id, int time) {
 		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		Intent timerIntent = new Intent(context, Receiver.class).putExtra("timer", true).setAction(
-				id == TIMER_SCREEN_OFF ? "SCREEN_OFF_TIMER" : "NO_NETWORK_TIMER");
-		am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60000 * time,
-				PendingIntent.getBroadcast(context, id, timerIntent, 0));
+		String action = (id == TIMER_SCREEN_OFF) ? "SCREEN_OFF_TIMER" : "NO_NETWORK_TIMER";
+		Intent timerIntent = new Intent(context, Receiver.class).putExtra("timer", true).setAction(action);
+		if (PendingIntent.getBroadcast(context, id, timerIntent, PendingIntent.FLAG_NO_CREATE) == null) {
+			am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60000 * time,
+					PendingIntent.getBroadcast(context, id, timerIntent, 0));
+			Logger.log("timer for action " + action + " set (" + time + " minutes)");
+		}
+		else {
+			Logger.log("timer for action " + action + " already set");
+		}
 	}
 
 	/**
@@ -79,7 +85,11 @@ public class Receiver extends BroadcastReceiver {
 		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		Intent timerIntent = new Intent(context, Receiver.class).putExtra("timer", true).setAction(
 				id == TIMER_SCREEN_OFF ? "SCREEN_OFF_TIMER" : "NO_NETWORK_TIMER");
-		am.cancel(PendingIntent.getBroadcast(context, id, timerIntent, 0));
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id, timerIntent, PendingIntent.FLAG_NO_CREATE);
+		if (pendingIntent != null) {
+		   am.cancel(pendingIntent);
+		   pendingIntent.cancel();
+		}
 	}
 	
 	/**
