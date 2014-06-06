@@ -27,7 +27,6 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.PowerManager;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.widget.Toast;
@@ -82,6 +81,18 @@ public class Receiver extends BroadcastReceiver {
 				id == TIMER_SCREEN_OFF ? "SCREEN_OFF_TIMER" : "NO_NETWORK_TIMER");
 		am.cancel(PendingIntent.getBroadcast(context, id, timerIntent, 0));
 	}
+	
+	/**
+	 * Changes the WiFi state
+	 * 
+	 * @param context
+	 *            the context
+	 * @return default SharedPreferences for given context 
+	 */
+	private static SharedPreferences getSharedPreferences(Context context)  {
+		String prefFileName = context.getPackageName() + "_preferences";
+		return context.getSharedPreferences(prefFileName, Context.MODE_PRIVATE | 0x4); // 0x4 ... Context.MODE_MULTI_PROCESS
+	}
 
 	/**
 	 * Changes the WiFi state
@@ -92,9 +103,8 @@ public class Receiver extends BroadcastReceiver {
 	 */
 	@SuppressWarnings("deprecation")
 	private static void changeWiFi(Context context, boolean on) {
-		if (on
-				&& PreferenceManager.getDefaultSharedPreferences(context).getBoolean("airplane",
-						true)) {
+		SharedPreferences prefs = getSharedPreferences(context);
+		if (on && prefs.getBoolean("airplane", true)) {
 			// check for airplane mode
 			try {
 				if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 ? APILevel17Wrapper
@@ -126,7 +136,7 @@ public class Receiver extends BroadcastReceiver {
 		final String action = intent.getAction();
 		if (Logger.LOG)
 			Logger.log("received: " + action);
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences prefs = getSharedPreferences(context);
 		if (ScreenChangeDetector.SCREEN_OFF_ACTION.equals(action) && prefs.getBoolean("off_screen_off", true)) {
 			// screen went off -> start TIMER_SCREEN_OFF
 			startTimer(context, TIMER_SCREEN_OFF,
