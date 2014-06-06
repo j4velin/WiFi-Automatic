@@ -93,7 +93,7 @@ public class Receiver extends BroadcastReceiver {
 	}
 	
 	/**
-	 * Changes the WiFi state
+	 * Get default shared preferences
 	 * 
 	 * @param context
 	 *            the context
