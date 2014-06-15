@@ -60,15 +60,14 @@ public class Receiver extends BroadcastReceiver {
 	 *            in min
 	 */
 	private void startTimer(Context context, int id, int time) {
-		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		String action = (id == TIMER_SCREEN_OFF) ? "SCREEN_OFF_TIMER" : "NO_NETWORK_TIMER";
 		Intent timerIntent = new Intent(context, Receiver.class).putExtra("timer", true).setAction(action);
 		if (PendingIntent.getBroadcast(context, id, timerIntent, PendingIntent.FLAG_NO_CREATE) == null) {
-			am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60000 * time,
-					PendingIntent.getBroadcast(context, id, timerIntent, 0));
-			Logger.log("timer for action " + action + " set (" + time + " minutes)");
-		}
-		else {
+			((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).set(AlarmManager.RTC_WAKEUP,
+					System.currentTimeMillis() + 60000 * time, PendingIntent.getBroadcast(context, id, timerIntent, 0));
+			if (Logger.LOG)
+				Logger.log("timer for action " + action + " set (" + time + " minutes)");
+		} else if (Logger.LOG) {
 			Logger.log("timer for action " + action + " already set");
 		}
 	}
@@ -82,26 +81,25 @@ public class Receiver extends BroadcastReceiver {
 	 *            TIMER_SCREEN_OFF or TIMER_NO_NETWORK
 	 */
 	private void stopTimer(Context context, int id) {
-		AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		Intent timerIntent = new Intent(context, Receiver.class).putExtra("timer", true).setAction(
 				id == TIMER_SCREEN_OFF ? "SCREEN_OFF_TIMER" : "NO_NETWORK_TIMER");
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id, timerIntent, PendingIntent.FLAG_NO_CREATE);
 		if (pendingIntent != null) {
-		   am.cancel(pendingIntent);
-		   pendingIntent.cancel();
+			((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).cancel(pendingIntent);
+			pendingIntent.cancel();
 		}
 	}
-	
+
 	/**
 	 * Get default shared preferences
 	 * 
 	 * @param context
 	 *            the context
-	 * @return default SharedPreferences for given context 
+	 * @return default SharedPreferences for given context
 	 */
-	private static SharedPreferences getSharedPreferences(Context context)  {
+	private static SharedPreferences getSharedPreferences(Context context) {
 		String prefFileName = context.getPackageName() + "_preferences";
-		return context.getSharedPreferences(prefFileName, Context.MODE_PRIVATE | 0x4); // 0x4 ... Context.MODE_MULTI_PROCESS
+		return context.getSharedPreferences(prefFileName, Context.MODE_MULTI_PROCESS);
 	}
 
 	/**
@@ -118,8 +116,8 @@ public class Receiver extends BroadcastReceiver {
 			// check for airplane mode
 			try {
 				if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 ? APILevel17Wrapper
-						.isAirplaneModeOn(context) : Settings.System.getInt(
-						context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON) == 1) {
+						.isAirplaneModeOn(context) : Settings.System.getInt(context.getContentResolver(),
+						Settings.System.AIRPLANE_MODE_ON) == 1) {
 					if (Logger.LOG)
 						Logger.log("not turning wifi on because device is in airplane mode");
 					return;
@@ -135,8 +133,7 @@ public class Receiver extends BroadcastReceiver {
 		try {
 			((WifiManager) context.getSystemService(Context.WIFI_SERVICE)).setWifiEnabled(on);
 		} catch (Exception e) {
-			Toast.makeText(context, "Can not change WiFi state: " + e.getClass().getName(),
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(context, "Can not change WiFi state: " + e.getClass().getName(), Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -149,10 +146,8 @@ public class Receiver extends BroadcastReceiver {
 		SharedPreferences prefs = getSharedPreferences(context);
 		if (ScreenChangeDetector.SCREEN_OFF_ACTION.equals(action) && prefs.getBoolean("off_screen_off", true)) {
 			// screen went off -> start TIMER_SCREEN_OFF
-			startTimer(context, TIMER_SCREEN_OFF,
-					prefs.getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
-		} else if (Intent.ACTION_USER_PRESENT.equals(action)
-				|| ScreenChangeDetector.SCREEN_ON_ACTION.equals(action)) {
+			startTimer(context, TIMER_SCREEN_OFF, prefs.getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
+		} else if (Intent.ACTION_USER_PRESENT.equals(action) || ScreenChangeDetector.SCREEN_ON_ACTION.equals(action)) {
 			// user unlocked the device -> stop TIMER_SCREEN_OFF, might turn on
 			// WiFi
 			stopTimer(context, TIMER_SCREEN_OFF);
@@ -171,8 +166,7 @@ public class Receiver extends BroadcastReceiver {
 				if (!((PowerManager) context.getSystemService(Context.POWER_SERVICE)).isScreenOn()
 						&& prefs.getBoolean("off_screen_off", true)) {
 					// screen off -> start screen off timer
-					startTimer(context, TIMER_SCREEN_OFF,
-							prefs.getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
+					startTimer(context, TIMER_SCREEN_OFF, prefs.getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
 				}
 			} else if (nwi.getState().equals(NetworkInfo.State.DISCONNECTED)
 					|| nwi.getState().equals(NetworkInfo.State.DISCONNECTING)) {
