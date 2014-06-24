@@ -97,6 +97,7 @@ public class Receiver extends BroadcastReceiver {
 	 *            the context
 	 * @return default SharedPreferences for given context
 	 */
+	@SuppressLint("InlinedApi")
 	private static SharedPreferences getSharedPreferences(Context context) {
 		String prefFileName = context.getPackageName() + "_preferences";
 		return context.getSharedPreferences(prefFileName, Context.MODE_MULTI_PROCESS);
@@ -160,7 +161,7 @@ public class Receiver extends BroadcastReceiver {
 			if (nwi == null)
 				return;
 			if (Logger.LOG)
-				Logger.log("new state: " + nwi.getState());
+				Logger.log("network state changed: " + nwi.getState().name());
 			if (nwi.isConnected()) {
 				stopTimer(context, TIMER_NO_NETWORK);
 				if (!((PowerManager) context.getSystemService(Context.POWER_SERVICE)).isScreenOn()
@@ -170,6 +171,14 @@ public class Receiver extends BroadcastReceiver {
 				}
 			} else if (nwi.getState().equals(NetworkInfo.State.DISCONNECTED)
 					|| nwi.getState().equals(NetworkInfo.State.DISCONNECTING)) {
+				if (prefs.getBoolean("off_no_network", true)) {
+					startTimer(context, TIMER_NO_NETWORK, TIMEOUT_NO_NETWORK);
+				}
+			}
+		} else if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(action)) {
+			if (intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN) == WifiManager.WIFI_STATE_ENABLED) {
+				if (Logger.LOG)
+					Logger.log("wifi state changed: wifi enabled");
 				if (prefs.getBoolean("off_no_network", true)) {
 					startTimer(context, TIMER_NO_NETWORK, TIMEOUT_NO_NETWORK);
 				}
