@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/enable"
+        android:actionViewClass="android.widget.Switch"
+        android:showAsAction="always"/>
+    <item
+        android:id="@+id/action_wifi_adv"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/advanced_wifi_settings"/>
+    <item
+        android:id="@+id/action_apps"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/more_apps"/>
+    <item
+        android:id="@+id/action_donate"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/donate"/>
+
+</menu>
