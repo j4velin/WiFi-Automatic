@@ -27,89 +27,86 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 /**
- * 
  * Utility class to set all necessary timers / start the background service
- * 
  */
 public class Start {
 
-	/**
-	 * Sets all necessary timers / starts the background service depending on
-	 * the user settings
-	 * 
-	 * @param c
-	 *            the context
-	 */
-	@SuppressWarnings("deprecation")
-	static void start(Context c) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
-		if (prefs.getBoolean("off_screen_off", true) || prefs.getBoolean("on_unlock", true)) {
-			c.startService(new Intent(c, ScreenChangeDetector.class));
-		} else {
-			c.stopService(new Intent(c, ScreenChangeDetector.class));
-		}
+    /**
+     * Sets all necessary timers / starts the background service depending on
+     * the user settings
+     *
+     * @param c the context
+     */
+    @SuppressWarnings("deprecation")
+    static void start(Context c) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        if (prefs.getBoolean("off_screen_off", true) || prefs.getBoolean("on_unlock", true)) {
+            c.startService(new Intent(c, ScreenChangeDetector.class));
+        } else {
+            c.stopService(new Intent(c, ScreenChangeDetector.class));
+        }
 
-		AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
+        AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
 
-		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(System.currentTimeMillis());
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
 
-		if (prefs.getBoolean("on_at", false)) {
-			String[] time = prefs.getString("on_at_time", Receiver.ON_AT_TIME).split(":");
+        if (prefs.getBoolean("on_at", false)) {
+            String[] time = prefs.getString("on_at_time", Receiver.ON_AT_TIME).split(":");
 
-			cal.set(Calendar.HOUR_OF_DAY, Integer.valueOf(time[0]));
-			cal.set(Calendar.MINUTE, Integer.valueOf(time[1]));
-			cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.HOUR_OF_DAY, Integer.valueOf(time[0]));
+            cal.set(Calendar.MINUTE, Integer.valueOf(time[1]));
+            cal.set(Calendar.SECOND, 0);
 
-			if (cal.getTimeInMillis() < System.currentTimeMillis())
-				cal.add(Calendar.DAY_OF_MONTH, 1);
+            if (cal.getTimeInMillis() < System.currentTimeMillis())
+                cal.add(Calendar.DAY_OF_MONTH, 1);
 
-			am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(c, Receiver.TIMER_ON_AT,
-					new Intent(c, Receiver.class).putExtra("changeWiFi", true).setAction("ON_AT"), 0));
-			if (Logger.LOG)
-				Logger.log("ON_AT alarm set at " + new Date(cal.getTimeInMillis()).toLocaleString());
+            am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), PendingIntent.getBroadcast(c, Receiver.TIMER_ON_AT,
+                    new Intent(c, Receiver.class).putExtra("changeWiFi", true).setAction("ON_AT"), 0));
+            if (BuildConfig.DEBUG)
+                Logger.log("ON_AT alarm set at " + new Date(cal.getTimeInMillis()).toLocaleString());
 
-		} else { // stop timer
-			am.cancel(PendingIntent.getBroadcast(c, Receiver.TIMER_ON_AT,
-					new Intent(c, Receiver.class).putExtra("changeWiFi", true).setAction("ON_AT"), 0));
-		}
-		if (prefs.getBoolean("off_at", false)) {
-			String[] time = prefs.getString("off_at_time", Receiver.OFF_AT_TIME).split(":");
+        } else { // stop timer
+            am.cancel(PendingIntent.getBroadcast(c, Receiver.TIMER_ON_AT,
+                    new Intent(c, Receiver.class).putExtra("changeWiFi", true).setAction("ON_AT"), 0));
+        }
+        if (prefs.getBoolean("off_at", false)) {
+            String[] time = prefs.getString("off_at_time", Receiver.OFF_AT_TIME).split(":");
 
-			cal.set(Calendar.HOUR_OF_DAY, Integer.valueOf(time[0]));
-			cal.set(Calendar.MINUTE, Integer.valueOf(time[1]));
-			cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.HOUR_OF_DAY, Integer.valueOf(time[0]));
+            cal.set(Calendar.MINUTE, Integer.valueOf(time[1]));
+            cal.set(Calendar.SECOND, 0);
 
-			if (cal.getTimeInMillis() < System.currentTimeMillis())
-				cal.add(Calendar.DAY_OF_MONTH, 1);
+            if (cal.getTimeInMillis() < System.currentTimeMillis())
+                cal.add(Calendar.DAY_OF_MONTH, 1);
 
-			am.set(AlarmManager.RTC_WAKEUP,
-					cal.getTimeInMillis(),
-					PendingIntent.getBroadcast(c, Receiver.TIMER_OFF_AT,
-							new Intent(c, Receiver.class).putExtra("changeWiFi", false).setAction("OFF_AT"), 0));
-
-			if (Logger.LOG)
-				Logger.log("OFF_AT alarm set at " + new Date(cal.getTimeInMillis()).toLocaleString());
-		} else { // stop timer
-			am.cancel(PendingIntent.getBroadcast(c, Receiver.TIMER_OFF_AT,
-					new Intent(c, Receiver.class).putExtra("changeWiFi", false).setAction("OFF_AT"), 0));
-		}
-		if (prefs.getBoolean("on_every", false)) {
-			long interval = prefs.contains("on_every_time_min") ? 1000 * 60 * prefs.getInt("on_every_time_min",
-					Receiver.ON_EVERY_TIME_MIN) : AlarmManager.INTERVAL_HOUR
-					* prefs.getInt("on_every_time", Receiver.ON_EVERY_TIME_MIN / 60);
-			am.setInexactRepeating(
-					AlarmManager.RTC_WAKEUP,
-					System.currentTimeMillis(),
-					interval,
-					PendingIntent.getBroadcast(c, Receiver.TIMER_ON_EVERY,
-							new Intent(c, Receiver.class).putExtra("changeWiFi", true).setAction("ON_EVERY"), 0));
-		} else { // stop timer
-			am.cancel(PendingIntent.getBroadcast(c, Receiver.TIMER_ON_EVERY,
-					new Intent(c, Receiver.class).putExtra("changeWiFi", true).setAction("ON_EVERY"), 0));
-		}
-
-		if (Logger.LOG)
-			Logger.log("all timers set/cleared");
-	}
+            am.set(AlarmManager.RTC_WAKEUP,
+                    cal.getTimeInMillis(),
+                    PendingIntent.getBroadcast(c, Receiver.TIMER_OFF_AT,
+                            new Intent(c, Receiver.class).putExtra("changeWiFi", false).setAction("OFF_AT"), 0)
+            );
+            if (BuildConfig.DEBUG)
+                Logger.log("OFF_AT alarm set at " + new Date(cal.getTimeInMillis()).toLocaleString());
+        } else { // stop timer
+            am.cancel(PendingIntent.getBroadcast(c, Receiver.TIMER_OFF_AT,
+                    new Intent(c, Receiver.class).putExtra("changeWiFi", false).setAction("OFF_AT"), 0));
+        }
+        if (prefs.getBoolean("on_every", false)) {
+            long interval = prefs.contains("on_every_time_min") ? 1000 * 60 * prefs.getInt("on_every_time_min",
+                    Receiver.ON_EVERY_TIME_MIN) : AlarmManager.INTERVAL_HOUR
+                    * prefs.getInt("on_every_time", Receiver.ON_EVERY_TIME_MIN / 60);
+            am.setInexactRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    System.currentTimeMillis(),
+                    interval,
+                    PendingIntent.getBroadcast(c, Receiver.TIMER_ON_EVERY,
+                            new Intent(c, Receiver.class).putExtra("changeWiFi", true).setAction("ON_EVERY"), 0)
+            );
+        } else { // stop timer
+            am.cancel(PendingIntent.getBroadcast(c, Receiver.TIMER_ON_EVERY,
+                    new Intent(c, Receiver.class).putExtra("changeWiFi", true).setAction("ON_EVERY"), 0));
+        }
+        if (BuildConfig.DEBUG)
+            Logger.log("all timers set/cleared");
+    }
 }

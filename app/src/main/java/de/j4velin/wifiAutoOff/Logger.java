@@ -26,13 +26,13 @@ import android.os.Environment;
 
 public class Logger {
 
-	public final static boolean LOG = false;
-
 	private static FileWriter fw;
 	private static Date date = new Date();
 	private final static String APP = "WiFi-Automatic";
 
 	public static void log(Throwable ex) {
+        if (!BuildConfig.DEBUG)
+            return;
 		log(ex.getMessage());
 		for (StackTraceElement ste : ex.getStackTrace()) {
 			log(ste.toString());
@@ -40,7 +40,7 @@ public class Logger {
 	}
 
 	public static void log(final Cursor c) {
-		if (!Logger.LOG)
+		if (!BuildConfig.DEBUG)
 			return;
 		c.moveToFirst();
 		String title = "";
@@ -58,11 +58,8 @@ public class Logger {
 
 	@SuppressWarnings("deprecation")
 	public static void log(String msg) {
-		if (!Logger.LOG)
+		if (!BuildConfig.DEBUG)
 			return;
-		// if (BuildConfig.DEBUG)
-		android.util.Log.d(APP, msg);
-		// else {
 		try {
 			if (fw == null) {
 				fw = new FileWriter(new File(Environment
@@ -77,7 +74,6 @@ public class Logger {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		// }
 	}
 
 	protected void finalize() throws Throwable {

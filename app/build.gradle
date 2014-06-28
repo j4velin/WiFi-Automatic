@@ -10,10 +10,34 @@ android {
         targetSdkVersion 18
     }
 
+    signingConfigs {
+        release
+    }
+
     buildTypes {
         release {
-            runProguard false
+            signingConfig signingConfigs.release
+            runProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            zipAlign true
+        }
+        log {
+            signingConfig signingConfigs.release
+            runProguard false
+            debuggable true
+            zipAlign true
         }
     }
 }
+
+def props = new Properties()
+
+props.load(new FileInputStream(rootProject.file("local.properties")))
+
+android.signingConfigs.release.storeFile rootProject.file(props.keyStore)
+
+android.signingConfigs.release.storePassword props.keyStorePassword
+
+android.signingConfigs.release.keyAlias props.keyAlias
+
+android.signingConfigs.release.keyPassword props.keyAliasPassword
