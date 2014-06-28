@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/D:/Android/WiFi-Automatic/app/src/main/res/values-de/strings.xml -->
+    <eat-comment />
+
+    <string-array name="time_names">
+        <item>5 Minuten</item>
+        <item>15 Minuten</item>
+        <item>30 Minuten</item>
+        <item>1 Stunde</item>
+        <item>2 Stunden</item>
+        <item>5 Stunden</item>
+        <item>10 Stunden</item>
+    </string-array>
+
+    <string name="adv_wifi_settings">Erw. WLAN-Einstellungen</string>
+    <string name="advanced_wifi_settings">Erweiterte WLAN-Einstellungen</string>
+    <string name="airplane">Schalte währrend des Flugzeug-Modus WLAN nicht ein</string>
+    <string name="at_summary">täglich um %s</string>
+    <string name="donate">Spenden</string>
+    <string name="every_summary">alle %s</string>
+    <string name="for_at_least">für mindestens %d min</string>
+    <string name="general_settings">Allgemein</string>
+    <string name="invalid_input_number_has_to_be_">Fehlerhafte Eingabe: Zahl muss zwischen %1$d und %2$d sein</string>
+    <string name="minutes_before_turning_off_wifi_">Dauer in Minuten bevor WLAN ausgeschaltet werden soll:</string>
+    <string name="more_apps">Weitere Apps</string>
+    <string name="not_connected_to_any_network">wenn kein Netzwerk in Reichweite</string>
+    <string name="power_title">wenn mit Stromversorgung verbunden</string>
+    <string name="screen_is_off">wenn das Display aus ist</string>
+    <string name="settings_not_found_">Einstellungen nicht gefunden!</string>
+    <string name="sleep_policy">Die WLAN-Optionen sind momentan so eingestellt, dass das WLAN automatisch abgeschaltet wird, wenn das Display aus geht. Dieses Verhalten kann in den \'Erweiterten WLAN-Einstellungen\' von Android geändert werden.</string>
+    <string name="turn_wifi_off_at_">Uhrzeit, zu welcher WLAN abgeschaltet werden soll:</string>
+    <string name="turn_wifi_off_when_">Schalte WLAN aus…</string>
+    <string name="turn_wifi_on_">Schalte WLAN ein…</string>
+    <string name="turn_wifi_on_at_">Uhrzeit, zu welcher WLAN eingeschaltet werden soll:</string>
+    <string name="turn_wifi_on_every">Schalte WLAN alle … ein</string>
+    <string name="when_device_gets_unlocked">wenn das Gerät entsperrt wird</string>
+
+</resources>

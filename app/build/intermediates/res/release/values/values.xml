@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- From: file:/D:/Android/WiFi-Automatic/app/src/main/res/values/strings.xml -->
+    <eat-comment />
+
+    <string-array name="time_names">
+        <item>5 min</item>
+        <item>15 min</item>
+        <item>30 min</item>
+        <item>1 hour</item>
+        <item>2 hours</item>
+        <item>5 hours</item>
+        <item>10 hours</item>
+    </string-array>
+
+    <string name="adv_wifi_settings">Adv. WiFi settings</string>
+    <string name="advanced_wifi_settings">Advanced WiFi settings</string>
+    <string name="airplane">Don\'t enable WiFi when in airplane mode</string>
+    <string name="at_summary">everyday at %s</string>
+    <string name="donate">Donate</string>
+    <string name="every_summary">every %s</string>
+    <string name="for_at_least">for at least %d min</string>
+    <string name="general_settings">General settings</string>
+    <string name="invalid_input_number_has_to_be_">Invalid input: Number has to be >= %1$d and &lt;= %2$d</string>
+    <string name="minutes_before_turning_off_wifi_">Minutes before turning off WiFi:</string>
+    <string name="more_apps">More apps</string>
+    <string name="not_connected_to_any_network">not connected to any network</string>
+    <string name="power_title">when connected to external power supply</string>
+    <string name="screen_is_off">screen is off</string>
+    <string name="settings_not_found_">Settings not found!</string>
+    <string name="sleep_policy">Your WiFi sleep policy is set to automatically disable WiFi as soon as the display goes off. You can change the policy in the Android \'Advanced WiFi settings\'</string>
+    <string name="turn_wifi_off_at_">Turn WiFi off at:</string>
+    <string name="turn_wifi_off_when_">Turn WiFi off when…</string>
+    <string name="turn_wifi_on_">Turn WiFi on…</string>
+    <string name="turn_wifi_on_at_">Turn WiFi on at:</string>
+    <string name="turn_wifi_on_every">Turn WiFi on every …</string>
+    <string name="when_device_gets_unlocked">when device gets unlocked</string>
+    <!-- From: file:/D:/Android/WiFi-Automatic/app/src/main/res/values/styles.xml -->
+    <eat-comment />
+
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+</resources>

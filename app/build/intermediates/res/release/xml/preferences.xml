@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/turn_wifi_on_" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="on_unlock"
+            android:title="@string/when_device_gets_unlocked" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="on_at" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="on_every" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="power_connected"
+            android:title="@string/power_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/turn_wifi_off_when_" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="off_screen_off"
+            android:title="@string/screen_is_off" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="off_no_network"
+            android:summary="for at least 1 min"
+            android:title="@string/not_connected_to_any_network" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="off_at" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/general_settings" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="airplane"
+            android:title="@string/airplane" />
+    </PreferenceCategory>
+
+</PreferenceScreen><!-- From: file:/D:/Android/WiFi-Automatic/app/src/main/res/xml/preferences.xml -->
