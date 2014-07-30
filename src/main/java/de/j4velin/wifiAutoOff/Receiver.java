@@ -160,7 +160,8 @@ public class Receiver extends BroadcastReceiver {
                 if (((WifiManager) context.getSystemService(Context.WIFI_SERVICE))
                         .isWifiEnabled()) {
                     // if WiFi is already turned on, just restart the NO_NETWORK timer
-                    startTimer(context, TIMER_NO_NETWORK, TIMEOUT_NO_NETWORK);
+                    startTimer(context, TIMER_NO_NETWORK,
+                            prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK));
                 } else {
                     changeWiFi(context, true);
                 }
@@ -180,7 +181,8 @@ public class Receiver extends BroadcastReceiver {
             } else if (nwi.getState().equals(NetworkInfo.State.DISCONNECTED) ||
                     nwi.getState().equals(NetworkInfo.State.DISCONNECTING)) {
                 if (prefs.getBoolean("off_no_network", true)) {
-                    startTimer(context, TIMER_NO_NETWORK, TIMEOUT_NO_NETWORK);
+                    startTimer(context, TIMER_NO_NETWORK,
+                            prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK));
                 }
             }
         } else if (WifiManager.WIFI_STATE_CHANGED_ACTION.equals(action)) {
@@ -188,7 +190,8 @@ public class Receiver extends BroadcastReceiver {
                     WifiManager.WIFI_STATE_ENABLED) {
                 if (BuildConfig.DEBUG) Logger.log("wifi state changed: wifi enabled");
                 if (prefs.getBoolean("off_no_network", true)) {
-                    startTimer(context, TIMER_NO_NETWORK, TIMEOUT_NO_NETWORK);
+                    startTimer(context, TIMER_NO_NETWORK,
+                            prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK));
                 }
             } else if (intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,
                     WifiManager.WIFI_STATE_UNKNOWN) == WifiManager.WIFI_STATE_DISABLED) {
@@ -212,7 +215,8 @@ public class Receiver extends BroadcastReceiver {
                 stopTimer(context, TIMER_NO_NETWORK);
             } else {
                 if (prefs.getBoolean("off_no_network", true)) {
-                    startTimer(context, TIMER_NO_NETWORK, TIMEOUT_NO_NETWORK);
+                    startTimer(context, TIMER_NO_NETWORK,
+                            prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK));
                 }
             }
         } else if (intent.getAction().equals(Intent.ACTION_POWER_CONNECTED)) {
