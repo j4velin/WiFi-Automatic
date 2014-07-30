@@ -26,6 +26,7 @@ import android.content.SharedPreferences;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
@@ -61,9 +62,15 @@ public class Receiver extends BroadcastReceiver {
                 new Intent(context, Receiver.class).putExtra("timer", id).setAction(action);
         if (PendingIntent.getBroadcast(context, id, timerIntent, PendingIntent.FLAG_NO_CREATE) ==
                 null) {
-            ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE))
-                    .set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60000 * time,
-                            PendingIntent.getBroadcast(context, id, timerIntent, 0));
+            if (Build.VERSION.SDK_INT >= 19) {
+                APILevel19Wrapper.setExactTimer(context, AlarmManager.RTC_WAKEUP,
+                        System.currentTimeMillis() + 60000 * time,
+                        PendingIntent.getBroadcast(context, id, timerIntent, 0));
+            } else {
+                ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE))
+                        .set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60000 * time,
+                                PendingIntent.getBroadcast(context, id, timerIntent, 0));
+            }
             if (BuildConfig.DEBUG)
                 Logger.log("timer for action " + action + " set (" + time + " minutes)");
         } else if (BuildConfig.DEBUG) {
@@ -106,7 +113,7 @@ public class Receiver extends BroadcastReceiver {
     /**
      * Changes the WiFi state
      *
-     * @param context
+     * @param context the context
      * @param on      true to turn WiFi on, false to turn it off
      */
     @SuppressWarnings("deprecation")

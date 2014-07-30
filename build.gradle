@@ -1,4 +1,4 @@
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 19
@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "de.j4velin.wifiAutoOff"
         minSdkVersion 7
-        targetSdkVersion 18
+        targetSdkVersion 19
     }
 
     signingConfigs {

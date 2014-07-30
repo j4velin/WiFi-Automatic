@@ -58,14 +58,6 @@ public class ScreenChangeDetector extends Service {
             registerReceiver(br, intf);
         }
 
-        // Workaround as on Android 4.4.2 START_STICKY has currently no
-        // effect
-        // -> restart service every hour
-        if (android.os.Build.VERSION.SDK_INT == android.os.Build.VERSION_CODES.KITKAT)
-            ((AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE)).set(AlarmManager.RTC, System
-                    .currentTimeMillis() + 1000 * 60 * 60, PendingIntent.getService(getApplicationContext(), 1, new Intent(this,
-                    ScreenChangeDetector.class), PendingIntent.FLAG_UPDATE_CURRENT));
-
         return START_STICKY;
     }
 
@@ -97,15 +89,5 @@ public class ScreenChangeDetector extends Service {
             }
         }
 
-    }
-
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    @Override
-    public void onTaskRemoved(final Intent rootIntent) {
-        super.onTaskRemoved(rootIntent);
-        // Workaround for "Android 4.4.2 ignoring START_STICKY bug"
-        // Restart service in 500 ms
-        ((AlarmManager) getSystemService(Context.ALARM_SERVICE)).set(AlarmManager.RTC, System.currentTimeMillis() + 500,
-                PendingIntent.getService(this, 0, new Intent(this, ScreenChangeDetector.class), 0));
     }
 }

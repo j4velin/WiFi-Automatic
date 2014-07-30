@@ -24,10 +24,10 @@ import java.util.Date;
 import android.database.Cursor;
 import android.os.Environment;
 
-public class Logger {
+class Logger {
 
 	private static FileWriter fw;
-	private static Date date = new Date();
+	private static final Date date = new Date();
 	private final static String APP = "WiFi-Automatic";
 
 	public static void log(Throwable ex) {
@@ -36,23 +36,6 @@ public class Logger {
 		log(ex.getMessage());
 		for (StackTraceElement ste : ex.getStackTrace()) {
 			log(ste.toString());
-		}
-	}
-
-	public static void log(final Cursor c) {
-		if (!BuildConfig.DEBUG)
-			return;
-		c.moveToFirst();
-		String title = "";
-		for (int i = 0; i < c.getColumnCount(); i++)
-			title += c.getColumnName(i) + " | ";
-		log(title);
-		while (!c.isAfterLast()) {
-			title = "";
-			for (int i = 0; i < c.getColumnCount(); i++)
-				title += c.getString(i) + " | ";
-			log(title);
-			c.moveToNext();
 		}
 	}
 

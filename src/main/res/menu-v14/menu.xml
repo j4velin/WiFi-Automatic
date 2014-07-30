@@ -1,6 +1,7 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:title="Turn on/off"
         android:id="@+id/enable"
         android:actionViewClass="android.widget.Switch"
         android:showAsAction="always"/>
