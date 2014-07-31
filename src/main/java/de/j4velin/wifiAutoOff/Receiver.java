@@ -83,8 +83,9 @@ public class Receiver extends BroadcastReceiver {
      *
      * @param context the context
      * @param id      TIMER_SCREEN_OFF or TIMER_NO_NETWORK
+     * @return true, if timer was actually active
      */
-    private void stopTimer(Context context, int id) {
+    private boolean stopTimer(Context context, int id) {
         Intent timerIntent = new Intent(context, Receiver.class).putExtra("timer", id)
                 .setAction(id == TIMER_SCREEN_OFF ? "SCREEN_OFF_TIMER" : "NO_NETWORK_TIMER");
         PendingIntent pendingIntent =
@@ -96,6 +97,7 @@ public class Receiver extends BroadcastReceiver {
                     (id == TIMER_SCREEN_OFF ? "SCREEN_OFF_TIMER" : "NO_NETWORK_TIMER") +
                     " canceled");
         }
+        return pendingIntent != null;
     }
 
     /**
@@ -163,12 +165,14 @@ public class Receiver extends BroadcastReceiver {
             // WiFi
             stopTimer(context, TIMER_SCREEN_OFF);
             if (prefs.getBoolean("on_unlock", true)) {
-                stopTimer(context, TIMER_NO_NETWORK);
+                boolean noNetTimer = stopTimer(context, TIMER_NO_NETWORK);
                 if (((WifiManager) context.getSystemService(Context.WIFI_SERVICE))
                         .isWifiEnabled()) {
-                    // if WiFi is already turned on, just restart the NO_NETWORK timer
-                    startTimer(context, TIMER_NO_NETWORK,
-                            prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK));
+                    if (noNetTimer && prefs.getBoolean("off_no_network", true)) {
+                        // if WiFi is already turned on, just restart the NO_NETWORK timer
+                        startTimer(context, TIMER_NO_NETWORK,
+                                prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK));
+                    }
                 } else {
                     changeWiFi(context, true);
                 }
