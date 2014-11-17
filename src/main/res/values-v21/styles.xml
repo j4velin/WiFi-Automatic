@@ -6,7 +6,7 @@
         res/values-v14/styles.xml on API 21+ devices.
     -->
     <style name="AppBaseTheme" parent="android:Theme.Material.Light.DarkActionBar">
-        <!-- API 21 theme customizations can go here. -->
+        <item name="android:colorAccent">#33b5e5</item>
     </style>
 
 </resources>
