@@ -4,20 +4,18 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.android.tools.build:gradle:0.14.+'
     }
 }
 
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 21
     buildToolsVersion "20.0.0"
 
     defaultConfig {
         applicationId "de.j4velin.wifiAutoOff"
-        minSdkVersion 7
-        targetSdkVersion 19
     }
 
     signingConfigs {
@@ -27,15 +25,14 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            runProguard true
+            zipAlignEnabled true
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
-            zipAlign true
         }
         debug {
             signingConfig signingConfigs.release
-            runProguard false
-            debuggable true
-            zipAlign true
+            zipAlignEnabled true
         }
     }
 }
