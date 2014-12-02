@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Build;
 import android.os.PowerManager;
@@ -221,8 +222,10 @@ public class Receiver extends BroadcastReceiver {
         } else if (intent.getAction().equals(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION)) {
             // wifi direct connection changed
             NetworkInfo nwi = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
-            if (BuildConfig.DEBUG) Logger.log("new state: " + nwi.getState());
-            if (nwi.isConnected()) {
+            WifiP2pInfo winfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_INFO);
+            if (BuildConfig.DEBUG) Logger.log("new P2P network state: " + nwi.getState());
+            if (BuildConfig.DEBUG) Logger.log("P2P group formed: " + winfo.groupFormed);
+            if (nwi.isConnected() || winfo.groupFormed) {
                 stopTimer(context, TIMER_NO_NETWORK);
             } else {
                 if (prefs.getBoolean("off_no_network", true)) {
