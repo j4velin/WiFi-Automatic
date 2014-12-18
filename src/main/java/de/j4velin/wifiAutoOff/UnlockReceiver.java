@@ -21,18 +21,19 @@ import android.content.Context;
 import android.content.Intent;
 
 /**
- * BroadcastReceiver which receives BOOT_COMPLETE & PACKAGE_REPLACED and then
- * starts all necessary timers
- *
- * @see Start
+ * Class for receiving the USER_PRESENT event. Can be disabled if that option is not required
  */
-public class StartReceiver extends BroadcastReceiver {
+public class UnlockReceiver extends BroadcastReceiver {
+
+    public final static String USER_PRESENT_ACTION = "USER_PRESENT";
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
-        if (BuildConfig.DEBUG)
-            Logger.log("received: " + intent.getAction());
-        Start.start(context);
+        final String action = intent.getAction();
+        if (BuildConfig.DEBUG) Logger.log("received: " + action);
+        if (Intent.ACTION_USER_PRESENT.equals(action)) {
+            context.sendBroadcast(
+                    new Intent(context, Receiver.class).setAction(USER_PRESENT_ACTION));
+        }
     }
-
 }

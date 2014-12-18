@@ -16,16 +16,12 @@
 
 package de.j4velin.wifiAutoOff;
 
-import android.annotation.TargetApi;
-import android.app.AlarmManager;
 import android.app.KeyguardManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.IBinder;
 
 /**
@@ -85,7 +81,7 @@ public class ScreenChangeDetector extends Service {
             } else if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())
                     && !((KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode()) {
                 // SCREEN_ON is only send if there is no lockscreen active! Otherwise the Receiver will get USER_PRESENT
-                sendBroadcast(new Intent(context, Receiver.class).setAction(SCREEN_ON_ACTION));
+                sendBroadcast(new Intent(context, UnlockReceiver.class).setAction(SCREEN_ON_ACTION));
             }
         }
 

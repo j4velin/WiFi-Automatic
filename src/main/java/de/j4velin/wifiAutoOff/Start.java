@@ -16,16 +16,17 @@
 
 package de.j4velin.wifiAutoOff;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
+import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Utility class to set all necessary timers / start the background service
@@ -39,7 +40,7 @@ class Start {
      * @param c the context
      */
     @SuppressWarnings("deprecation")
-    static void start(Context c) {
+    static void start(final Context c) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         if (prefs.getBoolean("off_screen_off", true) || prefs.getBoolean("on_unlock", true)) {
             c.startService(new Intent(c, ScreenChangeDetector.class));
@@ -111,6 +112,13 @@ class Start {
                     new Intent(c, Receiver.class).putExtra("changeWiFi", true)
                             .setAction("ON_EVERY"), 0));
         }
+
+        c.getPackageManager().setComponentEnabledSetting(new ComponentName(c, UnlockReceiver.class),
+                prefs.getBoolean("on_unlock", true) ?
+                        PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
+                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP);
+
         if (BuildConfig.DEBUG) Logger.log("all timers set/cleared");
     }
 }
