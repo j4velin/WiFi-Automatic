@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="for_at_least">по истечении %d мин</string>
+    <string name="at_summary">каждый день в %s</string>
+    <string name="every_summary">каждые %s</string>
+    <string name="advanced_wifi_settings">Доп. функции WiFi</string>
+    <string name="more_apps">Еще приложения</string>
+    <string name="donate">Пожертвовать</string>
+    <string name="turn_wifi_on_">Включать WiFi при&#8230;</string>
+    <string name="when_device_gets_unlocked">когда устрйство заблокировано</string>
+    <string name="turn_wifi_off_when_">Выключать WiFi при&#8230;</string>
+    <string name="screen_is_off">экран выключен</string>
+    <string name="not_connected_to_any_network">не подключено ни к одной сети</string>
+    <string name="sleep_policy">Ваша политика сна WiFi будет отключать WiFi как только погаснет экран. Вы можете изменить политику в перейдя в Дополнительные функции Wi-Fi</string>
+    <string name="adv_wifi_settings">Доп. функции WiFi</string>
+    <string name="settings_not_found_">Настройки не найдены!</string>
+    <string name="minutes_before_turning_off_wifi_">Перед отключением WiFi (минут):</string>
+    <string name="turn_wifi_on_at_">Включить WiFi в:</string>
+    <string name="turn_wifi_off_at_">Выключить WiFi в:</string>
+    <string name="turn_wifi_on_every">Выключить WiFi каждые &#8230;</string>
+    <string name="invalid_input_number_has_to_be_">Ошибка ввода: ЧИсло должно быть >= %1$d и &lt;= %2$d</string>
+    <string name="airplane">Не включать WiFi в режиме полета</string>
+    <string name="power_title">когда подключено к питанию</string>
+
+    <string-array name="time_names">
+        <item>5 мин</item>
+        <item>15 мин</item>
+        <item>30 мин</item>
+        <item>1 час</item>
+        <item>2 часа</item>
+        <item>5 часов</item>
+        <item>10 часов</item>
+    </string-array>
+
+    <string name="general_settings">Основные настройки</string>
+
+</resources>
