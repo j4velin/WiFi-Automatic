@@ -57,7 +57,7 @@ public class Receiver extends BroadcastReceiver {
      * @param id      TIMER_SCREEN_OFF or TIMER_NO_NETWORK
      * @param time    in min
      */
-    private void startTimer(Context context, int id, int time) {
+    private void startTimer(final Context context, int id, int time) {
         String action = (id == TIMER_SCREEN_OFF) ? "SCREEN_OFF_TIMER" : "NO_NETWORK_TIMER";
         Intent timerIntent =
                 new Intent(context, Receiver.class).putExtra("timer", id).setAction(action);
@@ -86,7 +86,7 @@ public class Receiver extends BroadcastReceiver {
      * @param id      TIMER_SCREEN_OFF or TIMER_NO_NETWORK
      * @return true, if timer was actually active
      */
-    private boolean stopTimer(Context context, int id) {
+    private boolean stopTimer(final Context context, int id) {
         Intent timerIntent = new Intent(context, Receiver.class).putExtra("timer", id)
                 .setAction(id == TIMER_SCREEN_OFF ? "SCREEN_OFF_TIMER" : "NO_NETWORK_TIMER");
         PendingIntent pendingIntent =
@@ -108,7 +108,7 @@ public class Receiver extends BroadcastReceiver {
      * @return default SharedPreferences for given context
      */
     @SuppressLint("InlinedApi")
-    private static SharedPreferences getSharedPreferences(Context context) {
+    private static SharedPreferences getSharedPreferences(final Context context) {
         String prefFileName = context.getPackageName() + "_preferences";
         return context.getSharedPreferences(prefFileName, Context.MODE_MULTI_PROCESS);
     }
@@ -120,7 +120,7 @@ public class Receiver extends BroadcastReceiver {
      * @param on      true to turn WiFi on, false to turn it off
      */
     @SuppressWarnings("deprecation")
-    private static void changeWiFi(Context context, boolean on) {
+    private static void changeWiFi(final Context context, boolean on) {
         SharedPreferences prefs = getSharedPreferences(context);
         if (on && prefs.getBoolean("airplane", true)) {
             // check for airplane mode
