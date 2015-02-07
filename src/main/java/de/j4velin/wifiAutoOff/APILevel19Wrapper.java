@@ -21,7 +21,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 
 @TargetApi(19)
-class APILevel19Wrapper {
+abstract class APILevel19Wrapper {
     static void setExactTimer(final Context context, int type, long time, PendingIntent pi) {
         ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).setExact(type, time, pi);
     }

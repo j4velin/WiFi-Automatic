@@ -27,7 +27,7 @@ import android.preference.Preference;
 import android.widget.NumberPicker;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-class APILevel11Wrapper {
+abstract class APILevel11Wrapper {
 
 	static void showNumberPicker(final Context c, final SharedPreferences prefs, final Preference p, final int summary,
 			final int min, final int max, final String title, final String setting, final int def, final boolean changeTitle) {

@@ -24,7 +24,7 @@ import java.util.Date;
 import android.database.Cursor;
 import android.os.Environment;
 
-class Logger {
+abstract class Logger {
 
 	private static FileWriter fw;
 	private static final Date date = new Date();
