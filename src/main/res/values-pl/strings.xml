@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="for_at_least">przez co najmniej %d minut</string>
+    <string name="at_summary">codziennie o %s</string>
+    <string name="every_summary">co każde %s</string>
+    <string name="advanced_wifi_settings">Zaawansowane ustawienia WiFi</string>
+    <string name="more_apps">Więcej aplikacji</string>
+    <string name="donate">Darowizna</string>
+    <string name="turn_wifi_on_">Uruchom włączenie WiFi&#8230;</string>
+    <string name="when_device_gets_unlocked">urządzenie zostanie odblokowane</string>
+    <string name="turn_wifi_off_when_">Uruchom wyłączenie WiFi gdy&#8230;</string>
+    <string name="screen_is_off">ekran jest wyłączony</string>
+    <string name="not_connected_to_any_network">nie jest podłączony do żadnej sieci</string>
+    <string name="sleep_policy">Twoje ustawienia WiFi są ustawione na automatyczne wyłączenie gdy tylko wyświetlacz zgaśnie. Możesz zmienić te ustawienia w \'Zaawansowane ustawienia WiFi\' Androida</string>
+    <string name="adv_wifi_settings">Zaawansowane ustawienia WiFi</string>
+    <string name="settings_not_found_">Ustawień nie znaleziono!</string>
+    <string name="minutes_before_turning_off_wifi_">Minut przed wyłączeniem WiFi:</string>
+    <string name="turn_wifi_on_at_">Uruchom włączenie WiFi o:</string>
+    <string name="turn_wifi_off_at_">Uruchom wyłączenie WiFi o:</string>
+    <string name="turn_wifi_on_every">Uruchom włączenie WiFi co &#8230;</string>
+    <string name="invalid_input_number_has_to_be_">Nieprawidłowy wpis: Liczba musi być >= %1$d i &lt;= %2$d</string>
+    <string name="airplane">Nie włączaj WiFi w trybie samolotowym</string>
+    <string name="power_title">po podłączeniu do zewnętrznego źródła zasilania</string>
+
+    <string-array name="time_names">
+        <item>5 minut</item>
+        <item>15 minut</item>
+        <item>30 minut</item>
+        <item>1 godzine</item>
+        <item>2 godziny</item>
+        <item>5 godzin</item>
+        <item>10 godzin</item>
+    </string-array>
+
+    <string name="general_settings">Ustawienia ogólne</string>
+
+</resources>
