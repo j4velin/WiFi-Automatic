@@ -30,7 +30,6 @@ public class UnlockReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, final Intent intent) {
         final String action = intent.getAction();
-        if (BuildConfig.DEBUG) Logger.log("received: " + action);
         if (Intent.ACTION_USER_PRESENT.equals(action)) {
             context.sendBroadcast(
                     new Intent(context, Receiver.class).setAction(USER_PRESENT_ACTION));

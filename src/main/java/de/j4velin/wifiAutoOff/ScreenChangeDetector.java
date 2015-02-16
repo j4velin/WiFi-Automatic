@@ -75,13 +75,13 @@ public class ScreenChangeDetector extends Service {
     private class ScreenOffReceiver extends BroadcastReceiver {
 
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
                 sendBroadcast(new Intent(context, Receiver.class).setAction(SCREEN_OFF_ACTION));
             } else if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())
                     && !((KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode()) {
                 // SCREEN_ON is only send if there is no lockscreen active! Otherwise the Receiver will get USER_PRESENT
-                sendBroadcast(new Intent(context, UnlockReceiver.class).setAction(SCREEN_ON_ACTION));
+                sendBroadcast(new Intent(context, Receiver.class).setAction(SCREEN_ON_ACTION));
             }
         }
 

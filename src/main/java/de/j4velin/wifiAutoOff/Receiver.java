@@ -65,12 +65,14 @@ public class Receiver extends BroadcastReceiver {
                 null) {
             if (Build.VERSION.SDK_INT >= 19) {
                 APILevel19Wrapper.setExactTimer(context, AlarmManager.RTC_WAKEUP,
-                        System.currentTimeMillis() + 60000 * time,
-                        PendingIntent.getBroadcast(context, id, timerIntent, 0));
+                        System.currentTimeMillis() + 60000 * time, PendingIntent
+                                .getBroadcast(context, id, timerIntent,
+                                        PendingIntent.FLAG_UPDATE_CURRENT));
             } else {
                 ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE))
                         .set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60000 * time,
-                                PendingIntent.getBroadcast(context, id, timerIntent, 0));
+                                PendingIntent.getBroadcast(context, id, timerIntent,
+                                        PendingIntent.FLAG_UPDATE_CURRENT));
             }
             if (BuildConfig.DEBUG)
                 Logger.log("timer for action " + action + " set (" + time + " minutes)");
