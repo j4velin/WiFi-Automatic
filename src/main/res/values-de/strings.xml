@@ -20,8 +20,7 @@
     <string name="turn_wifi_off_at_">Uhrzeit, zu welcher WLAN abgeschaltet werden soll:</string>
     <string name="turn_wifi_on_every">Schalte WLAN alle &#8230; ein</string>
     <string name="invalid_input_number_has_to_be_">Fehlerhafte Eingabe: Zahl muss zwischen %1$d und %2$d sein</string>
-    <string name="airplane">Schalte währrend des Flugzeug-Modus WLAN nicht ein</string>
-    <string name="power_title">wenn mit Stromversorgung verbunden</string>
+    <string name="power_title">beim Laden</string>
 
     <string-array name="time_names">
         <item>5 Minuten</item>
@@ -34,5 +33,6 @@
     </string-array>
 
     <string name="general_settings">Allgemein</string>
-
+    <string name="airplane_title">Flugmodus</string>
+    <string name="airplane_summary">Schalte WLAN nicht ein, wenn sich das Gerät im Flugmodus befindet</string>
 </resources>
