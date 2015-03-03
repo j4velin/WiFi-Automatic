@@ -35,7 +35,8 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="airplane"
-            android:title="@string/airplane" />
+            android:title="@string/airplane_title"
+            android:summary="@string/airplane_summary"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

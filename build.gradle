@@ -35,6 +35,10 @@ android {
             zipAlignEnabled true
         }
     }
+
+    lintOptions {
+        disable "ExtraTranslation"
+    }
 }
 
 def props = new Properties()
