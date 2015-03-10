@@ -126,6 +126,7 @@ public class Receiver extends BroadcastReceiver {
         SharedPreferences prefs = getSharedPreferences(context);
         if (on && prefs.getBoolean("airplane", true)) {
             // check for airplane mode
+            if (BuildConfig.DEBUG) Logger.log("checking for airplane mode");
             try {
                 if (android.os.Build.VERSION.SDK_INT >=
                         android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 ?
@@ -139,6 +140,7 @@ public class Receiver extends BroadcastReceiver {
             } catch (final SettingNotFoundException e) {
                 // not airplane setting found? Handle like not in airplane mode
                 // then
+                if (BuildConfig.DEBUG) Logger.log(e);
                 e.printStackTrace();
             }
         }
