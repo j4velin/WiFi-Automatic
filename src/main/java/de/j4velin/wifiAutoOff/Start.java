@@ -128,6 +128,8 @@ class Start {
                         PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                 PackageManager.DONT_KILL_APP);
 
+        c.startService(new Intent(c, GeofenceUpdateService.class));
+
         if (BuildConfig.DEBUG) Logger.log("all timers set/cleared");
     }
 }

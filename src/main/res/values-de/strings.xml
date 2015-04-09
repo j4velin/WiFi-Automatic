@@ -35,4 +35,8 @@
     <string name="general_settings">Allgemein</string>
     <string name="airplane_title">Flugmodus</string>
     <string name="airplane_summary">Schalte WLAN nicht ein, wenn sich das Gerät im Flugmodus befindet</string>
+    <string name="when_entering_location">beim Betreten dieser Orte</string>
+    <string name="buy_pro">In der kostenlosen Version der App wird nur ein Ort unterstützt. Möchtest du jetzt auf die Pro-Version aufwerten?</string>
+    <string name="location_text">Beim Betreten folgender Orte wird das WLAN eingeschaltet:</string>
+    <string name="location_summary">Verwende Funkmasten-Informationen um WLAN an festgelegten Orten einzuschalten</string>
 </resources>

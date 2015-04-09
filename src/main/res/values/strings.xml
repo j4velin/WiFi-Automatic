@@ -35,4 +35,8 @@
     <string name="general_settings">General settings</string>
     <string name="airplane_title">Airplane mode</string>
     <string name="airplane_summary">Don\'t enable WiFi when in airplane mode</string>
+    <string name="when_entering_location">when entering these locations</string>
+    <string name="buy_pro">Only one location is support in the free version of the app. Do you want to upgrade to the pro version now?</string>
+    <string name="location_text">Turn on WiFi when entering these locations:</string>
+    <string name="location_summary">Use cell location information to turn WiFi on at specified locations</string>
 </resources>

@@ -159,7 +159,9 @@ public class Receiver extends BroadcastReceiver {
         final String action = intent.getAction();
         if (BuildConfig.DEBUG) Logger.log("received: " + action);
         SharedPreferences prefs = getSharedPreferences(context);
-        if (ScreenChangeDetector.SCREEN_OFF_ACTION.equals(action) &&
+        if (GeoFenceService.LOCATION_ENTERED_ACTION.equals(action)) {
+            changeWiFi(context, true);
+        } else if (ScreenChangeDetector.SCREEN_OFF_ACTION.equals(action) &&
                 prefs.getBoolean("off_screen_off", true)) {
             // screen went off -> start TIMER_SCREEN_OFF
             startTimer(context, TIMER_SCREEN_OFF,
