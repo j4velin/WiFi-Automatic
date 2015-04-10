@@ -342,17 +342,22 @@ public class Preferences extends PreferenceActivity {
             }
         });
 
-        if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
-            findPreference("locations")
-                    .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                        @Override
-                        public boolean onPreferenceClick(final Preference preference) {
-                            startActivity(new Intent(Preferences.this, Locations.class));
-                            return true;
-                        }
-                    });
+        Preference locations = findPreference("locations");
+        if (BuildConfig.FLAVOR.equals("play")) {
+            if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
+                locations.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(final Preference preference) {
+                        startActivity(new Intent(Preferences.this, Locations.class));
+                        return true;
+                    }
+                });
+            } else {
+                locations.setEnabled(false);
+            }
         } else {
-            findPreference("locations").setEnabled(false);
+            locations.setSummary("Not available in F-Droid version");
+            locations.setEnabled(false);
         }
     }
 
