@@ -44,6 +44,7 @@ public class GeoFenceService extends IntentService {
             if (geofencingEvent.getGeofenceTransition() == Geofence.GEOFENCE_TRANSITION_ENTER) {
                 Database db = Database.getInstance(this);
                 for (Geofence gf : geofencingEvent.getTriggeringGeofences()) {
+                    if (BuildConfig.DEBUG) Logger.log("geofence entered: " + gf.getRequestId());
                     String[] data = gf.getRequestId().split("@");
                     LatLng ll =
                             new LatLng(Double.parseDouble(data[0]), Double.parseDouble(data[1]));

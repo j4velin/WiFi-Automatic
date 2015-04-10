@@ -75,6 +75,9 @@ public class Database extends SQLiteOpenHelper {
         c.moveToFirst();
         List<Location> re = new ArrayList<>(c.getCount());
         while (!c.isAfterLast()) {
+            if (BuildConfig.DEBUG)
+                Logger.log("added location: " + c.getString(0) + " " + c.getDouble(1) + " " +
+                        c.getDouble(2));
             re.add(new Location(c.getString(0), new LatLng(c.getDouble(1), c.getDouble(2))));
             c.moveToNext();
         }
@@ -102,6 +105,8 @@ public class Database extends SQLiteOpenHelper {
      * @param coords the coordinates of the location to delete
      */
     public void deleteLocation(final LatLng coords) {
+        if (BuildConfig.DEBUG)
+            Logger.log("deleting " + coords.toString() + " contained? " + containsLocation(coords));
         getWritableDatabase().delete("locations", "lat = ? AND lon = ?",
                 new String[]{String.valueOf(coords.latitude), String.valueOf(coords.longitude)});
     }

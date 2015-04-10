@@ -29,7 +29,6 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="off_no_network"
-            android:summary="for at least 1 min"
             android:title="@string/not_connected_to_any_network"/>
         <CheckBoxPreference
             android:defaultValue="false"

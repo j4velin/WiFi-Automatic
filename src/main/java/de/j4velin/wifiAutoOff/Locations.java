@@ -241,7 +241,7 @@ public class Locations extends Activity {
             } else {
                 String[] data = locations.get(position).name.split(",", 2);
                 h.text.setText(data[0]);
-                h.subtext.setText(data[1]);
+                h.subtext.setText(data.length > 1 ? data[1] : "");
             }
             h.delete.setTag(position);
         }
