@@ -15,4 +15,4 @@ This app has a similiar effect like setting the "WiFi sleep policy" in Android t
 
 
 
-<b>You can download the app for free from the <a href="https://play.google.com/store/apps/details?id=de.j4velin.wifiAutoOff">Play Store</a></b>
+<b>You can download the app for free from the <a href="https://play.google.com/store/apps/details?id=de.j4velin.wifiAutoOff">Play Store</a> or from <a href="https://f-droid.org/repository/browse/?fdfilter=wifi+automatic&fdid=de.j4velin.wifiAutoOff">F-Droid</a></b>
