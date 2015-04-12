@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="for_at_least">przez co najmniej %d minut</string>
@@ -34,5 +34,10 @@
     </string-array>
 
     <string name="general_settings">Ustawienia ogólne</string>
-
+    <string name="airplane_title">Tryb samolotowy</string>
+    <string name="airplane_summary">Nie włączaj WiFi w trybie samolotowym</string>
+    <string name="when_entering_location">gdy znajdziesz się w określonych miejscach</string>
+    <string name="buy_pro">Tylko jedna lokalizacja jest wspierana w darmowej wersji aplikacjii. Czy chcesz teraz uaktualnić do wersji pro??</string>
+    <string name="location_text">Włącz WiFi gdy znajdziesz się w tej lokalizacji:</string>
+    <string name="location_summary">Użyj informacji o lokalizacji komórki, aby włączyć WiFi w określonych miejscach</string>
 </resources>
