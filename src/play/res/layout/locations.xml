@@ -6,7 +6,16 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/timeoutwarning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/timeout_too_short"/>
+
+    <TextView
         android:id="@+id/titletext"
+        android:layout_below="@id/timeoutwarning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"

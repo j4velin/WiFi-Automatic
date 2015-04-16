@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -152,6 +153,25 @@ public class Locations extends Activity {
                     .setPackage("com.android.vending"), mServiceConn, Context.BIND_AUTO_CREATE);
         }
 
+        findViewById(R.id.timeoutwarning).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                getSharedPreferences(getPackageName() + "_preferences", Context.MODE_MULTI_PROCESS)
+                        .edit().putInt("no_network_timeout", 5).commit();
+                v.setVisibility(View.GONE);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences prefs =
+                getSharedPreferences(getPackageName() + "_preferences", Context.MODE_MULTI_PROCESS);
+        findViewById(R.id.timeoutwarning).setVisibility(prefs.getBoolean("off_no_network", true) &&
+                prefs.getInt("no_network_timeout", Receiver.TIMEOUT_NO_NETWORK) < 5 ? View.VISIBLE :
+                View.GONE);
     }
 
     @Override
@@ -196,9 +216,9 @@ public class Locations extends Activity {
                 if (data.getIntExtra("RESPONSE_CODE", 0) == 0) {
                     try {
                         JSONObject jo = new JSONObject(data.getStringExtra("INAPP_PURCHASE_DATA"));
-                        PREMIUM_ENABLED =
-                                jo.getString("productId").equals("de.j4velin.wifiautomatic.billing.pro") &&
-                                        jo.getString("developerPayload").equals(getPackageName());
+                        PREMIUM_ENABLED = jo.getString("productId")
+                                .equals("de.j4velin.wifiautomatic.billing.pro") &&
+                                jo.getString("developerPayload").equals(getPackageName());
                         getSharedPreferences("settings", Context.MODE_PRIVATE).edit()
                                 .putBoolean("pro", PREMIUM_ENABLED).commit();
                         if (PREMIUM_ENABLED) {

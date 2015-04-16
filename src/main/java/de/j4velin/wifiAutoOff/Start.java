@@ -32,7 +32,7 @@ import java.util.Date;
 /**
  * Utility class to set all necessary timers / start the background service
  */
-class Start {
+abstract class Start {
 
     /**
      * Sets all necessary timers / starts the background service depending on
