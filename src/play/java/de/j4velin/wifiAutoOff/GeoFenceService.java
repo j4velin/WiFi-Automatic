@@ -32,6 +32,7 @@ public class GeoFenceService extends IntentService {
 
     @Override
     protected void onHandleIntent(final Intent intent) {
+        if (intent == null) return;
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         // First check for errors
         if (geofencingEvent.hasError()) {

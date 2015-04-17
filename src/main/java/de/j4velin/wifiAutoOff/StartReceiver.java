@@ -30,9 +30,11 @@ public class StartReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
-        if (BuildConfig.DEBUG)
-            Logger.log("received: " + intent.getAction());
-        Start.start(context);
+        if (BuildConfig.DEBUG) Logger.log("received: " + intent.getAction());
+        if (!Intent.ACTION_PACKAGE_REPLACED.equals(intent.getAction()) ||
+                intent.getDataString().contains(context.getPackageName())) {
+            Start.start(context);
+        }
     }
 
 }
