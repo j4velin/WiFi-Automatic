@@ -156,7 +156,11 @@ public class Preferences extends PreferenceActivity {
     @Override
     public void onResume() {
         super.onResume();
-        Start.start(this);
+        final CheckBoxPreference no_network_off =
+                (CheckBoxPreference) findPreference("off_no_network");
+        no_network_off.setSummary(getString(R.string.for_at_least,
+                PreferenceManager.getDefaultSharedPreferences(this)
+                        .getInt("no_network_timeout", Receiver.TIMEOUT_NO_NETWORK)));
     }
 
     @Override
@@ -179,8 +183,6 @@ public class Preferences extends PreferenceActivity {
 
         final CheckBoxPreference no_network_off =
                 (CheckBoxPreference) findPreference("off_no_network");
-        no_network_off.setSummary(getString(R.string.for_at_least,
-                prefs.getInt("no_network_timeout", Receiver.TIMEOUT_NO_NETWORK)));
 
         if (!keepWiFiOn(this)) {
             screen_off.setChecked(false);
