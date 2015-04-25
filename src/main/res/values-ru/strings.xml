@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="adv_wifi_settings">Расширенные функции WiFi</string>
+    <string name="advanced_wifi_settings">Расширенные функции WiFi</string>
+    <string name="airplane_summary">"Не включайть WiFi в режиме 'Самолёт'"</string>
+    <string name="airplane_title">Режим Самолёт</string>
+    <string name="at_summary">каждый день в %s</string>
+    <string name="buy_pro">В бесплатной версии приложения поддерживается только ОДНО местоположение. Вы хотите перейти на Pro версию сейчас?</string>
+    <string name="donate">Пожертвовать</string>
+    <string name="every_summary">каждые %s</string>
+    <string name="for_at_least">по истечении %d мин.</string>
+    <string name="general_settings">Общие настройки</string>
+    <string name="invalid_input_number_has_to_be_">Ошибка ввода: Число должно быть >= %1$d и &lt;= %2$d</string>
+    <string name="location_summary">Использовать информацию о местоположении сотовой сети для включения WiFi в определённых местах</string>
+    <string name="location_text">Включать WiFi при вводе этих мест:</string>
+    <string name="minutes_before_turning_off_wifi_">Минуты перед отключением WiFi:</string>
+    <string name="more_apps">Другие приложения</string>
+    <string name="not_connected_to_any_network">когда нет активных подключений</string>
+    <string name="power_title">при подключении ЗУ</string>
+
+    <string-array name="time_names">
+        <item>5 мин.</item>
+        <item>15 мин.</item>
+        <item>30 мин.</item>
+        <item>1 час</item>
+        <item>2 часа</item>
+        <item>5 часов</item>
+        <item>10 часов</item>
+    </string-array>
+
+    <string name="screen_is_off">когда экран отключен</string>
+    <string name="settings_not_found_">Настройки не найдены!</string>
+    <string name="sleep_policy">"Ваша политика WiFi перехода в сон будет отключать WiFi как только погаснет экран. Вы можете изменить политику, перейдя в 'Расширенные функции Wi-Fi'"</string>
+    <string name="store_picture_message">Разрешить объявления для хранения изображений в галерее?</string>
+    <string name="store_picture_title">Сохранить изображение</string>
+    <string name="turn_wifi_off_at_">Отключить WiFi в:</string>
+    <string name="turn_wifi_off_when_">Отключать WiFi…</string>
+    <string name="turn_wifi_on_">Включать WiFi…</string>
+    <string name="turn_wifi_on_at_">Включить WiFi в:</string>
+    <string name="turn_wifi_on_every">Включать WiFi каждые …</string>
+    <string name="wallet_buy_button_place_holder">Купить в Google</string>
+    <string name="when_device_gets_unlocked">когда устройство разблокировано</string>
+    <string name="when_entering_location">при вводе этих мест</string>
+</resources>
