@@ -21,16 +21,22 @@ import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -51,6 +57,37 @@ import android.widget.Toast;
 public class Preferences extends PreferenceActivity {
 
     private final static int[] time_values = {5, 15, 30, 60, 120, 300, 600};
+
+    private StatusPreference status;
+
+    private final Handler handler = new Handler();
+    private final Runnable signalUpdater = new Runnable() {
+        @Override
+        public void run() {
+            if (status.updateSignal()) handler.postDelayed(signalUpdater, 1000);
+        }
+    };
+    private final BroadcastReceiver stateChangedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            handler.removeCallbacks(signalUpdater);
+            status.update();
+            if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())) {
+                final NetworkInfo nwi = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+                if (nwi == null) return;
+                if (nwi.isConnected()) {
+                    // seems to still take some time until NetworkInfo::isConnected returns true
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            status.update();
+                        }
+                    }, 2000);
+                    handler.postDelayed(signalUpdater, 2000);
+                }
+            }
+        }
+    };
 
     @SuppressLint("NewApi")
     @Override
@@ -75,7 +112,8 @@ public class Preferences extends PreferenceActivity {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     @SuppressWarnings("deprecation") PreferenceScreen ps = getPreferenceScreen();
-                    for (int i = 0; i < ps.getPreferenceCount(); i++) {
+                    // start at 1 to skip "status" preference
+                    for (int i = 1; i < ps.getPreferenceCount(); i++) {
                         ps.getPreference(i).setEnabled(isChecked);
                     }
                     getPackageManager().setComponentEnabledSetting(
@@ -161,12 +199,18 @@ public class Preferences extends PreferenceActivity {
         no_network_off.setSummary(getString(R.string.for_at_least,
                 PreferenceManager.getDefaultSharedPreferences(this)
                         .getInt("no_network_timeout", Receiver.TIMEOUT_NO_NETWORK)));
+        handler.postDelayed(signalUpdater, 1000);
+        IntentFilter ifilter = new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        ifilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+        registerReceiver(stateChangedReceiver, ifilter);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         Start.start(this);
+        handler.removeCallbacks(signalUpdater);
+        unregisterReceiver(stateChangedReceiver);
     }
 
     @SuppressWarnings("deprecation")
@@ -174,6 +218,37 @@ public class Preferences extends PreferenceActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
+
+        status = (StatusPreference) findPreference("status");
+        status.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(final Preference preference) {
+                WifiManager wm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+                boolean connected =
+                        ((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE))
+                                .getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
+                if (wm.isWifiEnabled() && !connected) {
+                    try {
+                        startActivity(new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    } catch (Exception e) {
+                        Toast.makeText(Preferences.this, R.string.settings_not_found_,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } else if (!wm.isWifiEnabled()) {
+                    wm.setWifiEnabled(true);
+                } else {
+                    try {
+                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS)
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    } catch (Exception e) {
+                        Toast.makeText(Preferences.this, R.string.settings_not_found_,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+                return true;
+            }
+        });
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 

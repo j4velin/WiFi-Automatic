@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <de.j4velin.wifiAutoOff.StatusPreference
+        android:key="status"/>
     <PreferenceCategory android:title="@string/turn_wifi_on_">
         <CheckBoxPreference
             android:defaultValue="true"
