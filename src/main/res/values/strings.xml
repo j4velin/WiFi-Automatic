@@ -40,4 +40,8 @@
     <string name="location_text">Turn on WiFi when entering these locations:</string>
     <string name="location_summary">Use cell location information to turn WiFi on at specified locations</string>
     <string name="timeout_too_short">\'No network timeout\' setting might be too short for the locations feature to work. Change to 5 min now?</string>
+    <string name="no_connected">WiFi not connected</string>
+    <string name="click_to_select_network">Click to select WiFi network</string>
+    <string name="wifi_not_enabled">WiFi not enabled</string>
+    <string name="click_to_turn_on">Click to turn on</string>
 </resources>

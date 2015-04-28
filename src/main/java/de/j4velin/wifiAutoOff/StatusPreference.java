@@ -48,9 +48,9 @@ public class StatusPreference extends Preference {
         if (title == null) return;
         if (wm.isWifiEnabled()) {
             if (!connected) {
-                title.setText("WiFi not connected");
+                title.setText(R.string.no_connected);
                 image.setColorFilter(Color.DKGRAY);
-                sub1.setText("Click to select WiFi network");
+                sub1.setText(R.string.click_to_select_network);
                 sub2.setVisibility(View.GONE);
             } else {
                 WifiInfo wi = wm.getConnectionInfo();
@@ -64,9 +64,9 @@ public class StatusPreference extends Preference {
                 sub2.setVisibility(View.VISIBLE);
             }
         } else {
-            title.setText("WiFi not enabled");
+            title.setText(R.string.wifi_not_enabled);
             image.setColorFilter(Color.LTGRAY);
-            sub1.setText("Click to turn on");
+            sub1.setText(R.string.click_to_turn_on);
             sub2.setVisibility(View.GONE);
         }
     }
