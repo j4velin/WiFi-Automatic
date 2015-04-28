@@ -40,4 +40,8 @@
     <string name="location_text">Beim Betreten folgender Orte wird das WLAN eingeschaltet:</string>
     <string name="location_summary">Verwende Funkmasten-Informationen um WLAN an festgelegten Orten einzuschalten</string>
     <string name="timeout_too_short">\'Kein Netz in Reichweite\' Einstellung könnte für die Standort-Optionen zu kurz sein. Jetzt auf die Einstellung \'5 min\' ändern?</string>
+    <string name="no_connected">WLAN nicht verbunden</string>
+    <string name="click_to_select_network">Hier klicken um WLAN-Netzwerk auszuwählen</string>
+    <string name="wifi_not_enabled">WLAN ausgeschaltet</string>
+    <string name="click_to_turn_on">Hier klicken um WLAN einzuschalten</string>
 </resources>
