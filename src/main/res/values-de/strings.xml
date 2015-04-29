@@ -43,5 +43,6 @@
     <string name="no_connected">WLAN nicht verbunden</string>
     <string name="click_to_select_network">Hier klicken um WLAN-Netzwerk auszuwählen</string>
     <string name="wifi_not_enabled">WLAN ausgeschaltet</string>
-    <string name="click_to_turn_on">Hier klicken um WLAN einzuschalten</string>
+    <string name="click_to_turn_on">Hier klicken zum einzuschalten</string>
+    <string name="location_settings_warning">Deine Einstellungen verbieten der App deinen Standort zu bestimmen, diese Funktion wird daher nicht funktionieren. Klicke hier um die Standort-Einstellungen zu ändern</string>
 </resources>
