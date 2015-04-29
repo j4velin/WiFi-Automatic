@@ -44,4 +44,5 @@
     <string name="click_to_select_network">Click to select WiFi network</string>
     <string name="wifi_not_enabled">WiFi disabled</string>
     <string name="click_to_turn_on">Click to turn on</string>
+    <string name="location_settings_warning">Your settings prevent the app to detect your location, so this feature won\'t work. Click here to change them</string>
 </resources>

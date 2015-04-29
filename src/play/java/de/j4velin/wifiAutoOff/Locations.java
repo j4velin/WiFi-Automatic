@@ -26,11 +26,14 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.provider.Settings;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -162,6 +165,19 @@ public class Locations extends Activity {
             }
         });
 
+        findViewById(R.id.locationsettingswarning).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                try {
+                    startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                } catch (Exception e) {
+                    Toast.makeText(Locations.this, R.string.settings_not_found_, Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -172,6 +188,20 @@ public class Locations extends Activity {
         findViewById(R.id.timeoutwarning).setVisibility(prefs.getBoolean("off_no_network", true) &&
                 prefs.getInt("no_network_timeout", Receiver.TIMEOUT_NO_NETWORK) < 5 ? View.VISIBLE :
                 View.GONE);
+
+        boolean locationAccessEnabled = true;
+        try {
+            locationAccessEnabled = (Build.VERSION.SDK_INT < 19 && !TextUtils.isEmpty(
+                    Settings.Secure.getString(getContentResolver(),
+                            Settings.Secure.LOCATION_PROVIDERS_ALLOWED))) ||
+                    (Build.VERSION.SDK_INT >= 19 && Settings.Secure
+                            .getInt(getContentResolver(), Settings.Secure.LOCATION_MODE) !=
+                            Settings.Secure.LOCATION_MODE_OFF);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        findViewById(R.id.locationsettingswarning)
+                .setVisibility(locationAccessEnabled ? View.GONE : View.VISIBLE);
     }
 
     @Override

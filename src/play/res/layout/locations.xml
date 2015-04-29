@@ -14,8 +14,17 @@
         android:text="@string/timeout_too_short"/>
 
     <TextView
-        android:id="@+id/titletext"
+        android:id="@+id/locationsettingswarning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/timeoutwarning"
+        android:padding="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/location_settings_warning"/>
+
+    <TextView
+        android:id="@+id/titletext"
+        android:layout_below="@id/locationsettingswarning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
