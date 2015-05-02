@@ -56,8 +56,7 @@ public class StatusPreference extends Preference {
                 WifiInfo wi = wm.getConnectionInfo();
                 title.setText(wi.getSSID());
                 image.setColorFilter(getContext().getResources().getColor(R.color.colorAccent));
-                sub1.setText(WifiManager.calculateSignalLevel(wi.getRssi(), 100) + "% - " +
-                        wi.getLinkSpeed() + " Mbps");
+                updateSignal();
                 int ip = wi.getIpAddress();
                 sub2.setText(String.format("%d.%d.%d.%d", (ip & 0xff), (ip >> 8 & 0xff),
                         (ip >> 16 & 0xff), (ip >> 24 & 0xff)));
@@ -84,8 +83,13 @@ public class StatusPreference extends Preference {
         if (sub1 == null) return wm.isWifiEnabled() && connected;
         if (wm.isWifiEnabled() && connected) {
             WifiInfo wi = wm.getConnectionInfo();
-            sub1.setText(WifiManager.calculateSignalLevel(wi.getRssi(), 100) + "% - " +
-                    wi.getLinkSpeed() + " Mbps");
+            try {
+                sub1.setText(WifiManager.calculateSignalLevel(wi.getRssi(), 100) + "% - " +
+                        wi.getLinkSpeed() + " Mbps");
+            } catch (ArithmeticException e) {
+                // might happen on Android 2.3 devices: https://code.google.com/p/android/issues/detail?id=2555
+                sub1.setText(wi.getLinkSpeed() + " Mbps");
+            }
             return true;
         } else {
             return false;
