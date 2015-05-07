@@ -50,7 +50,7 @@ import java.util.List;
 
 public class Locations extends Activity {
 
-    private final static int REQUEST_LOCATION = 1, REQUEST_DELETE = 2, REQUEST_BUY = 3;
+    private final static int REQUEST_LOCATION = 1, REQUEST_BUY = 3;
 
     private IInAppBillingService mService;
     private final ServiceConnection mServiceConn = new ServiceConnection() {
@@ -309,9 +309,8 @@ public class Locations extends Activity {
                 db.close();
                 mAdapter.notifyDataSetChanged();
             } else {
-                startActivityForResult(new Intent(Locations.this, Map.class).putExtra("location",
-                                locations.get(mRecyclerView.getChildAdapterPosition(v)).coords),
-                        REQUEST_DELETE);
+                startActivity(new Intent(Locations.this, Map.class).putExtra("location",
+                                locations.get(mRecyclerView.getChildAdapterPosition(v)).coords));
             }
         }
 

@@ -107,8 +107,9 @@ public class Database extends SQLiteOpenHelper {
     public void deleteLocation(final LatLng coords) {
         if (BuildConfig.DEBUG)
             Logger.log("deleting " + coords.toString() + " contained? " + containsLocation(coords));
-        getWritableDatabase().delete("locations", "lat = ? AND lon = ?",
-                new String[]{String.valueOf(coords.latitude), String.valueOf(coords.longitude)});
+        getWritableDatabase().delete("locations", "lat LIKE ? AND lon LIKE ?",
+                new String[]{String.valueOf(coords.latitude).substring(0, 8) + "%",
+                        String.valueOf(coords.longitude).substring(0, 8) + "%"});
     }
 
     /**
@@ -119,9 +120,10 @@ public class Database extends SQLiteOpenHelper {
      */
     public boolean containsLocation(final LatLng coords) {
         Cursor c = getReadableDatabase()
-                .query("locations", new String[]{"name"}, "lat = ? AND lon = ?",
-                        new String[]{String.valueOf(coords.latitude),
-                                String.valueOf(coords.longitude)}, null, null, null);
+                .query("locations", new String[]{"name"}, "lat LIKE ? AND lon LIKE ?",
+                        new String[]{String.valueOf(coords.latitude).substring(0, 8) + "%",
+                                String.valueOf(coords.longitude).substring(0, 8) + "%"}, null, null,
+                        null);
         boolean re = c.getCount() > 0;
         c.close();
         return re;
