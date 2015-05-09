@@ -22,7 +22,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.IBinder;
+import android.os.PowerManager;
 
 /**
  * Background service which detects SCREEN_OFF events.
@@ -37,21 +39,28 @@ public class ScreenChangeDetector extends Service {
     private static BroadcastReceiver br;
 
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(final Intent intent) {
         return null;
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(final Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
         if (br == null) {
-            if (BuildConfig.DEBUG)
-                Logger.log("creating screen receiver");
+            if (BuildConfig.DEBUG) Logger.log("creating screen receiver");
             br = new ScreenOffReceiver();
             IntentFilter intf = new IntentFilter();
             intf.addAction(Intent.ACTION_SCREEN_ON);
             intf.addAction(Intent.ACTION_SCREEN_OFF);
             registerReceiver(br, intf);
+        }
+        if (intent == null) { // service restarted
+            // is display already off?
+            if ((Build.VERSION.SDK_INT < 20 &&
+                    !((PowerManager) getSystemService(POWER_SERVICE)).isScreenOn()) ||
+                    (Build.VERSION.SDK_INT >= 20 && !APILevel20Wrapper.isScreenOn(this))) {
+                sendBroadcast(new Intent(this, Receiver.class).setAction(SCREEN_OFF_ACTION));
+            }
         }
 
         return START_STICKY;
@@ -60,8 +69,7 @@ public class ScreenChangeDetector extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (BuildConfig.DEBUG)
-            Logger.log("destroying screen receiver");
+        if (BuildConfig.DEBUG) Logger.log("destroying screen receiver");
         if (br != null) {
             try {
                 unregisterReceiver(br);
@@ -78,8 +86,9 @@ public class ScreenChangeDetector extends Service {
         public void onReceive(final Context context, final Intent intent) {
             if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
                 sendBroadcast(new Intent(context, Receiver.class).setAction(SCREEN_OFF_ACTION));
-            } else if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())
-                    && !((KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE)).inKeyguardRestrictedInputMode()) {
+            } else if (Intent.ACTION_SCREEN_ON.equals(intent.getAction()) &&
+                    !((KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE))
+                            .inKeyguardRestrictedInputMode()) {
                 // SCREEN_ON is only send if there is no lockscreen active! Otherwise the Receiver will get USER_PRESENT
                 sendBroadcast(new Intent(context, Receiver.class).setAction(SCREEN_ON_ACTION));
             }
