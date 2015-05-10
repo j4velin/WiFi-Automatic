@@ -85,6 +85,11 @@ abstract class Start {
         if (prefs.getBoolean("off_at", false)) {
             String[] time = prefs.getString("off_at_time", Receiver.OFF_AT_TIME).split(":");
 
+            cal = Calendar.getInstance();
+
+            cal.set(Calendar.SECOND, 1);
+            cal.set(Calendar.MILLISECOND, 0);
+
             cal.set(Calendar.HOUR_OF_DAY, Integer.valueOf(time[0]));
             cal.set(Calendar.MINUTE, Integer.valueOf(time[1]));
 
