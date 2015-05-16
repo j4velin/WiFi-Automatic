@@ -90,7 +90,7 @@ public class GeofenceUpdateService extends Service implements GoogleApiClient.Co
 
     private void disconnect() {
         if (BuildConfig.DEBUG) Logger.log("GeofenceUpdateService disconnect");
-        mLocationClient.disconnect();
+        if (mLocationClient != null) mLocationClient.disconnect();
         mLocationClient = null;
         stopSelf();
     }
