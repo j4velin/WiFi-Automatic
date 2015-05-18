@@ -26,6 +26,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -33,10 +34,15 @@ import android.os.RemoteException;
 import android.provider.Settings;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -178,6 +184,50 @@ public class Locations extends Activity {
             }
         });
 
+        final SharedPreferences prefs = getSharedPreferences("locationPrefs", MODE_PRIVATE);
+        CheckBox active = (CheckBox) findViewById(R.id.active);
+        final EditText interval = (EditText) findViewById(R.id.scaninterval);
+        active.setChecked(prefs.getBoolean("active", false));
+        interval.setText(String.valueOf(prefs.getInt("interval", 15)));
+        final View intervalLayout = findViewById(R.id.interval);
+        intervalLayout.setVisibility(active.isChecked() ? View.VISIBLE : View.GONE);
+        active.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(final CompoundButton buttonView, boolean isChecked) {
+                intervalLayout.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                prefs.edit().putBoolean("active", isChecked).apply();
+            }
+        });
+        interval.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(final Editable s) {
+                try {
+                    int minutes = Integer.parseInt(s.toString());
+                    prefs.edit().putInt("interval", minutes).apply();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        findViewById(R.id.info).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://j4velin.de/faq/index.php?app=wa")));
+            }
+        });
+
     }
 
     @Override
@@ -310,7 +360,7 @@ public class Locations extends Activity {
                 mAdapter.notifyDataSetChanged();
             } else {
                 startActivity(new Intent(Locations.this, Map.class).putExtra("location",
-                                locations.get(mRecyclerView.getChildAdapterPosition(v)).coords));
+                        locations.get(mRecyclerView.getChildAdapterPosition(v)).coords));
             }
         }
 

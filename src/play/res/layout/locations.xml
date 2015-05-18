@@ -10,8 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/timeout_too_short"/>
+        android:text="@string/timeout_too_short"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <TextView
         android:id="@+id/locationsettingswarning"
@@ -19,37 +19,95 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/timeoutwarning"
         android:padding="10dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/location_settings_warning"/>
+        android:text="@string/location_settings_warning"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
 
     <TextView
         android:id="@+id/titletext"
-        android:layout_below="@id/locationsettingswarning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/interval"
         android:padding="10dp"
+        android:text="@string/location_text"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/colorAccent"
-        android:text="@string/location_text"/>
+        android:textColor="@color/colorAccent"/>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@id/titletext"
         android:id="@+id/locations"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/titletext"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:requiresFadingEdge="vertical"/>
 
     <com.shamanland.fab.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:floatingActionButtonColor="@color/fab"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_margin="40dp"
-        android:src="@drawable/ic_add"/>
+        android:src="@drawable/ic_add"
+        app:floatingActionButtonColor="@color/fab"/>
+
+    <CheckBox
+        android:id="@+id/active"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/locationsettingswarning"
+        android:text="@string/active_location_scan"
+        android:layout_margin="5dp"
+        />
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/active"
+        android:drawableLeft="@drawable/ic_help"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:text="@string/more_info"
+        android:layout_alignBottom="@+id/active"/>
+
+    <LinearLayout
+        android:id="@+id/interval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/active"
+        android:orientation="horizontal"
+        android:layout_marginTop="-10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="@string/interval"/>
+
+        <EditText
+            android:id="@+id/scaninterval"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="3"
+            android:inputType="number"
+            android:text="15"
+            android:gravity="center_horizontal"
+            android:selectAllOnFocus="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="min"/>
+    </LinearLayout>
 
 </RelativeLayout>

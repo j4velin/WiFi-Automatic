@@ -18,6 +18,7 @@ package de.j4velin.wifiAutoOff;
 import android.app.IntentService;
 import android.content.Intent;
 
+import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 import com.google.android.gms.maps.model.LatLng;
@@ -33,29 +34,41 @@ public class GeoFenceService extends IntentService {
     @Override
     protected void onHandleIntent(final Intent intent) {
         if (intent == null) return;
-        GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
-        // First check for errors
-        if (geofencingEvent.hasError()) {
-            // Get the error code with a static method
-            // Log the error
-            if (BuildConfig.DEBUG) Logger.log(
-                    "Location Services error: " + Integer.toString(geofencingEvent.getErrorCode()));
+        if (intent.hasExtra(FusedLocationProviderApi.KEY_LOCATION_CHANGED)) {
+            android.location.Location loc = (android.location.Location) intent.getExtras()
+                    .get(FusedLocationProviderApi.KEY_LOCATION_CHANGED);
+            LatLng ll = new LatLng(loc.getLatitude(), loc.getLongitude());
+            if (BuildConfig.DEBUG) Logger.log("Location update received");
+            Database db = Database.getInstance(this);
+            if (db.containsLocation(ll)) {
+                sendBroadcast(new Intent(this, Receiver.class).setAction(LOCATION_ENTERED_ACTION));
+            }
+            db.close();
         } else {
-            // Test that a valid transition was reported
-            if (geofencingEvent.getGeofenceTransition() == Geofence.GEOFENCE_TRANSITION_ENTER) {
-                Database db = Database.getInstance(this);
-                for (Geofence gf : geofencingEvent.getTriggeringGeofences()) {
-                    if (BuildConfig.DEBUG) Logger.log("geofence entered: " + gf.getRequestId());
-                    String[] data = gf.getRequestId().split("@");
-                    LatLng ll =
-                            new LatLng(Double.parseDouble(data[0]), Double.parseDouble(data[1]));
-                    if (db.containsLocation(ll)) {
-                        sendBroadcast(new Intent(this, Receiver.class)
-                                .setAction(LOCATION_ENTERED_ACTION));
-                        break;
+            GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
+            // First check for errors
+            if (geofencingEvent.hasError()) {
+                // Get the error code with a static method
+                // Log the error
+                if (BuildConfig.DEBUG) Logger.log("Location Services error: " +
+                        Integer.toString(geofencingEvent.getErrorCode()));
+            } else {
+                // Test that a valid transition was reported
+                if (geofencingEvent.getGeofenceTransition() == Geofence.GEOFENCE_TRANSITION_ENTER) {
+                    Database db = Database.getInstance(this);
+                    for (Geofence gf : geofencingEvent.getTriggeringGeofences()) {
+                        if (BuildConfig.DEBUG) Logger.log("geofence entered: " + gf.getRequestId());
+                        String[] data = gf.getRequestId().split("@");
+                        LatLng ll = new LatLng(Double.parseDouble(data[0]),
+                                Double.parseDouble(data[1]));
+                        if (db.containsLocation(ll)) {
+                            sendBroadcast(new Intent(this, Receiver.class)
+                                    .setAction(LOCATION_ENTERED_ACTION));
+                            break;
+                        }
                     }
+                    db.close();
                 }
-                db.close();
             }
         }
     }

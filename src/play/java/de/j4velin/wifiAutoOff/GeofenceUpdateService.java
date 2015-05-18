@@ -18,6 +18,7 @@ package de.j4velin.wifiAutoOff;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 
@@ -25,6 +26,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 import java.util.List;
@@ -56,13 +58,17 @@ public class GeofenceUpdateService extends Service implements GoogleApiClient.Co
                 .getService(this, 0, new Intent(this, GeoFenceService.class),
                         PendingIntent.FLAG_UPDATE_CURRENT);
         LocationServices.GeofencingApi.removeGeofences(mLocationClient, pi);
+        LocationServices.FusedLocationApi.removeLocationUpdates(mLocationClient, pi);
         Database database = Database.getInstance(this);
         List<Location> locations = database.getLocations();
         database.close();
 
+        SharedPreferences prefs = getSharedPreferences("locationPrefs", MODE_PRIVATE);
+
         if (BuildConfig.DEBUG) Logger.log("re-adding all " + locations.size() + " fences");
         if (!locations.isEmpty()) {
             GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+            builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
             for (Location l : locations) {
                 try {
                     builder.addGeofence(new Geofence.Builder()
@@ -76,6 +82,14 @@ public class GeofenceUpdateService extends Service implements GoogleApiClient.Co
             }
             try {
                 LocationServices.GeofencingApi.addGeofences(mLocationClient, builder.build(), pi);
+                if (prefs.getBoolean("active", false)) {
+                    LocationRequest mLocationRequest = new LocationRequest();
+                    mLocationRequest.setInterval(prefs.getInt("interval", 15) * 60000);
+                    mLocationRequest.setFastestInterval(5000);
+                    mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+                    LocationServices.FusedLocationApi
+                            .requestLocationUpdates(mLocationClient, mLocationRequest, pi);
+                }
             } catch (Exception iae) {
                 if (BuildConfig.DEBUG) Logger.log(iae);
             }
