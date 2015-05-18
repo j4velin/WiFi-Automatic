@@ -45,4 +45,7 @@
     <string name="wifi_not_enabled">WLAN ausgeschaltet</string>
     <string name="click_to_turn_on">Hier klicken zum einzuschalten</string>
     <string name="location_settings_warning">Deine Einstellungen verbieten der App deinen Standort zu bestimmen, diese Funktion wird daher nicht funktionieren. Klicke hier um die Standort-Einstellungen zu ändern</string>
+    <string name="interval">Intervall:</string>
+    <string name="active_location_scan">Aktive Standort-Bestimmung</string>
+    <string name="more_info">Mehr dazu</string>
 </resources>
