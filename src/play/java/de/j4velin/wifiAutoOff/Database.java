@@ -119,11 +119,13 @@ public class Database extends SQLiteOpenHelper {
      * @return true, if WiFi should be turned on when entering this location
      */
     public boolean containsLocation(final LatLng coords) {
+        String lat = String.valueOf(coords.latitude);
+        String lon = String.valueOf(coords.longitude);
+        if (lat.length() > 9) lat = lat.substring(0, 8);
+        if (lon.length() > 9) lon = lon.substring(0, 8);
         Cursor c = getReadableDatabase()
                 .query("locations", new String[]{"name"}, "lat LIKE ? AND lon LIKE ?",
-                        new String[]{String.valueOf(coords.latitude).substring(0, 8) + "%",
-                                String.valueOf(coords.longitude).substring(0, 8) + "%"}, null, null,
-                        null);
+                        new String[]{lat + "%", lon + "%"}, null, null, null);
         boolean re = c.getCount() > 0;
         c.close();
         return re;
