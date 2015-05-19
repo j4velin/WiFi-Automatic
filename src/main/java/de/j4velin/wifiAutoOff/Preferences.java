@@ -421,7 +421,7 @@ public class Preferences extends PreferenceActivity {
 
         Preference locations = findPreference("locations");
         if (BuildConfig.FLAVOR.equals("play")) {
-            if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
+            if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_NETWORK)) {
                 locations.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(final Preference preference) {
