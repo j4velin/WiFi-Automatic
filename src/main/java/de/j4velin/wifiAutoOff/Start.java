@@ -35,21 +35,18 @@ import java.util.Date;
 abstract class Start {
 
     /**
-     * Sets all necessary timers / starts the background service depending on
-     * the user settings
+     * Creates the ON_AT and OFF_AT timers
      *
-     * @param c the context
+     * @param c the contextl
      */
-    @SuppressWarnings("deprecation")
-    static void start(final Context c) {
+    static void createTimers(final Context c) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
         if (prefs.getBoolean("off_screen_off", true) || prefs.getBoolean("on_unlock", true)) {
             c.startService(new Intent(c, ScreenChangeDetector.class));
         } else {
             c.stopService(new Intent(c, ScreenChangeDetector.class));
         }
-
-        AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
 
         Calendar cal = Calendar.getInstance();
 
@@ -62,7 +59,7 @@ abstract class Start {
             cal.set(Calendar.HOUR_OF_DAY, Integer.valueOf(time[0]));
             cal.set(Calendar.MINUTE, Integer.valueOf(time[1]));
 
-            if (cal.getTimeInMillis() < System.currentTimeMillis())
+            if (cal.getTimeInMillis() <= System.currentTimeMillis())
                 cal.add(Calendar.DAY_OF_MONTH, 1);
 
             PendingIntent pi = PendingIntent.getBroadcast(c, Receiver.TIMER_ON_AT,
@@ -93,7 +90,7 @@ abstract class Start {
             cal.set(Calendar.HOUR_OF_DAY, Integer.valueOf(time[0]));
             cal.set(Calendar.MINUTE, Integer.valueOf(time[1]));
 
-            if (cal.getTimeInMillis() < System.currentTimeMillis())
+            if (cal.getTimeInMillis() <= System.currentTimeMillis())
                 cal.add(Calendar.DAY_OF_MONTH, 1);
 
             PendingIntent pi = PendingIntent.getBroadcast(c, Receiver.TIMER_OFF_AT,
@@ -112,6 +109,19 @@ abstract class Start {
                     new Intent(c, Receiver.class).putExtra("changeWiFi", false).setAction("OFF_AT"),
                     PendingIntent.FLAG_UPDATE_CURRENT));
         }
+    }
+
+    /**
+     * Sets all necessary timers / starts the background service depending on
+     * the user settings
+     *
+     * @param c the context
+     */
+    @SuppressWarnings("deprecation")
+    static void start(final Context c) {
+        createTimers(c);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
+        AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
         if (prefs.getBoolean("on_every", false)) {
             long interval = prefs.contains("on_every_time_min") ?
                     1000 * 60 * prefs.getInt("on_every_time_min", Receiver.ON_EVERY_TIME_MIN) :

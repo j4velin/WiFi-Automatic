@@ -225,6 +225,7 @@ public class Receiver extends BroadcastReceiver {
         } else if (intent.hasExtra("changeWiFi")) {
             // for "ON AT" or "OFF AT" options
             changeWiFi(context, intent.getBooleanExtra("changeWiFi", false));
+            Start.createTimers(context);
         } else if (intent.getAction().equals(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION)) {
             // wifi direct connection changed
             NetworkInfo nwi = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
