@@ -49,7 +49,8 @@ dependencies {
     playCompile 'com.android.support:cardview-v7:+'
     playCompile 'com.android.support:recyclerview-v7:+'
     playCompile 'com.shamanland:fab:0.0.7'
-    playCompile 'com.google.android.gms:play-services:+'
+    playCompile 'com.google.android.gms:play-services-location:+'
+    playCompile 'com.google.android.gms:play-services-maps:+'
 }
 
 def props = new Properties()
