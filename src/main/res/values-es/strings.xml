@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="for_at_least">por al menos %d min</string>
+    <string name="at_summary">cada día a las %s</string>
+    <string name="every_summary">cada %s</string>
+    <string name="advanced_wifi_settings">Ajustes avanzados de WiFi</string>
+    <string name="more_apps">Más apps</string>
+    <string name="donate">Donar</string>
+    <string name="turn_wifi_on_">Encender WiFi&#8230;</string>
+    <string name="when_device_gets_unlocked">al desbloquear el dispositivo</string>
+    <string name="turn_wifi_off_when_">Apagar WiFi cuando&#8230;</string>
+    <string name="screen_is_off">la pantalla se apague</string>
+    <string name="not_connected_to_any_network">no está conectado a ningúna red</string>
+    <string name="sleep_policy">Su política de suspensión de Wi-Fi está configurada para desactivar automáticamente el WiFi al apagarse la pantalla. Puede cambiar la política en los \ 'ajustes avanzados de WiFi \' de Android</string>
+    <string name="adv_wifi_settings">Ajustes av. de WiFi</string>
+    <string name="settings_not_found_">No se han encontrado ajustes!</string>
+    <string name="minutes_before_turning_off_wifi_">Minutos antes de apagar el WiFi:</string>
+    <string name="turn_wifi_on_at_">Encender WiFi a las:</string>
+    <string name="turn_wifi_off_at_">Apagar WiFi a las:</string>
+    <string name="turn_wifi_on_every">Encender WiFi cada &#8230;</string>
+    <string name="invalid_input_number_has_to_be_">Entrada inválida: El número debe ser %1$d y %2$d</string>
+    <string name="power_title">durante la carga</string>
+
+    <string-array name="time_names">
+        <item>5 min</item>
+        <item>15 min</item>
+        <item>30 min</item>
+        <item>1 hora</item>
+        <item>2 horas</item>
+        <item>5 horas</item>
+        <item>10 horas</item>
+    </string-array>
+
+    <string name="general_settings">Ajustes generales</string>
+    <string name="airplane_title">Modo avión</string>
+    <string name="airplane_summary">No habilitar WiFi al estár en modo avión</string>
+    <string name="when_entering_location">al entrar en estas ubicaciónes</string>
+    <string name="buy_pro">La versión gratuita de la app permite una sola ubicación. Deseas actualizar a la versión pro?</string>
+    <string name="location_text">Encender el WiFi al entrar en estas ubicaciónes:</string>
+    <string name="location_summary">Usar la información de ubicación del teléfono para encender el WiFi en las ubicaciónes definidas</string>
+    <string name="timeout_too_short">\'Agotado tiempo de espera de la conexión\' podría deberse a que el tiempo es demasiado corto para que la ubicación funcione correctamente. Cambiar a 5 minutos?</string>
+    <string name="no_connected">WiFi desconectado</string>
+    <string name="click_to_select_network">Presiona para selecciónar una red WiFi</string>
+    <string name="wifi_not_enabled">WiFi deshabilitado</string>
+    <string name="click_to_turn_on">Presiona para encender</string>
+    <string name="location_settings_warning">Tu configuración actual evita que la app detecte tu ubicación, esta característica no funcionará. Presiona aquí para cambiarla</string>
+    <string name="interval">Intervalo:</string>
+    <string name="active_location_scan">Escaneo de ubicación activo</string>
+    <string name="more_info">Más info</string>
+</resources>
