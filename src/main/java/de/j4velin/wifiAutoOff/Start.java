@@ -109,6 +109,8 @@ abstract class Start {
                     new Intent(c, Receiver.class).putExtra("changeWiFi", false).setAction("OFF_AT"),
                     PendingIntent.FLAG_UPDATE_CURRENT));
         }
+        if (BuildConfig.DEBUG)
+            Logger.log("ON/OFF timers set");
     }
 
     /**
