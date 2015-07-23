@@ -12,7 +12,7 @@
     <string name="turn_wifi_off_when_">Apagar WiFi cuando&#8230;</string>
     <string name="screen_is_off">la pantalla se apague</string>
     <string name="not_connected_to_any_network">no está conectado a ningúna red</string>
-    <string name="sleep_policy">Su política de suspensión de Wi-Fi está configurada para desactivar automáticamente el WiFi al apagarse la pantalla. Puede cambiar la política en los \ 'ajustes avanzados de WiFi \' de Android</string>
+    <string name="sleep_policy">Su política de suspensión de Wi-Fi está configurada para desactivar automáticamente el WiFi al apagarse la pantalla. Puede cambiar la política en los \'ajustes avanzados de WiFi\' de Android</string>
     <string name="adv_wifi_settings">Ajustes av. de WiFi</string>
     <string name="settings_not_found_">No se han encontrado ajustes!</string>
     <string name="minutes_before_turning_off_wifi_">Minutos antes de apagar el WiFi:</string>
