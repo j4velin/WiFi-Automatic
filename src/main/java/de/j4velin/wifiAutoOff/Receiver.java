@@ -190,12 +190,6 @@ public class Receiver extends BroadcastReceiver {
             if (BuildConfig.DEBUG) Logger.log("network state changed: " + nwi.getState().name());
             if (nwi.isConnected()) {
                 stopTimer(context, TIMER_NO_NETWORK);
-                if (!((PowerManager) context.getSystemService(Context.POWER_SERVICE))
-                        .isScreenOn() && prefs.getBoolean("off_screen_off", true)) {
-                    // screen off -> start screen off timer
-                    startTimer(context, TIMER_SCREEN_OFF,
-                            prefs.getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
-                }
             } else if (nwi.getState().equals(NetworkInfo.State.DISCONNECTED) ||
                     nwi.getState().equals(NetworkInfo.State.DISCONNECTING)) {
                 if (prefs.getBoolean("off_no_network", true)) {
@@ -210,6 +204,13 @@ public class Receiver extends BroadcastReceiver {
                 if (prefs.getBoolean("off_no_network", true)) {
                     startTimer(context, TIMER_NO_NETWORK,
                             prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK));
+                }
+                if (prefs.getBoolean("off_screen_off", true) && ((Build.VERSION.SDK_INT < 20 &&
+                        !((PowerManager) context.getSystemService(Context.POWER_SERVICE))
+                                .isScreenOn()) ||
+                        (Build.VERSION.SDK_INT >= 20 && !APILevel20Wrapper.isScreenOn(context)))) {
+                    startTimer(context, TIMER_SCREEN_OFF,
+                            prefs.getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
                 }
             } else if (intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,
                     WifiManager.WIFI_STATE_UNKNOWN) == WifiManager.WIFI_STATE_DISABLED) {
