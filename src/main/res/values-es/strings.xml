@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="for_at_least">por al menos %d min</string>
+    <string name="for_at_least">por al menos %d minutos</string>
     <string name="at_summary">cada día a las %s</string>
     <string name="every_summary">cada %s</string>
     <string name="advanced_wifi_settings">Ajustes avanzados de WiFi</string>
@@ -23,9 +23,9 @@
     <string name="power_title">durante la carga</string>
 
     <string-array name="time_names">
-        <item>5 min</item>
-        <item>15 min</item>
-        <item>30 min</item>
+        <item>5 minutos</item>
+        <item>15 minutos</item>
+        <item>30 minutos</item>
         <item>1 hora</item>
         <item>2 horas</item>
         <item>5 horas</item>
@@ -34,14 +34,14 @@
 
     <string name="general_settings">Ajustes generales</string>
     <string name="airplane_title">Modo avión</string>
-    <string name="airplane_summary">No habilitar WiFi al estár en modo avión</string>
-    <string name="when_entering_location">al entrar en estas ubicaciónes</string>
-    <string name="buy_pro">La versión gratuita de la app permite una sola ubicación. Deseas actualizar a la versión pro?</string>
-    <string name="location_text">Encender el WiFi al entrar en estas ubicaciónes:</string>
-    <string name="location_summary">Usar la información de ubicación del teléfono para encender el WiFi en las ubicaciónes definidas</string>
+    <string name="airplane_summary">No habilitar WiFi al estar en modo avión</string>
+    <string name="when_entering_location">al entrar en estas ubicaciones</string>
+    <string name="buy_pro">La versión gratuita de la app permite una sola ubicación. ¿Deseas actualizar a la versión pro?</string>
+    <string name="location_text">Encender el WiFi al entrar en estas ubicaciones:</string>
+    <string name="location_summary">Usar la información de ubicación del teléfono para encender el WiFi en las ubicaciones definidas</string>
     <string name="timeout_too_short">\'Agotado tiempo de espera de la conexión\' podría deberse a que el tiempo es demasiado corto para que la ubicación funcione correctamente. Cambiar a 5 minutos?</string>
     <string name="no_connected">WiFi desconectado</string>
-    <string name="click_to_select_network">Presiona para selecciónar una red WiFi</string>
+    <string name="click_to_select_network">Presiona para seleccionar una red WiFi</string>
     <string name="wifi_not_enabled">WiFi deshabilitado</string>
     <string name="click_to_turn_on">Presiona para encender</string>
     <string name="location_settings_warning">Tu configuración actual evita que la app detecte tu ubicación, esta característica no funcionará. Presiona aquí para cambiarla</string>
