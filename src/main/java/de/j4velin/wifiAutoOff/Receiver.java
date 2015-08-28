@@ -232,8 +232,10 @@ public class Receiver extends BroadcastReceiver {
             NetworkInfo nwi = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
             WifiP2pInfo winfo = intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_INFO);
             if (BuildConfig.DEBUG) Logger.log("new P2P network state: " + nwi.getState());
-            if (BuildConfig.DEBUG) Logger.log("P2P group formed: " + winfo.groupFormed);
-            if (nwi.isConnected() || winfo.groupFormed) {
+            if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= 14)
+                Logger.log("P2P group formed: " + APILevel14Wrapper.groupFormed(winfo));
+            if (nwi.isConnected() ||
+                    (Build.VERSION.SDK_INT >= 14 && APILevel14Wrapper.groupFormed(winfo))) {
                 stopTimer(context, TIMER_NO_NETWORK);
             } else {
                 if (prefs.getBoolean("off_no_network", true)) {

@@ -20,7 +20,6 @@
     <string name="turn_wifi_off_at_">Uruchom wyłączenie WiFi o:</string>
     <string name="turn_wifi_on_every">Uruchom włączenie WiFi co &#8230;</string>
     <string name="invalid_input_number_has_to_be_">Nieprawidłowy wpis: Liczba musi być >= %1$d i &lt;= %2$d</string>
-    <string name="airplane">Nie włączaj WiFi w trybie samolotowym</string>
     <string name="power_title">po podłączeniu do zewnętrznego źródła zasilania</string>
 
     <string-array name="time_names">

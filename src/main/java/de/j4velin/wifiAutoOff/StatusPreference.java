@@ -26,6 +26,7 @@ public class StatusPreference extends Preference {
 
     @Override
     protected View onCreateView(final ViewGroup parent) {
+        super.onCreateView(parent);
         LayoutInflater li =
                 (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = li.inflate(R.layout.statepreference, parent, false);

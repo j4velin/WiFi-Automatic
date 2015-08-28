@@ -31,14 +31,11 @@
     <string name="screen_is_off">когда экран отключен</string>
     <string name="settings_not_found_">Настройки не найдены!</string>
     <string name="sleep_policy">"Ваша политика WiFi перехода в сон будет отключать WiFi как только погаснет экран. Вы можете изменить политику, перейдя в 'Расширенные функции Wi-Fi'"</string>
-    <string name="store_picture_message">Разрешить объявления для хранения изображений в галерее?</string>
-    <string name="store_picture_title">Сохранить изображение</string>
     <string name="turn_wifi_off_at_">Отключить WiFi в:</string>
     <string name="turn_wifi_off_when_">Отключать WiFi…</string>
     <string name="turn_wifi_on_">Включать WiFi…</string>
     <string name="turn_wifi_on_at_">Включить WiFi в:</string>
     <string name="turn_wifi_on_every">Включать WiFi каждые …</string>
-    <string name="wallet_buy_button_place_holder">Купить в Google</string>
     <string name="when_device_gets_unlocked">когда устройство разблокировано</string>
     <string name="when_entering_location">при вводе этих мест</string>
 </resources>

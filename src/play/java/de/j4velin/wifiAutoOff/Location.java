@@ -17,7 +17,7 @@ package de.j4velin.wifiAutoOff;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class Location {
+class Location {
     final LatLng coords;
     final String name;
 
