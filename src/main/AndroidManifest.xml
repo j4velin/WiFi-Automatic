@@ -2,12 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="de.j4velin.wifiAutoOff"
           android:installLocation="internalOnly"
-          android:versionCode="162"
-          android:versionName="1.6.2">
+          android:versionCode="163"
+          android:versionName="1.6.3">
 
     <uses-sdk
         android:minSdkVersion="9"
-        android:targetSdkVersion="22"/>
+        android:targetSdkVersion="23"/>
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
