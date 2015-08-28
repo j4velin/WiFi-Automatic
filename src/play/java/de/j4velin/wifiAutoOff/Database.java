@@ -128,6 +128,45 @@ public class Database extends SQLiteOpenHelper {
                         new String[]{lat + "%", lon + "%"}, null, null, null);
         boolean re = c.getCount() > 0;
         c.close();
+        if (BuildConfig.DEBUG && !re)
+            Logger.log("location not in database: " + coords.latitude + "," + coords.longitude);
         return re;
+    }
+
+    /**
+     * Checks if the given location is within the given range of any saved location
+     *
+     * @param current the location to test
+     * @param range   the range in m
+     * @return true, if 'current' is within 'range' meter of any saved location
+     */
+    public boolean inRangeOfLocation(final android.location.Location current, final int range) {
+        // for a coarse filtering, use the first 2 decimals of the coords -> precision ~ 1km
+        String lat = String.valueOf(current.getLatitude());
+        String lon = String.valueOf(current.getLongitude());
+        lat = lat.substring(0, Math.min(lat.indexOf(".") + 3, lat.length()));
+        lon = lon.substring(0, Math.min(lon.indexOf(".") + 3, lon.length()));
+
+        Cursor c = getReadableDatabase()
+                .query("locations", new String[]{"lat", "lon"}, "lat LIKE ? AND lon LIKE ?",
+                        new String[]{lat + "%", lon + "%"}, null, null, null);
+        if (BuildConfig.DEBUG) Logger.log(
+                c.getCount() + " locations found which might be in range (coarse filter: " + lat + ", " +
+                        lon + ")");
+        boolean inRange = false;
+        if (c.moveToFirst()) {
+            android.location.Location location = new android.location.Location("tester");
+            while (!inRange && !c.isAfterLast()) {
+                location.setLatitude(c.getDouble(0));
+                location.setLongitude(c.getDouble(1));
+                inRange = location.distanceTo(current) < range;
+                if (BuildConfig.DEBUG && inRange) Logger.log(
+                        current + " is within range to " + location + ", distance: " +
+                                location.distanceTo(current));
+                c.moveToNext();
+            }
+        }
+        c.close();
+        return inRange;
     }
 }

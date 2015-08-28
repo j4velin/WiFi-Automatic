@@ -72,7 +72,8 @@ public class GeofenceUpdateService extends Service implements GoogleApiClient.Co
             for (Location l : locations) {
                 try {
                     builder.addGeofence(new Geofence.Builder()
-                            .setCircularRegion(l.coords.latitude, l.coords.longitude, 100)
+                            .setCircularRegion(l.coords.latitude, l.coords.longitude,
+                                    GeoFenceService.LOCATION_RANGE_METER)
                             .setRequestId(l.coords.latitude + "@" + l.coords.longitude)
                             .setExpirationDuration(Geofence.NEVER_EXPIRE)
                             .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER).build());

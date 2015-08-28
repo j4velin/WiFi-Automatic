@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class GeoFenceService extends IntentService {
 
     public final static String LOCATION_ENTERED_ACTION = "LOCATION_ENTERED";
+    public final static int LOCATION_RANGE_METER = 200;
 
     public GeoFenceService() {
         super("WiFiAutomaticGeoFenceService");
@@ -37,10 +38,9 @@ public class GeoFenceService extends IntentService {
         if (intent.hasExtra(FusedLocationProviderApi.KEY_LOCATION_CHANGED)) {
             android.location.Location loc = (android.location.Location) intent.getExtras()
                     .get(FusedLocationProviderApi.KEY_LOCATION_CHANGED);
-            LatLng ll = new LatLng(loc.getLatitude(), loc.getLongitude());
             if (BuildConfig.DEBUG) Logger.log("Location update received");
             Database db = Database.getInstance(this);
-            if (db.containsLocation(ll)) {
+            if (db.inRangeOfLocation(loc, LOCATION_RANGE_METER)) {
                 sendBroadcast(new Intent(this, Receiver.class).setAction(LOCATION_ENTERED_ACTION));
             }
             db.close();
