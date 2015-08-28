@@ -16,6 +16,7 @@
 
 package de.j4velin.wifiAutoOff;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
@@ -45,6 +46,7 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
+import android.support.v4.content.PermissionChecker;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -218,6 +220,12 @@ public class Preferences extends PreferenceActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
+
+        if (BuildConfig.DEBUG && PermissionChecker
+                .checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                PermissionChecker.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        }
 
         status = (StatusPreference) findPreference("status");
         status.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

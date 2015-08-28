@@ -15,6 +15,7 @@
  */
 package de.j4velin.wifiAutoOff;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
@@ -22,6 +23,7 @@ import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.PermissionChecker;
 
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -35,16 +37,15 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class Map extends FragmentActivity {
 
+    private final static int REQUEST_PERMISSIONS = 1;
+
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
-    private LatLng location;
 
-    @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private void showMap() {
         setContentView(R.layout.map);
 
-        location = getIntent().getParcelableExtra("location");
+        LatLng location = getIntent().getParcelableExtra("location");
 
         mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                 .getMap();
@@ -102,5 +103,35 @@ public class Map extends FragmentActivity {
         }
 
         mMap.setMyLocationEnabled(true);
+    }
+
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (PermissionChecker
+                .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                PermissionChecker.PERMISSION_GRANTED || PermissionChecker
+                .checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PermissionChecker.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
+        } else {
+            showMap();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, final String[] permissions, final int[] grantResults) {
+        if (requestCode == REQUEST_PERMISSIONS) {
+            if (grantResults[0] == PermissionChecker.PERMISSION_GRANTED &&
+                    grantResults[1] == PermissionChecker.PERMISSION_GRANTED) {
+                showMap();
+            } else {
+                finish();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 }

@@ -15,6 +15,7 @@
  */
 package de.j4velin.wifiAutoOff;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -32,6 +33,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.provider.Settings;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -56,7 +58,7 @@ import java.util.List;
 
 public class Locations extends Activity {
 
-    private final static int REQUEST_LOCATION = 1, REQUEST_BUY = 3;
+    private final static int REQUEST_LOCATION = 1, REQUEST_BUY = 3, REQUEST_PERMISSIONS =4;
 
     private IInAppBillingService mService;
     private final ServiceConnection mServiceConn = new ServiceConnection() {
@@ -252,6 +254,22 @@ public class Locations extends Activity {
         }
         findViewById(R.id.locationsettingswarning)
                 .setVisibility(locationAccessEnabled ? View.GONE : View.VISIBLE);
+
+        if (PermissionChecker
+                .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                PermissionChecker.PERMISSION_GRANTED || PermissionChecker
+                .checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PermissionChecker.PERMISSION_GRANTED) {
+            findViewById(R.id.permissionswarning).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
+                }
+            });
+        } else {
+            findViewById(R.id.permissionswarning).setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -313,6 +331,18 @@ public class Locations extends Activity {
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, final String[] permissions, final int[] grantResults) {
+        if (requestCode == REQUEST_PERMISSIONS) {
+            if (grantResults[0] == PermissionChecker.PERMISSION_GRANTED &&
+                    grantResults[1] == PermissionChecker.PERMISSION_GRANTED) {
+                findViewById(R.id.permissionswarning).setVisibility(View.GONE);
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
