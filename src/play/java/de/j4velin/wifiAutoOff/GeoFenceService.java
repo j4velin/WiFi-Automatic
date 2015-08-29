@@ -38,7 +38,7 @@ public class GeoFenceService extends IntentService {
         if (intent.hasExtra(FusedLocationProviderApi.KEY_LOCATION_CHANGED)) {
             android.location.Location loc = (android.location.Location) intent.getExtras()
                     .get(FusedLocationProviderApi.KEY_LOCATION_CHANGED);
-            if (BuildConfig.DEBUG) Logger.log("Location update received");
+            if (BuildConfig.DEBUG) Logger.log("Location update received " + loc);
             Database db = Database.getInstance(this);
             if (db.inRangeOfLocation(loc, LOCATION_RANGE_METER)) {
                 sendBroadcast(new Intent(this, Receiver.class).setAction(LOCATION_ENTERED_ACTION));

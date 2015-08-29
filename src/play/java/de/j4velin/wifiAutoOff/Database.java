@@ -141,18 +141,13 @@ public class Database extends SQLiteOpenHelper {
      * @return true, if 'current' is within 'range' meter of any saved location
      */
     public boolean inRangeOfLocation(final android.location.Location current, final int range) {
-        // for a coarse filtering, use the first 2 decimals of the coords -> precision ~ 1km
         String lat = String.valueOf(current.getLatitude());
         String lon = String.valueOf(current.getLongitude());
-        lat = lat.substring(0, Math.min(lat.indexOf(".") + 3, lat.length()));
-        lon = lon.substring(0, Math.min(lon.indexOf(".") + 3, lon.length()));
 
-        Cursor c = getReadableDatabase()
-                .query("locations", new String[]{"lat", "lon"}, "lat LIKE ? AND lon LIKE ?",
-                        new String[]{lat + "%", lon + "%"}, null, null, null);
-        if (BuildConfig.DEBUG) Logger.log(
-                c.getCount() + " locations found which might be in range (coarse filter: " + lat + ", " +
-                        lon + ")");
+        Cursor c = getReadableDatabase().query("locations", new String[]{"lat", "lon"},
+                "ABS(lat - ?) < 0.1 AND ABS(lon - ?) < 0.1", new String[]{lat, lon}, null, null, null);
+        if (BuildConfig.DEBUG)
+            Logger.log(c.getCount() + " locations found which might be in range");
         boolean inRange = false;
         if (c.moveToFirst()) {
             android.location.Location location = new android.location.Location("tester");
@@ -160,9 +155,8 @@ public class Database extends SQLiteOpenHelper {
                 location.setLatitude(c.getDouble(0));
                 location.setLongitude(c.getDouble(1));
                 inRange = location.distanceTo(current) < range;
-                if (BuildConfig.DEBUG && inRange) Logger.log(
-                        current + " is within range to " + location + ", distance: " +
-                                location.distanceTo(current));
+                if (BuildConfig.DEBUG && inRange) Logger.log("distance to " + location + ": " +
+                        location.distanceTo(current));
                 c.moveToNext();
             }
         }
