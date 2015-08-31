@@ -137,15 +137,15 @@ public class Database extends SQLiteOpenHelper {
      * Checks if the given location is within the given range of any saved location
      *
      * @param current the location to test
-     * @param range   the range in m
-     * @return true, if 'current' is within 'range' meter of any saved location
+     * @return true, if 'current' is within range of any saved location
      */
-    public boolean inRangeOfLocation(final android.location.Location current, final int range) {
+    public boolean inRangeOfLocation(final android.location.Location current) {
         String lat = String.valueOf(current.getLatitude());
         String lon = String.valueOf(current.getLongitude());
 
         Cursor c = getReadableDatabase().query("locations", new String[]{"lat", "lon"},
-                "ABS(lat - ?) < 0.1 AND ABS(lon - ?) < 0.1", new String[]{lat, lon}, null, null, null);
+                "ABS(lat - ?) < 0.1 AND ABS(lon - ?) < 0.1", new String[]{lat, lon}, null, null,
+                null);
         if (BuildConfig.DEBUG)
             Logger.log(c.getCount() + " locations found which might be in range");
         boolean inRange = false;
@@ -154,8 +154,8 @@ public class Database extends SQLiteOpenHelper {
             while (!inRange && !c.isAfterLast()) {
                 location.setLatitude(c.getDouble(0));
                 location.setLongitude(c.getDouble(1));
-                inRange = location.distanceTo(current) < range;
-                if (BuildConfig.DEBUG && inRange) Logger.log("distance to " + location + ": " +
+                inRange = location.distanceTo(current) < current.getAccuracy();
+                if (BuildConfig.DEBUG) Logger.log("distance to " + location + ": " +
                         location.distanceTo(current));
                 c.moveToNext();
             }

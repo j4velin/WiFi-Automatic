@@ -40,7 +40,7 @@ public class GeoFenceService extends IntentService {
                     .get(FusedLocationProviderApi.KEY_LOCATION_CHANGED);
             if (BuildConfig.DEBUG) Logger.log("Location update received " + loc);
             Database db = Database.getInstance(this);
-            if (db.inRangeOfLocation(loc, LOCATION_RANGE_METER)) {
+            if (db.inRangeOfLocation(loc)) {
                 sendBroadcast(new Intent(this, Receiver.class).setAction(LOCATION_ENTERED_ACTION));
             }
             db.close();
