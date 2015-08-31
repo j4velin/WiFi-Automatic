@@ -87,6 +87,7 @@ public class GeofenceUpdateService extends Service implements GoogleApiClient.Co
                     LocationRequest mLocationRequest = new LocationRequest();
                     mLocationRequest.setInterval(prefs.getInt("interval", 15) * 60000);
                     mLocationRequest.setFastestInterval(5000);
+                    mLocationRequest.setSmallestDisplacement(50f);
                     mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
                     LocationServices.FusedLocationApi
                             .requestLocationUpdates(mLocationClient, mLocationRequest, pi);

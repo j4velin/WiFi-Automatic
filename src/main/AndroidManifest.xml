@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="de.j4velin.wifiAutoOff"
-          android:installLocation="internalOnly"
-          android:versionCode="163"
-          android:versionName="1.6.3">
+<manifest
+    package="de.j4velin.wifiAutoOff"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:installLocation="internalOnly"
+    android:versionCode="165"
+    android:versionName="1.6.5">
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -31,8 +32,7 @@
         </activity>
 
         <receiver
-            android:name=".Receiver"
-            android:process=":background">
+            android:name=".Receiver">
             <intent-filter>
                 <action android:name="android.net.wifi.STATE_CHANGE"/>
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
@@ -42,17 +42,13 @@
         </receiver>
 
         <receiver
-            android:name=".UnlockReceiver"
-            android:process=":background">
+            android:name=".UnlockReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT"/>
             </intent-filter>
         </receiver>
 
-        <service
-            android:name=".ScreenChangeDetector"
-            android:process=":background">
-        </service>
+        <service android:name=".ScreenChangeDetector"/>
 
         <receiver android:name=".StartReceiver">
             <intent-filter>
@@ -61,7 +57,6 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED"/>
-
                 <data
                     android:path="de.j4velin.wifiAutoOff"
                     android:scheme="package"/>
