@@ -146,7 +146,11 @@ public class Receiver extends BroadcastReceiver {
         }
         if (BuildConfig.DEBUG) Logger.log(on ? "turning wifi on" : "disabling wifi");
         try {
-            ((WifiManager) context.getSystemService(Context.WIFI_SERVICE)).setWifiEnabled(on);
+            WifiManager wm = ((WifiManager) context.getSystemService(Context.WIFI_SERVICE));
+            // do we need to change at all?
+            if (wm.isWifiEnabled() != on) {
+                wm.setWifiEnabled(on);
+            }
         } catch (Exception e) {
             Toast.makeText(context, "Can not change WiFi state: " + e.getClass().getName(),
                     Toast.LENGTH_LONG).show();
