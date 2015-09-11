@@ -33,6 +33,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -58,7 +59,7 @@ import java.util.List;
 
 public class Locations extends Activity {
 
-    private final static int REQUEST_LOCATION = 1, REQUEST_BUY = 3, REQUEST_PERMISSIONS =4;
+    private final static int REQUEST_LOCATION = 1, REQUEST_BUY = 3, REQUEST_PERMISSIONS = 4;
 
     private IInAppBillingService mService;
     private final ServiceConnection mServiceConn = new ServiceConnection() {
@@ -263,8 +264,9 @@ public class Locations extends Activity {
             findViewById(R.id.permissionswarning).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
+                    ActivityCompat.requestPermissions(Locations.this,
+                            new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                                    Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
                 }
             });
         } else {
