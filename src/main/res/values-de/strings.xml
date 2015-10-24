@@ -21,6 +21,7 @@
     <string name="turn_wifi_on_every">Schalte WLAN alle &#8230; ein</string>
     <string name="invalid_input_number_has_to_be_">Fehlerhafte Eingabe: Zahl muss zwischen %1$d und %2$d sein</string>
     <string name="power_title">beim Laden</string>
+    <string name="power_summary">Ignoriert während des Ladens auch die \"wenn das Display aus ist\" Einstellung</string>
 
     <string-array name="time_names">
         <item>5 Minuten</item>

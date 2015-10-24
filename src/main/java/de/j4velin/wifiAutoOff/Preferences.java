@@ -36,6 +36,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.CheckBoxPreference;
@@ -264,16 +265,13 @@ public class Preferences extends PreferenceActivity {
         screen_off.setSummary(getString(R.string.for_at_least,
                 prefs.getInt("screen_off_timeout", Receiver.TIMEOUT_SCREEN_OFF)));
 
-        final CheckBoxPreference no_network_off =
-                (CheckBoxPreference) findPreference("off_no_network");
-
         if (!keepWiFiOn(this)) {
             screen_off.setChecked(false);
         }
 
         screen_off.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
+            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                 if ((Boolean) newValue) {
                     if (!keepWiFiOn(Preferences.this)) {
                         new AlertDialog.Builder(Preferences.this).setMessage(R.string.sleep_policy)
@@ -318,32 +316,35 @@ public class Preferences extends PreferenceActivity {
             }
         });
 
-        no_network_off.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                if ((Boolean) newValue) {
-                    if (android.os.Build.VERSION.SDK_INT >= 11) {
-                        APILevel11Wrapper.showNumberPicker(Preferences.this, prefs, no_network_off,
-                                R.string.for_at_least, 1, 60,
-                                getString(R.string.minutes_before_turning_off_wifi_),
-                                "no_network_timeout", Receiver.TIMEOUT_NO_NETWORK, false);
-                    } else {
-                        showPre11NumberPicker(Preferences.this, prefs, no_network_off,
-                                R.string.for_at_least, 1, 60,
-                                getString(R.string.minutes_before_turning_off_wifi_),
-                                "no_network_timeout", Receiver.TIMEOUT_NO_NETWORK, false);
+        findPreference("off_no_network")
+                .setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+                    @Override
+                    public boolean onPreferenceChange(final Preference preference, final Object newValue) {
+                        if ((Boolean) newValue) {
+                            if (android.os.Build.VERSION.SDK_INT >= 11) {
+                                APILevel11Wrapper
+                                        .showNumberPicker(Preferences.this, prefs, preference,
+                                                R.string.for_at_least, 1, 60, getString(
+                                                        R.string.minutes_before_turning_off_wifi_),
+                                                "no_network_timeout", Receiver.TIMEOUT_NO_NETWORK,
+                                                false);
+                            } else {
+                                showPre11NumberPicker(Preferences.this, prefs, preference,
+                                        R.string.for_at_least, 1, 60,
+                                        getString(R.string.minutes_before_turning_off_wifi_),
+                                        "no_network_timeout", Receiver.TIMEOUT_NO_NETWORK, false);
+                            }
+                        }
+                        return true;
                     }
-                }
-                return true;
-            }
-        });
+                });
 
         final CheckBoxPreference on_at = (CheckBoxPreference) findPreference("on_at");
         on_at.setTitle(
                 getString(R.string.at_summary, prefs.getString("on_at_time", Receiver.ON_AT_TIME)));
         on_at.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
+            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                 if ((Boolean) newValue) {
                     String[] time = prefs.getString("on_at_time", Receiver.ON_AT_TIME).split(":");
                     final TimePickerDialog dialog =
@@ -375,7 +376,7 @@ public class Preferences extends PreferenceActivity {
                 prefs.getString("off_at_time", Receiver.OFF_AT_TIME)));
         off_at.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
+            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                 if ((Boolean) newValue) {
                     String[] time = prefs.getString("off_at_time", Receiver.OFF_AT_TIME).split(":");
                     final TimePickerDialog dialog =
@@ -402,14 +403,14 @@ public class Preferences extends PreferenceActivity {
             }
         });
 
-        final CheckBoxPreference on_every = (CheckBoxPreference) findPreference("on_every");
+        final Preference on_every = findPreference("on_every");
         final String[] time_names = getResources().getStringArray(R.array.time_names);
         // default 2 hours
         on_every.setTitle(
                 getString(R.string.every_summary, prefs.getString("on_every_str", time_names[4])));
         on_every.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
+            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
                 if ((Boolean) newValue) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(Preferences.this);
                     builder.setTitle(R.string.turn_wifi_on_every)
@@ -444,6 +445,25 @@ public class Preferences extends PreferenceActivity {
             locations.setSummary("Not available in F-Droid version");
             locations.setEnabled(false);
         }
+
+        final Preference power = findPreference("power_connected");
+        power.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(final Preference preference, final Object newValue) {
+                if ((boolean) newValue) {
+                    Intent battery =
+                            registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+                    if (battery != null &&
+                            battery.getIntExtra(BatteryManager.EXTRA_PLUGGED, 0) > 0) {
+                        // already connected to external power
+                        prefs.edit().putBoolean("ignore_screen_off", true).commit();
+                    }
+                } else {
+                    prefs.edit().putBoolean("ignore_screen_off", false).commit();
+                }
+                return true;
+            }
+        });
     }
 
     private static void showPre11NumberPicker(final Context c, final SharedPreferences prefs, final Preference p, final int summary, final int min, final int max, final String title, final String setting, final int def, final boolean changeTitle) {

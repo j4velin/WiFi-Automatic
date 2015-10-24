@@ -21,6 +21,7 @@
     <string name="turn_wifi_on_every">Turn WiFi on every &#8230;</string>
     <string name="invalid_input_number_has_to_be_">Invalid input: Number has to be >= %1$d and &lt;= %2$d</string>
     <string name="power_title">when charging</string>
+    <string name="power_summary">Also ignores the \"when screen is off\" setting while charging</string>
 
     <string-array name="time_names">
         <item>5 min</item>
