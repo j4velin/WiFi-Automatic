@@ -5,14 +5,14 @@
 <string name="at_summary">tous les jours &#224; %s</string>
 <string name="every_summary">chaque %s</string>
 <string name="advanced_wifi_settings">Param&#232;tres anvanc&#233;s</string>
-<string name="more_apps">Plus d'applications</string>
+<string name="more_apps">Plus d\'applications</string>
 <string name="donate">Donation</string>
 <string name="turn_wifi_on_">Activer le Wifi&#8230;</string>
 <string name="when_device_gets_unlocked">quand le p&#233;riph&#233;rique est d&#233;bloqu&#233;</string>
 <string name="turn_wifi_off_when_">Eteindre le Wifi quand&#8230;</string>
 <string name="screen_is_off">l\'&#233;cran est &#233;teint</string>
 <string name="not_connected_to_any_network">connect&#233; &#224; aucun r&#233;seau</string>
-<string name="sleep_policy">Le r&#233;glage du Wifi est param&#233;tr&#233; pour s'arr&#234;ter automatiquement quand l'&#233;cran est en veille. Vous pouvez changer ces r&#233;glages dans les param&#232;tres de Andro&#239;d /Param&#232;tres/Wifi/Param&#232;tres avanc&#233;s</string>
+<string name="sleep_policy">Le r&#233;glage du Wifi est param&#233;tr&#233; pour s\'arr&#234;ter automatiquement quand l\'&#233;cran est en veille. Vous pouvez changer ces r&#233;glages dans les param&#232;tres de Andro&#239;d /Param&#232;tres/Wifi/Param&#232;tres avanc&#233;s</string>
 <!--<string name="adv_wifi_settings">Param&#232;tres avanc&#233;s Wifi</string>-->
 <string name="adv_wifi_settings">Param. avanc&#233;s Wifi</string>
 <string name="settings_not_found_">Param&#232;tres introuvables</string>
