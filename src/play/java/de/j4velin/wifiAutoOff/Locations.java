@@ -386,10 +386,15 @@ public class Locations extends Activity {
         @Override
         public void onClick(final View v) {
             if (v.getId() == R.id.delete) {
-                Database db = Database.getInstance(Locations.this);
-                db.deleteLocation(locations.remove((int) v.getTag()).coords);
-                db.close();
-                mAdapter.notifyDataSetChanged();
+                int index = (int) v.getTag();
+                if (locations.size() > index) {
+                    Database db = Database.getInstance(Locations.this);
+                    db.deleteLocation(locations.remove(index).coords);
+                    db.close();
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    v.setVisibility(View.GONE);
+                }
             } else {
                 startActivity(new Intent(Locations.this, Map.class).putExtra("location",
                         locations.get(mRecyclerView.getChildAdapterPosition(v)).coords));
