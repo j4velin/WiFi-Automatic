@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation,ExtraTranslation">
+<!-- utf-8 � &#224; � &#232; � &#234; � &#233; � &#239; � &#231; -->
+<string name="for_at_least">pour au moins %d min</string>
+<string name="at_summary">tous les jours &#224; %s</string>
+<string name="every_summary">chaque %s</string>
+<string name="advanced_wifi_settings">Param&#232;tres anvanc&#233;s</string>
+<string name="more_apps">Plus d\'applications</string>
+<string name="donate">Donation</string>
+<string name="turn_wifi_on_">Activer le Wifi&#8230;</string>
+<string name="when_device_gets_unlocked">quand le p&#233;riph&#233;rique est d&#233;bloqu&#233;</string>
+<string name="turn_wifi_off_when_">Eteindre le Wifi quand&#8230;</string>
+<string name="screen_is_off">l\'&#233;cran est &#233;teint</string>
+<string name="not_connected_to_any_network">connect&#233; &#224; aucun r&#233;seau</string>
+<string name="sleep_policy">Le r&#233;glage du Wifi est param&#233;tr&#233; pour s\'arr&#234;ter automatiquement quand l\'&#233;cran est en veille. Vous pouvez changer ces r&#233;glages dans les param&#232;tres de Andro&#239;d /Param&#232;tres/Wifi/Param&#232;tres avanc&#233;s</string>
+<!--<string name="adv_wifi_settings">Param&#232;tres avanc&#233;s Wifi</string>-->
+<string name="adv_wifi_settings">Param. avanc&#233;s Wifi</string>
+<string name="settings_not_found_">Param&#232;tres introuvables</string>
+<string name="minutes_before_turning_off_wifi_">Minutes avant de couper le Wifi:</string>
+<string name="turn_wifi_on_at_">Allumer le Wifi &#224;:</string>
+<string name="turn_wifi_off_at_">Arr&#234;ter le wifi &#224;:</string>
+<string name="turn_wifi_on_every">Allumer le Wifi chaque&#8230;</string>
+<string name="invalid_input_number_has_to_be_">Entr&#233;e incorrecte: Le nombre doit &#234;tre >= %1$d et &lt;= %2$d</string>
+<string name="power_title">quand &#231;a charge</string>
+<string name="power_summary">Ignorer le param&#232;tre \"quand l\'&#233;cran est en veille\" pendant le chargement</string>
+<string-array name="time_names">
+<item>5 min</item>
+<item>15 min</item>
+<item>30 min</item>
+<item>1 heure</item>
+<item>2 heures</item>
+<item>5 heures</item>
+<item>10 heures</item>
+</string-array>
+<string name="general_settings">Param&#232;tres g&#233;n&#233;raux</string>
+<string name="airplane_title">Mode avion</string>
+<string name="airplane_summary">Ne pas activer le Wifi en mode avion</string>
+<string name="when_entering_location">quand vous entrez dans ces zones</string>
+<string name="buy_pro">Une seule zone est accept&#233;e dans la version gratuite. Voulez vous passer &#224; la version Pro maintenant?</string>
+<string name="location_text">Allumer le wifi quand vous arrivez dans ces zones:</string>
+<string name="location_summary">Utiliser les informations cellulaires pour allumer le Wifi sur les zones sp&#233;cifi&#233;es</string>
+<!--setting might be too short for the locations feature to work-->
+<string name="timeout_too_short">Param&#232;tre \'Pas de r&#233;seau, d&#233;lai pass&#233; \' semble trop court sur la zone pour travailler. Changer pour 5 min maintenant?</string>
+<string name="no_connected">WiFi d&#233;connect&#233;</string>
+<string name="click_to_select_network">Cliquer pour selectionner le r&#233;seau Wifi</string>
+<string name="wifi_not_enabled">WiFi d&#233;sactiv&#233;</string>
+<string name="click_to_turn_on">Cliquer pour allumer</string>
+<string name="location_settings_warning">Vos param&#233;tres emp&#234;chent l\'application de d&#233;tecter votre zone</string>
+<string name="interval">Intervale:</string>
+<string name="active_location_scan">Activer le scann par zone</string>
+<string name="more_info">Plus d\'info</string>
+<string name="no_permission">L\'application n\'a pas la permission d\'acceder &#224; votre zone</string>
+</resources>
