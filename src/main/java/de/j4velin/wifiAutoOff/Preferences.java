@@ -165,7 +165,7 @@ public class Preferences extends PreferenceActivity {
                 break;
             case R.id.action_donate:
                 startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://j4velin-systems.de/donate.php"))
+                        Uri.parse("http://j4velin.de/donate.php"))
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 break;
             default:
