@@ -3,22 +3,22 @@
 
     <string name="for_at_least">depuis au moins %d minutes</string>
     <string name="at_summary">tous les jours à %s</string>
-    <string name="every_summary">tous les %s</string>
+    <string name="every_summary">toutes les %s</string>
     <string name="advanced_wifi_settings">Options avancées</string>
     <string name="more_apps">Plus d\'applications</string>
     <string name="donate">Donation</string>
     <string name="turn_wifi_on_">Activer le Wi-Fi&#8230;</string>
-    <string name="when_device_gets_unlocked">au déverouillage de l\'écran</string>
+    <string name="when_device_gets_unlocked">au déverrouillage de l\'écran</string>
     <string name="turn_wifi_off_when_">Éteindre le wi-fi quand&#8230;</string>
     <string name="screen_is_off">l\'écran est éteint</string>
     <string name="not_connected_to_any_network">connecté à aucun réseau</string>
     <string name="sleep_policy">Votre politique de veille Wi-Fi est configurée pour désactiver automatiquement le Wi-Fi dès que l\'écran s\'éteint. Vous pouvez changer la politique dans Options Wi-Fi avancées</string>
     <string name="adv_wifi_settings">Options Wi-Fi avancées</string>
     <string name="settings_not_found_">Paramètres non trouvés !</string>
-    <string name="minutes_before_turning_off_wifi_">Min avant désactivation Wi-Fi :</string>
+    <string name="minutes_before_turning_off_wifi_">Min avant désactivation du Wi-Fi :</string>
     <string name="turn_wifi_on_at_">Activer le Wi-Fi à :</string>
     <string name="turn_wifi_off_at_">Désactiver le Wi-Fi à :</string>
-    <string name="turn_wifi_on_every">Activer le Wi-Fi tous les&#8230;</string>
+    <string name="turn_wifi_on_every">Activer le Wi-Fi toutes les&#8230;</string>
     <string name="invalid_input_number_has_to_be_">Entrée incorrecte : le nombre doit être >= %1$d et &lt;= %2$d</string>
     <string name="power_title">au chargement de l\'appareil</string>
     <string name="power_summary">Ignore aussi le paramètre \"lorsque l\'écran est éteint\" pendant la charge</string>
@@ -44,7 +44,7 @@
     <string name="no_connected">Wi-Fi déconnecté</string>
     <string name="click_to_select_network">Appuyez pour sélectionner un réseau Wi-Fi</string>
     <string name="wifi_not_enabled">Wi-Fi désactivé</string>
-    <string name="click_to_turn_on">Appuyez pour l\'activer</string>
+    <string name="click_to_turn_on">Appuyez pour activer</string>
     <string name="location_settings_warning">Vos paramètres empêchent de déterminer votre localisation</string>
     <string name="interval">Intervalle :</string>
     <string name="active_location_scan">Scanne localisation actif</string>
