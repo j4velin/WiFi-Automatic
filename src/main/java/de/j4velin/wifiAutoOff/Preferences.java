@@ -37,6 +37,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.CheckBoxPreference;
@@ -164,9 +165,9 @@ public class Preferences extends PreferenceActivity {
                 }
                 break;
             case R.id.action_donate:
-                startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://j4velin.de/donate.php"))
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                startActivity(
+                        new Intent(Intent.ACTION_VIEW, Uri.parse("http://j4velin.de/donate.php"))
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -218,11 +219,11 @@ public class Preferences extends PreferenceActivity {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        if (BuildConfig.DEBUG && PermissionChecker
+        if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= 23 && PermissionChecker
                 .checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
                 PermissionChecker.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
@@ -245,7 +246,13 @@ public class Preferences extends PreferenceActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                 } else if (!wm.isWifiEnabled()) {
-                    wm.setWifiEnabled(true);
+                    try {
+                        wm.setWifiEnabled(true);
+                    } catch (SecurityException ex) {
+                        ex.printStackTrace();
+                        Toast.makeText(Preferences.this, "No permission to enable WiFi",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     try {
                         startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS)
