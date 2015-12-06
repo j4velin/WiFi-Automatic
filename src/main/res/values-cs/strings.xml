@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation,ExtraTranslation">
+
+    <string name="for_at_least">alespoň %d min</string>
+    <string name="at_summary">každý den v %s</string>
+    <string name="every_summary">každé %s</string>
+    <string name="advanced_wifi_settings">Rozšířené WiFi nastavení</string>
+    <string name="more_apps">Další aplikace</string>
+    <string name="donate">Podpořit</string>
+    <string name="turn_wifi_on_">Zapnout WiFi&#8230;</string>
+    <string name="when_device_gets_unlocked">po odemčení přístroje</string>
+    <string name="turn_wifi_off_when_">Vypnout WiFi pokud&#8230;</string>
+    <string name="screen_is_off">je vypnutý displej</string>
+    <string name="not_connected_to_any_network">bez připojení k jakékoliv síti</string>
+    <string name="sleep_policy">WiFi připojení je nastaveno na automatické vypnutí při vypnutí displeje. Toto nastavení lze změnit v \'Rozšířeném nastavení WiFi\' Androidu</string>
+    <string name="adv_wifi_settings">Roz. WiFi nastavení</string>
+    <string name="settings_not_found_">Nastavení nenalezeno!</string>
+    <string name="minutes_before_turning_off_wifi_">Minut před vypnutím WiFi:</string>
+    <string name="turn_wifi_on_at_">Zapnout WiFi v:</string>
+    <string name="turn_wifi_off_at_">Vypnout WiFi v:</string>
+    <string name="turn_wifi_on_every">Zapnout WiFi každé &#8230;</string>
+    <string name="invalid_input_number_has_to_be_">Neplatný vstup: Číslo musí být >= %1$d a &lt;= %2$d</string>
+    <string name="power_title">při napájení</string>
+    <string name="power_summary">Také ignorovat nastavení \"vypnutý displej\" při napájení</string>
+
+    <string-array name="time_names">
+        <item>5 min</item>
+        <item>15 min</item>
+        <item>30 min</item>
+        <item>1 hodina</item>
+        <item>2 hodiny</item>
+        <item>5 hodin</item>
+        <item>10 hodin</item>
+    </string-array>
+
+    <string name="general_settings">Hlavní nastavení</string>
+    <string name="airplane_title">Mód Letadlo</string>
+    <string name="airplane_summary">Nezapínat WiFi v módu Letadlo</string>
+    <string name="when_entering_location">při vstupu do těchto lokací</string>
+    <string name="buy_pro">Ve volné verzi této aplikaci je podporována pouze jedna lokace. Chcete nyní aktualizovat na pro verzi?</string>
+    <string name="location_text">Zapnout WiFi při vstupu do těchto lokací:</string>
+    <string name="location_summary">Používat informace telefonních ústředen pro zapnutí WiFi ve specifických lokacích</string>
+    <string name="timeout_too_short">Hodnota nastavení \'vypršení času bez sítě\' je nejspíše příliš krátká, aby tato možnost fungovala. Změnit hned na 5 min?</string>
+    <string name="no_connected">WiFi odpojeno</string>
+    <string name="click_to_select_network">Kliknout pro výběr WiFi sítě</string>
+    <string name="wifi_not_enabled">WiFi vypnuto</string>
+    <string name="click_to_turn_on">Kliknutím zapnout</string>
+    <string name="location_settings_warning">Nastavení zamezuje aplikaci detekovat vaše umístění</string>
+    <string name="interval">Interval:</string>
+    <string name="active_location_scan">Aktivní skenování umístění</string>
+    <string name="more_info">Více informací</string>
+    <string name="no_permission">Aplikace nemá oprávnění pro zjištění vašeho umístění</string>
+</resources>
