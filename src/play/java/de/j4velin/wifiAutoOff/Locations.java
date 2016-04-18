@@ -165,15 +165,6 @@ public class Locations extends Activity {
                     .setPackage("com.android.vending"), mServiceConn, Context.BIND_AUTO_CREATE);
         }
 
-        findViewById(R.id.timeoutwarning).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                getSharedPreferences(getPackageName() + "_preferences", Context.MODE_MULTI_PROCESS)
-                        .edit().putInt("no_network_timeout", 5).commit();
-                v.setVisibility(View.GONE);
-            }
-        });
-
         findViewById(R.id.locationsettingswarning).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -236,12 +227,6 @@ public class Locations extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences prefs =
-                getSharedPreferences(getPackageName() + "_preferences", Context.MODE_MULTI_PROCESS);
-        findViewById(R.id.timeoutwarning).setVisibility(prefs.getBoolean("off_no_network", true) &&
-                prefs.getInt("no_network_timeout", Receiver.TIMEOUT_NO_NETWORK) < 5 ? View.VISIBLE :
-                View.GONE);
-
         boolean locationAccessEnabled = true;
         try {
             locationAccessEnabled = (Build.VERSION.SDK_INT < 19 && !TextUtils.isEmpty(
@@ -337,7 +322,8 @@ public class Locations extends Activity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, final String[] permissions, final int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, final String[] permissions,
+                                           final int[] grantResults) {
         if (requestCode == REQUEST_PERMISSIONS) {
             if (grantResults[0] == PermissionChecker.PERMISSION_GRANTED &&
                     grantResults[1] == PermissionChecker.PERMISSION_GRANTED) {

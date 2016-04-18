@@ -40,7 +40,6 @@
     <string name="buy_pro">Only one location is support in the free version of the app. Do you want to upgrade to the pro version now?</string>
     <string name="location_text">Turn on WiFi when entering these locations:</string>
     <string name="location_summary">Use cell location information to turn WiFi on at specified locations</string>
-    <string name="timeout_too_short">\'No network timeout\' setting might be too short for the locations feature to work. Change to 5 min now?</string>
     <string name="no_connected">WiFi disconnected</string>
     <string name="click_to_select_network">Click to select WiFi network</string>
     <string name="wifi_not_enabled">WiFi disabled</string>
