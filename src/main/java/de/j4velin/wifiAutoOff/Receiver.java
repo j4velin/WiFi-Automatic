@@ -174,14 +174,17 @@ public class Receiver extends BroadcastReceiver {
         } else {
             switch (action) {
                 case GeoFenceService.LOCATION_ENTERED_ACTION:
-                    if (prefs.getBoolean("off_no_network", true)) {
-                        // start the timer before actually turning on the WiFi to set the NO_NETWORK
-                        // timer to at least 10 min. The set timer in the following WIFI_STATE_CHANGED_ACTION
-                        // will then have no effect, as the timer is already set
-                        startTimer(context, TIMER_NO_NETWORK, Math.max(10,
-                                prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK)));
-                    }
-                    changeWiFi(context, true);
+                    if (!((WifiManager) context.getSystemService(Context.WIFI_SERVICE))
+                            .isWifiEnabled()) {
+                        if (prefs.getBoolean("off_no_network", true)) {
+                            // start the timer before actually turning on the WiFi to set the NO_NETWORK
+                            // timer to at least 10 min. The set timer in the following WIFI_STATE_CHANGED_ACTION
+                            // will then have no effect, as the timer is already set
+                            startTimer(context, TIMER_NO_NETWORK, Math.max(10,
+                                    prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK)));
+                        }
+                        changeWiFi(context, true);
+                    } // else: WiFi is already enabled, do nothing
                     break;
                 case ScreenChangeDetector.SCREEN_OFF_ACTION:
                     if (prefs.getBoolean("off_screen_off", true)) {
