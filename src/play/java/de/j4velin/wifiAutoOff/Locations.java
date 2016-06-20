@@ -19,6 +19,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -217,8 +218,14 @@ public class Locations extends Activity {
         findViewById(R.id.info).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://j4velin.de/faq/index.php?app=wa")));
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://j4velin.de/faq/index.php?app=wa")));
+                } catch (ActivityNotFoundException anf) {
+                    Toast.makeText(Locations.this,
+                            "No browser found to load http://j4velin.de/faq/index.php?app=wa",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
 

@@ -143,7 +143,6 @@ public class Preferences extends PreferenceActivity {
         // action bar overflow menu
         switch (item.getItemId()) {
             case R.id.enable:
-
                 break;
             case R.id.action_wifi_adv:
                 try {
@@ -157,17 +156,28 @@ public class Preferences extends PreferenceActivity {
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW,
                             Uri.parse("market://search?q=pub:j4velin"))
-                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET));
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 } catch (ActivityNotFoundException anf) {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("https://play.google.com/store/apps/developer?id=j4velin"))
-                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET));
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                "https://play.google.com/store/apps/developer?id=j4velin"))
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    } catch (ActivityNotFoundException anf2) {
+                        Toast.makeText(this,
+                                "No browser found to load https://play.google.com/store/apps/developer?id=j4velin",
+                                Toast.LENGTH_LONG).show();
+                    }
                 }
                 break;
             case R.id.action_donate:
-                startActivity(
-                        new Intent(Intent.ACTION_VIEW, Uri.parse("http://j4velin.de/donate.php"))
-                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://j4velin.de/donate.php"))
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                } catch (ActivityNotFoundException anf) {
+                    Toast.makeText(this, "No browser found to load http://j4velin.de/donate.php",
+                            Toast.LENGTH_LONG).show();
+                }
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -326,7 +336,8 @@ public class Preferences extends PreferenceActivity {
         findPreference("off_no_network")
                 .setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
                     @Override
-                    public boolean onPreferenceChange(final Preference preference, final Object newValue) {
+                    public boolean onPreferenceChange(final Preference preference,
+                                                      final Object newValue) {
                         if ((Boolean) newValue) {
                             if (android.os.Build.VERSION.SDK_INT >= 11) {
                                 APILevel11Wrapper
@@ -473,7 +484,11 @@ public class Preferences extends PreferenceActivity {
         });
     }
 
-    private static void showPre11NumberPicker(final Context c, final SharedPreferences prefs, final Preference p, final int summary, final int min, final int max, final String title, final String setting, final int def, final boolean changeTitle) {
+    private static void showPre11NumberPicker(final Context c, final SharedPreferences prefs,
+                                              final Preference p, final int summary, final int min,
+                                              final int max, final String title,
+                                              final String setting, final int def,
+                                              final boolean changeTitle) {
         final EditText np = new EditText(c);
         np.setInputType(InputType.TYPE_CLASS_NUMBER);
         np.setText(String.valueOf(prefs.getInt(setting, def)));

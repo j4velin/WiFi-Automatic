@@ -53,6 +53,7 @@ public class GeofenceUpdateService extends Service implements GoogleApiClient.Co
 
     @Override
     public void onConnected(final Bundle bundle) {
+        if (mLocationClient == null) return; // should not happen?
         if (BuildConfig.DEBUG) Logger.log("removing all fences");
         PendingIntent pi = PendingIntent
                 .getService(this, 0, new Intent(this, GeoFenceService.class),
