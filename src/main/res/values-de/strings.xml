@@ -49,4 +49,27 @@
     <string name="interval">Intervall:</string>
     <string name="active_location_scan">Aktive Standort-Bestimmung</string>
     <string name="more_info">Mehr dazu</string>
+    <string name="no_permission">Die App hat keine Berechtigung zum Zugiff auf den Standort</string>
+    <string name="log_empty">Keine Log-Einträge vorhanden</string>
+    <string name="log_summary">Zeigt die letzten von der App registrierten Ereignisse</string>
+    <string name="log_title">Log</string>
+    <string name="event_airplane">WLAN nicht aktiviert da sich das Gerät im Flugmodus befindet
+    </string>
+    <string name="event_turn_on">Schalte WLAN ein</string>
+    <string name="event_turn_off">Schalte WLAN aus</string>
+    <string name="event_location">Standort betreten: %s</string>
+    <string name="event_display_off_ignored_ac">Bildschirm wurde ausgeschaltet, aber Gerät ist ans
+        Stromnetz angeschloßen
+    </string>
+    <string name="event_unlocked">Gerät entsperrt</string>
+    <string name="event_connected">WLAN verbunden</string>
+    <string name="event_disconnected">WLAN Verbindung verloren</string>
+    <string name="event_enabled">WLAN eingeschaltet</string>
+    <string name="event_disabled">WLAN ausgeschaltet</string>
+    <string name="event_ac">Mit Stromversorgung verbunden</string>
+    <string name="event_ac_disconnected">Stromversorgung unterbrochen</string>
+    <string name="event_screen_off_canceled">"Display aus" Timer abgebrochen</string>
+    <string name="event_no_network_canceled">"Keine Verbindung" Timer abgebrochen</string>
+    <string name="event_screen_off_timer">"Display aus" Timer gesetzt (%d min)</string>
+    <string name="event_no_network_timer">"Keine Verbindung" Timer gesetzt (%d min)</string>
 </resources>

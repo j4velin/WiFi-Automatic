@@ -49,4 +49,26 @@
     <string name="active_location_scan">Active location scanning</string>
     <string name="more_info">More info</string>
     <string name="no_permission">App does not have permission to access your location</string>
+    <string name="log_empty">No log entries yet</string>
+    <string name="log_summary">Shows the last events which triggered a WiFi change</string>
+    <string name="log_title">Log</string>
+    <string name="event_airplane">Not turning WiFi on because device is in airplane mode</string>
+    <string name="event_turn_on">Turning WiFi on</string>
+    <string name="event_turn_off">Turning WiFi off</string>
+    <string name="event_location">Location entered: %s</string>
+    <string name="event_display_off_ignored_ac">Screen off event ignored because device is connected
+        to external power
+    </string>
+    <string name="event_unlocked">Device unlocked</string>
+    <string name="event_connected">WiFi connected</string>
+    <string name="event_disconnected">WiFi disconnected</string>
+    <string name="event_enabled">WiFi enabled</string>
+    <string name="event_disabled">WiFi disabled</string>
+    <string name="event_ac">External power connected</string>
+    <string name="event_ac_disconnected">External power disconnected</string>
+    <string name="event_screen_off_canceled">Screen off timer canceled</string>
+    <string name="event_no_network_canceled">No network timer canceled</string>
+    <string name="event_screen_off_timer">Screen off timer set (%d min)</string>
+    <string name="event_no_network_timer">No network timer set (%d min)</string>
+    <string name="delete_log">Delete log</string>
 </resources>

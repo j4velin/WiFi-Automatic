@@ -43,6 +43,10 @@
             android:key="airplane"
             android:summary="@string/airplane_summary"
             android:title="@string/airplane_title"/>
+        <Preference
+            android:key="log"
+            android:summary="@string/log_summary"
+            android:title="@string/log_title"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

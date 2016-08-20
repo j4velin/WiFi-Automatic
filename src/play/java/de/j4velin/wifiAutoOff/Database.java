@@ -105,20 +105,20 @@ public class Database extends SQLiteOpenHelper {
      * @param coords the coordinates of the location to delete
      */
     public void deleteLocation(final LatLng coords) {
-        if (BuildConfig.DEBUG)
-            Logger.log("deleting " + coords.toString() + " contained? " + containsLocation(coords));
+        if (BuildConfig.DEBUG) Logger.log("deleting " + coords.toString() + " contained? " +
+                (getNameForLocation(coords) != null));
         getWritableDatabase().delete("locations", "lat LIKE ? AND lon LIKE ?",
                 new String[]{String.valueOf(coords.latitude).substring(0, 8) + "%",
                         String.valueOf(coords.longitude).substring(0, 8) + "%"});
     }
 
     /**
-     * Checks if the given location is added to the app
+     * Gets the saved name for the given coordinates
      *
      * @param coords the location to check
-     * @return true, if WiFi should be turned on when entering this location
+     * @return the name for the given locaiton or null, if that location is not a saved location
      */
-    public boolean containsLocation(final LatLng coords) {
+    public String getNameForLocation(final LatLng coords) {
         String lat = String.valueOf(coords.latitude);
         String lon = String.valueOf(coords.longitude);
         if (lat.length() > 9) lat = lat.substring(0, 8);
@@ -126,11 +126,16 @@ public class Database extends SQLiteOpenHelper {
         Cursor c = getReadableDatabase()
                 .query("locations", new String[]{"name"}, "lat LIKE ? AND lon LIKE ?",
                         new String[]{lat + "%", lon + "%"}, null, null, null);
-        boolean re = c.getCount() > 0;
+        String result;
+        if (c.moveToFirst()) {
+            result = c.getString(0);
+        } else {
+            result = null;
+            if (BuildConfig.DEBUG)
+                Logger.log("location not in database: " + coords.latitude + "," + coords.longitude);
+        }
         c.close();
-        if (BuildConfig.DEBUG && !re)
-            Logger.log("location not in database: " + coords.latitude + "," + coords.longitude);
-        return re;
+        return result;
     }
 
     /**

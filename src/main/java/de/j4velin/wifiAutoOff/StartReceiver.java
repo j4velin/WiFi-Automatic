@@ -34,6 +34,7 @@ public class StartReceiver extends BroadcastReceiver {
         if (!Intent.ACTION_PACKAGE_REPLACED.equals(intent.getAction()) ||
                 intent.getDataString().contains(context.getPackageName())) {
             Start.start(context);
+            context.startService(new Intent(context, LogDeleteService.class));
         }
     }
 

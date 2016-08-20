@@ -19,6 +19,7 @@ package de.j4velin.wifiAutoOff;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.ActivityNotFoundException;
@@ -49,6 +50,8 @@ import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.support.v4.content.PermissionChecker;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -57,6 +60,8 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.util.List;
 
 public class Preferences extends PreferenceActivity {
 
@@ -482,6 +487,15 @@ public class Preferences extends PreferenceActivity {
                 return true;
             }
         });
+
+        findPreference("log")
+                .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(final Preference preference) {
+                        getLogDialog().show();
+                        return true;
+                    }
+                });
     }
 
     private static void showPre11NumberPicker(final Context c, final SharedPreferences prefs,
@@ -512,5 +526,32 @@ public class Preferences extends PreferenceActivity {
                         }
                     }
                 }).create().show();
+    }
+
+    private Dialog getLogDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        List<Log.Item> items = Log.getLog(this, 50);
+        if (items.isEmpty()) {
+            builder.setMessage(R.string.log_empty);
+        } else {
+            RecyclerView list = new RecyclerView(this);
+            list.setAdapter(new LogAdapter(items));
+            list.setLayoutManager(new LinearLayoutManager(this));
+            builder.setView(list);
+            builder.setNegativeButton(R.string.delete_log, new OnClickListener() {
+                @Override
+                public void onClick(final DialogInterface dialogInterface, int i) {
+                    Log.deleteOldLogs(Preferences.this, 0);
+                    dialogInterface.dismiss();
+                }
+            });
+        }
+        return builder.create();
     }
 }

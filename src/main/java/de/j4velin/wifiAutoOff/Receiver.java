@@ -38,6 +38,8 @@ import android.widget.Toast;
  */
 public class Receiver extends BroadcastReceiver {
 
+    private static NetworkInfo.State previousState = null;
+
     private static final int TIMER_SCREEN_OFF = 1;
     private static final int TIMER_NO_NETWORK = 2;
     static final int TIMER_ON_AT = 3;
@@ -74,8 +76,9 @@ public class Receiver extends BroadcastReceiver {
                                 PendingIntent.getBroadcast(context, id, timerIntent,
                                         PendingIntent.FLAG_UPDATE_CURRENT));
             }
-            if (BuildConfig.DEBUG)
-                Logger.log("timer for action " + action + " set (" + time + " minutes)");
+            Log.insert(context, context.getString(
+                    id == TIMER_SCREEN_OFF ? R.string.event_screen_off_timer :
+                            R.string.event_no_network_timer, time), Log.Type.TIMER);
         } else if (BuildConfig.DEBUG) {
             Logger.log("timer for action " + action + " already set");
         }
@@ -96,9 +99,8 @@ public class Receiver extends BroadcastReceiver {
         if (pendingIntent != null) {
             ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).cancel(pendingIntent);
             pendingIntent.cancel();
-            if (BuildConfig.DEBUG) Logger.log("timer for action " +
-                    (id == TIMER_SCREEN_OFF ? "SCREEN_OFF_TIMER" : "NO_NETWORK_TIMER") +
-                    " canceled");
+            Log.insert(context, (id == TIMER_SCREEN_OFF) ? R.string.event_screen_off_canceled :
+                    R.string.event_no_network_canceled, Log.Type.TIMER);
         }
         return pendingIntent != null;
     }
@@ -133,8 +135,7 @@ public class Receiver extends BroadcastReceiver {
                         APILevel17Wrapper.isAirplaneModeOn(context) : Settings.System
                         .getInt(context.getContentResolver(), Settings.System.AIRPLANE_MODE_ON) ==
                         1) {
-                    if (BuildConfig.DEBUG)
-                        Logger.log("not turning wifi on because device is in airplane mode");
+                    Log.insert(context, R.string.event_airplane, Log.Type.AIRPLANE_MODE);
                     return;
                 }
             } catch (final SettingNotFoundException e) {
@@ -144,11 +145,12 @@ public class Receiver extends BroadcastReceiver {
                 e.printStackTrace();
             }
         }
-        if (BuildConfig.DEBUG) Logger.log(on ? "turning wifi on" : "disabling wifi");
         try {
             WifiManager wm = ((WifiManager) context.getSystemService(Context.WIFI_SERVICE));
             // do we need to change at all?
             if (wm.isWifiEnabled() != on) {
+                Log.insert(context, on ? R.string.event_turn_on : R.string.event_turn_off,
+                        on ? Log.Type.WIFI_ON : Log.Type.WIFI_OFF);
                 wm.setWifiEnabled(on);
             }
         } catch (Exception e) {
@@ -176,6 +178,9 @@ public class Receiver extends BroadcastReceiver {
                 case GeoFenceService.LOCATION_ENTERED_ACTION:
                     if (!((WifiManager) context.getSystemService(Context.WIFI_SERVICE))
                             .isWifiEnabled()) {
+                        Log.insert(context, context.getString(R.string.event_location,
+                                intent.getStringExtra(GeoFenceService.EXTRA_LOCATION_NAME)),
+                                Log.Type.LOCATION_ENTERED);
                         if (prefs.getBoolean("off_no_network", true)) {
                             // start the timer before actually turning on the WiFi to set the NO_NETWORK
                             // timer to at least 10 min. The set timer in the following WIFI_STATE_CHANGED_ACTION
@@ -192,12 +197,15 @@ public class Receiver extends BroadcastReceiver {
                             // screen went off -> start TIMER_SCREEN_OFF
                             startTimer(context, TIMER_SCREEN_OFF,
                                     prefs.getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
-                        } else if (BuildConfig.DEBUG)
-                            Logger.log("screen is off ignored due to power connected");
+                        } else {
+                            Log.insert(context, R.string.event_display_off_ignored_ac,
+                                    Log.Type.SCREEN_OFF);
+                        }
                     }
                     break;
                 case UnlockReceiver.USER_PRESENT_ACTION:
                 case ScreenChangeDetector.SCREEN_ON_ACTION:
+                    Log.insert(context, R.string.event_unlocked, Log.Type.UNLOCKED);
                     // user unlocked the device -> stop TIMER_SCREEN_OFF, might turn on
                     // WiFi
                     stopTimer(context, TIMER_SCREEN_OFF);
@@ -219,22 +227,27 @@ public class Receiver extends BroadcastReceiver {
                     final NetworkInfo nwi =
                             intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
                     if (nwi == null) return;
-                    if (BuildConfig.DEBUG)
-                        Logger.log("network state changed: " + nwi.getState().name());
                     if (nwi.isConnected()) {
+                        if (!nwi.getState().equals(previousState)) {
+                            Log.insert(context, R.string.event_connected, Log.Type.WIFI_CONNECTED);
+                        }
                         stopTimer(context, TIMER_NO_NETWORK);
-                    } else if (nwi.getState().equals(NetworkInfo.State.DISCONNECTED) ||
-                            nwi.getState().equals(NetworkInfo.State.DISCONNECTING)) {
+                    } else if (nwi.getState().equals(NetworkInfo.State.DISCONNECTED)) {
+                        if (!nwi.getState().equals(previousState)) {
+                            Log.insert(context, R.string.event_disconnected,
+                                    Log.Type.WIFI_DISCONNECTED);
+                        }
                         if (prefs.getBoolean("off_no_network", true)) {
                             startTimer(context, TIMER_NO_NETWORK,
                                     prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK));
                         }
                     }
+                    previousState = nwi.getState();
                     break;
                 case WifiManager.WIFI_STATE_CHANGED_ACTION:
                     if (intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,
                             WifiManager.WIFI_STATE_UNKNOWN) == WifiManager.WIFI_STATE_ENABLED) {
-                        if (BuildConfig.DEBUG) Logger.log("wifi state changed: wifi enabled");
+                        Log.insert(context, R.string.event_enabled, Log.Type.WIFI_ON);
                         if (prefs.getBoolean("off_no_network", true)) {
                             startTimer(context, TIMER_NO_NETWORK,
                                     prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK));
@@ -249,37 +262,41 @@ public class Receiver extends BroadcastReceiver {
                         }
                     } else if (intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,
                             WifiManager.WIFI_STATE_UNKNOWN) == WifiManager.WIFI_STATE_DISABLED) {
-                        if (BuildConfig.DEBUG)
-                            Logger.log("wifi state changed: wifi disabled -> clear timer");
+                        Log.insert(context, R.string.event_disabled, Log.Type.WIFI_OFF);
                         stopTimer(context, TIMER_SCREEN_OFF);
                         stopTimer(context, TIMER_NO_NETWORK);
                     }
                     break;
                 case WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION:
                     // wifi direct connection changed
-                    NetworkInfo networkInfo =
-                            intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
+                    NetworkInfo nwi2 = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
                     WifiP2pInfo winfo =
                             intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_INFO);
-                    if (BuildConfig.DEBUG)
-                        Logger.log("new P2P network state: " + networkInfo.getState());
+                    if (BuildConfig.DEBUG) Logger.log("new P2P network state: " + nwi2.getState());
                     if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= 14)
                         Logger.log("P2P group formed: " + APILevel14Wrapper.groupFormed(winfo));
-                    if (networkInfo.isConnected() ||
+                    if (nwi2.isConnected() ||
                             (Build.VERSION.SDK_INT >= 14 && APILevel14Wrapper.groupFormed(winfo))) {
+                        if (!nwi2.getState().equals(previousState)) {
+                            Log.insert(context, R.string.event_connected, Log.Type.WIFI_CONNECTED);
+                        }
                         stopTimer(context, TIMER_NO_NETWORK);
-                    } else {
+                    } else if (nwi2.getState().equals(NetworkInfo.State.DISCONNECTED)) {
+                        if (!nwi2.getState().equals(previousState)) {
+                            Log.insert(context, R.string.event_disconnected,
+                                    Log.Type.WIFI_DISCONNECTED);
+                        }
                         if (prefs.getBoolean("off_no_network", true)) {
                             startTimer(context, TIMER_NO_NETWORK,
                                     prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK));
                         }
                     }
+                    previousState = nwi2.getState();
                     break;
                 case Intent.ACTION_POWER_CONNECTED:
                     // connected to external power supply
-                    if (BuildConfig.DEBUG) Logger.log("power connected setting: " +
-                            prefs.getBoolean("power_connected", false));
                     if (prefs.getBoolean("power_connected", false)) {
+                        Log.insert(context, R.string.event_ac, Log.Type.AC_CONNECTED);
                         changeWiFi(context, true);
                         if (prefs.getBoolean("off_screen_off",
                                 true)) { // ignore display off events while charging
@@ -291,20 +308,22 @@ public class Receiver extends BroadcastReceiver {
                     break;
                 case Intent.ACTION_POWER_DISCONNECTED:
                     // disconnected from external power supply
-                    if (BuildConfig.DEBUG) Logger.log("power connected setting: " +
-                            prefs.getBoolean("power_connected", false));
-                    // do we need to start the screen off timer?
-                    if (prefs.getBoolean("power_connected", false) &&
-                            prefs.getBoolean("off_screen_off", true)) {
-                        prefs.edit().putBoolean("ignore_screen_off", false).apply();
-                        if (BuildConfig.DEBUG) Logger.log("dont ignore screen off event any more");
-                        if ((Build.VERSION.SDK_INT < 20 &&
-                                !((PowerManager) context.getSystemService(Context.POWER_SERVICE))
-                                        .isScreenOn()) || (Build.VERSION.SDK_INT >= 20 &&
-                                !APILevel20Wrapper.isScreenOn(context))) {
-                            if (BuildConfig.DEBUG) Logger.log("screen is off -> start timer");
-                            startTimer(context, TIMER_SCREEN_OFF,
-                                    prefs.getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
+                    if (prefs.getBoolean("power_connected", false)) {
+                        Log.insert(context, R.string.event_ac_disconnected,
+                                Log.Type.AC_DISCONNECTED);
+                        // do we need to start the screen off timer?
+                        if (prefs.getBoolean("off_screen_off", true)) {
+                            prefs.edit().putBoolean("ignore_screen_off", false).apply();
+                            if (BuildConfig.DEBUG)
+                                Logger.log("dont ignore screen off event any more");
+                            if ((Build.VERSION.SDK_INT < 20 && !((PowerManager) context
+                                    .getSystemService(Context.POWER_SERVICE)).isScreenOn()) ||
+                                    (Build.VERSION.SDK_INT >= 20 &&
+                                            !APILevel20Wrapper.isScreenOn(context))) {
+                                if (BuildConfig.DEBUG) Logger.log("screen is off -> start timer");
+                                startTimer(context, TIMER_SCREEN_OFF,
+                                        prefs.getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
+                            }
                         }
                     }
                     break;
