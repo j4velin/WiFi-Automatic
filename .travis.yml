@@ -10,6 +10,5 @@ android:
     - build-tools-23.0.3
     - android-24
     - extra-android-m2repository
-
-script:
-    - ./gradlew assembleFdroid --stacktrace
+    - extra-google-google_play_services
+    - extra-google-m2repository

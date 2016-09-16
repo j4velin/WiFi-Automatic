@@ -27,6 +27,9 @@ android {
 
     defaultConfig {
         applicationId "de.j4velin.wifiAutoOff"
+        if (!project.file("key.properties").exists()) {
+            resValue "string", "maps_api_key", "0000"
+        }
     }
 
     signingConfigs {
