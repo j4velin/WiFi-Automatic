@@ -1,14 +1,7 @@
 <resources>
 
-    <!--
-        Base application theme for API 21+. This theme completely replaces
-        AppBaseTheme from BOTH res/values/styles.xml and
-        res/values-v14/styles.xml on API 21+ devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Material.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:colorAccent">@color/colorAccent</item>
     </style>
-
-    <style name="AppTheme.Fullscreen" parent="android:Theme.Material.Light.NoActionBar.TranslucentDecor"/>
 
 </resources>

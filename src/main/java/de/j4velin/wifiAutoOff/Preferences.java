@@ -33,6 +33,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -49,15 +50,22 @@ import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
+import android.support.annotation.LayoutRes;
 import android.support.v4.content.PermissionChecker;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -68,6 +76,7 @@ public class Preferences extends PreferenceActivity {
     private final static int[] time_values = {5, 15, 30, 60, 120, 300, 600};
 
     private StatusPreference status;
+    private AppCompatDelegate mDelegate;
 
     private final Handler handler = new Handler();
     private final Runnable signalUpdater = new Runnable() {
@@ -102,44 +111,39 @@ public class Preferences extends PreferenceActivity {
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-        if (android.os.Build.VERSION.SDK_INT >= 11) {
-            CompoundButton enable = (CompoundButton) menu.findItem(R.id.enable).getActionView();
-            if (android.os.Build.VERSION.SDK_INT < 14) {
-                enable.setText("Enable");
+        Switch enable = (Switch) MenuItemCompat.getActionView(menu.findItem(R.id.enable));
+        enable.setChecked(getPackageManager()
+                .getComponentEnabledSetting(new ComponentName(this, Receiver.class)) !=
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
+        // disable initially if not checked
+        if (!enable.isChecked()) {
+            @SuppressWarnings("deprecation") PreferenceScreen ps = getPreferenceScreen();
+            for (int i = 0; i < ps.getPreferenceCount(); i++) {
+                ps.getPreference(i).setEnabled(false);
             }
-            enable.setChecked(getPackageManager()
-                    .getComponentEnabledSetting(new ComponentName(this, Receiver.class)) !=
-                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
-            // disable initially if not checked
-            if (!enable.isChecked()) {
-                @SuppressWarnings("deprecation") PreferenceScreen ps = getPreferenceScreen();
-                for (int i = 0; i < ps.getPreferenceCount(); i++) {
-                    ps.getPreference(i).setEnabled(false);
-                }
-            }
-            enable.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    @SuppressWarnings("deprecation") PreferenceScreen ps = getPreferenceScreen();
-                    // start at 1 to skip "status" preference
-                    for (int i = 1; i < ps.getPreferenceCount(); i++) {
-                        ps.getPreference(i).setEnabled(isChecked);
-                    }
-                    getPackageManager().setComponentEnabledSetting(
-                            new ComponentName(Preferences.this, Receiver.class),
-                            isChecked ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
-                                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                            PackageManager.DONT_KILL_APP);
-                    if (!isChecked)
-                        stopService(new Intent(Preferences.this, ScreenChangeDetector.class));
-                    getPackageManager().setComponentEnabledSetting(
-                            new ComponentName(Preferences.this, ScreenChangeDetector.class),
-                            isChecked ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
-                                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                            PackageManager.DONT_KILL_APP);
-                }
-            });
         }
+        enable.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                @SuppressWarnings("deprecation") PreferenceScreen ps = getPreferenceScreen();
+                // start at 1 to skip "status" preference
+                for (int i = 1; i < ps.getPreferenceCount(); i++) {
+                    ps.getPreference(i).setEnabled(isChecked);
+                }
+                getPackageManager().setComponentEnabledSetting(
+                        new ComponentName(Preferences.this, Receiver.class),
+                        isChecked ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
+                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                        PackageManager.DONT_KILL_APP);
+                if (!isChecked)
+                    stopService(new Intent(Preferences.this, ScreenChangeDetector.class));
+                getPackageManager().setComponentEnabledSetting(
+                        new ComponentName(Preferences.this, ScreenChangeDetector.class),
+                        isChecked ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
+                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                        PackageManager.DONT_KILL_APP);
+            }
+        });
         return true;
     }
 
@@ -235,7 +239,10 @@ public class Preferences extends PreferenceActivity {
     @SuppressWarnings("deprecation")
     @Override
     public void onCreate(final Bundle savedInstanceState) {
+        getDelegate().installViewFactory();
+        getDelegate().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
+
         addPreferencesFromResource(R.xml.preferences);
 
         if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= 23 && PermissionChecker
@@ -553,5 +560,77 @@ public class Preferences extends PreferenceActivity {
             });
         }
         return builder.create();
+    }
+
+    private AppCompatDelegate getDelegate() {
+        if (mDelegate == null) {
+            mDelegate = AppCompatDelegate.create(this, null);
+        }
+        return mDelegate;
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        getDelegate().onPostCreate(savedInstanceState);
+    }
+
+    @Override
+    public MenuInflater getMenuInflater() {
+        return getDelegate().getMenuInflater();
+    }
+
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        getDelegate().setContentView(layoutResID);
+    }
+
+    @Override
+    public void setContentView(View view) {
+        getDelegate().setContentView(view);
+    }
+
+    @Override
+    public void setContentView(View view, ViewGroup.LayoutParams params) {
+        getDelegate().setContentView(view, params);
+    }
+
+    @Override
+    public void addContentView(View view, ViewGroup.LayoutParams params) {
+        getDelegate().addContentView(view, params);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        getDelegate().onPostResume();
+    }
+
+    @Override
+    protected void onTitleChanged(CharSequence title, int color) {
+        super.onTitleChanged(title, color);
+        getDelegate().setTitle(title);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        getDelegate().onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        getDelegate().onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        getDelegate().onDestroy();
+    }
+
+    public void invalidateOptionsMenu() {
+        getDelegate().invalidateOptionsMenu();
     }
 }

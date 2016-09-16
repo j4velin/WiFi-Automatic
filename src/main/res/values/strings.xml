@@ -71,4 +71,5 @@
     <string name="event_screen_off_timer">Screen off timer set (%d min)</string>
     <string name="event_no_network_timer">No network timer set (%d min)</string>
     <string name="delete_log">Delete log</string>
+    <string name="turn_on_off">Turn on/off</string>
 </resources>

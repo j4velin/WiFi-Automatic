@@ -1,19 +1,26 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/enable"
+        android:checkable="true"
+        android:title="@string/turn_on_off"
+        app:actionViewClass="android.widget.Switch"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_wifi_adv"
         android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/advanced_wifi_settings"/>
+        android:title="@string/advanced_wifi_settings"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/action_apps"
         android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/more_apps"/>
+        android:title="@string/more_apps"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/action_donate"
         android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/donate"/>
+        android:title="@string/donate"
+        app:showAsAction="never"/>
 
 </menu>
