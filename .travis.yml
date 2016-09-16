@@ -12,4 +12,4 @@ android:
     - extra-android-m2repository
 
 script:
-    - ./gradlew assembleFdroidRelease --stacktrace --debug
+    - ./gradlew assembleFdroid --stacktrace
