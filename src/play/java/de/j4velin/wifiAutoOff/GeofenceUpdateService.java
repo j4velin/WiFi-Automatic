@@ -15,12 +15,14 @@
  */
 package de.j4velin.wifiAutoOff;
 
+import android.Manifest;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.content.PermissionChecker;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -84,15 +86,25 @@ public class GeofenceUpdateService extends Service implements GoogleApiClient.Co
                 }
             }
             try {
-                LocationServices.GeofencingApi.addGeofences(mLocationClient, builder.build(), pi);
-                if (prefs.getBoolean("active", false)) {
-                    LocationRequest mLocationRequest = new LocationRequest();
-                    mLocationRequest.setInterval(prefs.getInt("interval", 15) * 60000);
-                    mLocationRequest.setFastestInterval(5000);
-                    mLocationRequest.setSmallestDisplacement(50f);
-                    mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-                    LocationServices.FusedLocationApi
-                            .requestLocationUpdates(mLocationClient, mLocationRequest, pi);
+                if (PermissionChecker
+                        .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                        PermissionChecker.PERMISSION_GRANTED || PermissionChecker
+                        .checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                        PermissionChecker.PERMISSION_GRANTED) {
+                    LocationServices.GeofencingApi
+                            .addGeofences(mLocationClient, builder.build(), pi);
+                    if (prefs.getBoolean("active", false)) {
+                        LocationRequest mLocationRequest = new LocationRequest();
+                        mLocationRequest.setInterval(prefs.getInt("interval", 15) * 60000);
+                        mLocationRequest.setFastestInterval(5000);
+                        mLocationRequest.setSmallestDisplacement(50f);
+                        mLocationRequest
+                                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+                        LocationServices.FusedLocationApi
+                                .requestLocationUpdates(mLocationClient, mLocationRequest, pi);
+                    }
+                } else {
+                    if (BuildConfig.DEBUG) Logger.log("no location permission");
                 }
             } catch (Exception iae) {
                 if (BuildConfig.DEBUG) Logger.log(iae);

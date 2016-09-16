@@ -30,16 +30,16 @@
             android:value="@string/maps_api_key"/>
 
         <activity
-            android:name=".Locations"/>
+            android:name="de.j4velin.wifiAutoOff.Locations"/>
         <activity
-            android:name=".Map"
+            android:name="de.j4velin.wifiAutoOff.Map"
             android:theme="@style/AppTheme.Fullscreen"/>
 
         <service
-            android:name=".GeofenceUpdateService"
+            android:name="de.j4velin.wifiAutoOff.GeofenceUpdateService"
             android:exported="false"/>
         <service
-            android:name=".GeoFenceService"
+            android:name="de.j4velin.wifiAutoOff.GeoFenceService"
             android:exported="false"/>
     </application>
 
