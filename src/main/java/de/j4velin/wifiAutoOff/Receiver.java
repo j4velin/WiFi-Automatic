@@ -38,6 +38,8 @@ import android.widget.Toast;
  */
 public class Receiver extends BroadcastReceiver {
 
+    public final static String LOCATION_ENTERED_ACTION = "LOCATION_ENTERED";
+    public final static String EXTRA_LOCATION_NAME = "name";
     private static NetworkInfo.State previousState = null;
 
     private static final int TIMER_SCREEN_OFF = 1;
@@ -175,11 +177,11 @@ public class Receiver extends BroadcastReceiver {
             Start.createTimers(context);
         } else {
             switch (action) {
-                case GeoFenceService.LOCATION_ENTERED_ACTION:
+                case LOCATION_ENTERED_ACTION:
                     if (!((WifiManager) context.getSystemService(Context.WIFI_SERVICE))
                             .isWifiEnabled()) {
                         Log.insert(context, context.getString(R.string.event_location,
-                                intent.getStringExtra(GeoFenceService.EXTRA_LOCATION_NAME)),
+                                intent.getStringExtra(EXTRA_LOCATION_NAME)),
                                 Log.Type.LOCATION_ENTERED);
                         if (prefs.getBoolean("off_no_network", true)) {
                             // start the timer before actually turning on the WiFi to set the NO_NETWORK

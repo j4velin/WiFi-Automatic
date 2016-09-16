@@ -25,10 +25,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class GeoFenceService extends IntentService {
 
-    public final static String LOCATION_ENTERED_ACTION = "LOCATION_ENTERED";
-    public final static String EXTRA_LOCATION_NAME = "name";
-    public final static int LOCATION_RANGE_METER = 200;
-
     public GeoFenceService() {
         super("WiFiAutomaticGeoFenceService");
     }
@@ -42,7 +38,8 @@ public class GeoFenceService extends IntentService {
             if (BuildConfig.DEBUG) Logger.log("Location update received " + loc);
             Database db = Database.getInstance(this);
             if (db.inRangeOfLocation(loc)) {
-                sendBroadcast(new Intent(this, Receiver.class).setAction(LOCATION_ENTERED_ACTION));
+                sendBroadcast(new Intent(this, Receiver.class)
+                        .setAction(Receiver.LOCATION_ENTERED_ACTION));
             }
             db.close();
         } else {
@@ -65,8 +62,8 @@ public class GeoFenceService extends IntentService {
                         String name = db.getNameForLocation(ll);
                         if (name != null) {
                             sendBroadcast(new Intent(this, Receiver.class)
-                                    .setAction(LOCATION_ENTERED_ACTION)
-                                    .putExtra(EXTRA_LOCATION_NAME, name));
+                                    .setAction(Receiver.LOCATION_ENTERED_ACTION)
+                                    .putExtra(Receiver.EXTRA_LOCATION_NAME, name));
                             break;
                         }
                     }
