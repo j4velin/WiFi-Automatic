@@ -54,6 +54,7 @@ android {
 
     lintOptions {
         disable "ExtraTranslation"
+        ignoreWarnings true
     }
 }
 

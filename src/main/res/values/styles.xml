@@ -1,4 +1,4 @@
 <resources>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar"/>
-    <style name="AppTheme.Fullscreen" parent="android:Theme.Light.NoTitleBar.Fullscreen"/>
+    <style name="AppTheme.Fullscreen" parent="Theme.AppCompat.Light.NoActionBar"/>
 </resources>
