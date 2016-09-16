@@ -1,6 +1,7 @@
 WiFi Automatic
 =============
 
+[![Build Status](https://travis-ci.org/j4velin/WiFi-Automatic.svg?branch=master)](https://travis-ci.org/j4velin/WiFi-Automatic)
 
 This simple app can help you increase the standby time of your device: <b>WiFi Automatic</b> automatically disable your WiFi radio when you don't need it and thereby lowers the battery consumption.
 It is designed to be used with WiFi-only* tablets - these devices normally don't require a constant internet connection if you're not using them and turning WiFi off can save a lot of battery power.
