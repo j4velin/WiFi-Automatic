@@ -30,6 +30,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 
 public class Map extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -78,6 +79,8 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback {
     @SuppressWarnings("MissingPermission")
     @Override
     public void onMapReady(final GoogleMap mMap) {
+        MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(this, R.raw.map);
+        mMap.setMapStyle(style);
         LatLng location = getIntent().getParcelableExtra("location");
         if (location == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this).addApi(LocationServices.API)
@@ -110,8 +113,8 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback {
                 }
             });
         } else {
-            mMap.addCircle(new CircleOptions().center(location).radius(100).strokeColor(Color.RED)
-                    .fillColor(Color.argb(64, 255, 0, 0)));
+            mMap.addCircle(new CircleOptions().center(location).radius(100).strokeColor(Color.BLUE)
+                    .fillColor(Color.argb(64, 0, 0, 255)));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
         }
 
