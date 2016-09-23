@@ -16,8 +16,6 @@
 package de.j4velin.wifiAutoOff;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -36,6 +34,8 @@ import android.os.RemoteException;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -58,7 +58,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.List;
 
-public class Locations extends Activity {
+public class Locations extends AppCompatActivity {
 
     private final static int REQUEST_LOCATION = 1, REQUEST_BUY = 3, REQUEST_PERMISSIONS = 4;
 

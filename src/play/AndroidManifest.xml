@@ -30,7 +30,8 @@
             android:value="@string/maps_api_key"/>
 
         <activity
-            android:name="de.j4velin.wifiAutoOff.Locations"/>
+            android:name="de.j4velin.wifiAutoOff.Locations"
+            android:parentActivityName="de.j4velin.wifiAutoOff.Preferences"/>
         <activity
             android:name="de.j4velin.wifiAutoOff.Map"
             android:theme="@style/AppTheme.Fullscreen"/>
