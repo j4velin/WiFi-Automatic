@@ -87,9 +87,9 @@ public class GeofenceUpdateService extends Service implements GoogleApiClient.Co
             }
             try {
                 if (PermissionChecker
-                        .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                        PermissionChecker.PERMISSION_GRANTED || PermissionChecker
-                        .checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                        .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                        PermissionChecker.PERMISSION_GRANTED && PermissionChecker
+                        .checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
                         PermissionChecker.PERMISSION_GRANTED) {
                     LocationServices.GeofencingApi
                             .addGeofences(mLocationClient, builder.build(), pi);
