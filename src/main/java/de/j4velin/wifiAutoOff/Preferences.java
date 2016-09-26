@@ -65,7 +65,6 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -77,6 +76,11 @@ public class Preferences extends PreferenceActivity {
 
     private StatusPreference status;
     private AppCompatDelegate mDelegate;
+
+    /**
+     * whether the location settings should be enabled by the enable/disable app switch
+     */
+    private boolean disableLocationSettings = false;
 
     private final Handler handler = new Handler();
     private final Runnable signalUpdater = new Runnable() {
@@ -111,40 +115,67 @@ public class Preferences extends PreferenceActivity {
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-        Switch enable = (Switch) MenuItemCompat.getActionView(menu.findItem(R.id.enable));
-        enable.setChecked(getPackageManager()
-                .getComponentEnabledSetting(new ComponentName(this, Receiver.class)) !=
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
-        // disable initially if not checked
-        if (!enable.isChecked()) {
-            @SuppressWarnings("deprecation") PreferenceScreen ps = getPreferenceScreen();
-            for (int i = 0; i < ps.getPreferenceCount(); i++) {
-                ps.getPreference(i).setEnabled(false);
-            }
-        }
-        enable.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                @SuppressWarnings("deprecation") PreferenceScreen ps = getPreferenceScreen();
-                // start at 1 to skip "status" preference
-                for (int i = 1; i < ps.getPreferenceCount(); i++) {
-                    ps.getPreference(i).setEnabled(isChecked);
+        boolean isEnabled = getPackageManager()
+                .getComponentEnabledSetting(new ComponentName(Preferences.this, Receiver.class)) !=
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+
+        if (Build.VERSION.SDK_INT < 14) {
+            menu.findItem(R.id.enable)
+                    .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(final MenuItem menuItem) {
+                            boolean isEnabled = getPackageManager().getComponentEnabledSetting(
+                                    new ComponentName(Preferences.this, Receiver.class)) !=
+                                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+                            changeEnableState(!isEnabled);
+                            return true;
+                        }
+                    });
+        } else {
+            CompoundButton enable =
+                    (CompoundButton) MenuItemCompat.getActionView(menu.findItem(R.id.enable));
+            enable.setChecked(isEnabled);
+            enable.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    changeEnableState(isChecked);
                 }
-                getPackageManager().setComponentEnabledSetting(
-                        new ComponentName(Preferences.this, Receiver.class),
-                        isChecked ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
-                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                        PackageManager.DONT_KILL_APP);
-                if (!isChecked)
-                    stopService(new Intent(Preferences.this, ScreenChangeDetector.class));
-                getPackageManager().setComponentEnabledSetting(
-                        new ComponentName(Preferences.this, ScreenChangeDetector.class),
-                        isChecked ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
-                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                        PackageManager.DONT_KILL_APP);
-            }
-        });
+            });
+        }
+
+        // disable initially if not checked
+        if (!isEnabled) {
+            enableSettings(false);
+        }
         return true;
+    }
+
+    @SuppressWarnings("deprecation")
+    private void enableSettings(final boolean enable) {
+        PreferenceScreen ps = getPreferenceScreen();
+        // start at 1 to skip "status" preference
+        for (int i = 1; i < ps.getPreferenceCount(); i++) {
+            ps.getPreference(i).setEnabled(enable);
+        }
+        if (enable && disableLocationSettings) {
+            // disable locations again if disableLocationSettings is set
+            findPreference("locations").setEnabled(false);
+        }
+    }
+
+    private void changeEnableState(final boolean enable) {
+        enableSettings(enable);
+        getPackageManager()
+                .setComponentEnabledSetting(new ComponentName(Preferences.this, Receiver.class),
+                        enable ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
+                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                        PackageManager.DONT_KILL_APP);
+        if (!enable) stopService(new Intent(Preferences.this, ScreenChangeDetector.class));
+        getPackageManager().setComponentEnabledSetting(
+                new ComponentName(Preferences.this, ScreenChangeDetector.class),
+                enable ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
+                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP);
     }
 
     @Override
@@ -470,10 +501,12 @@ public class Preferences extends PreferenceActivity {
                 });
             } else {
                 locations.setEnabled(false);
+                disableLocationSettings = true;
             }
         } else {
             locations.setSummary("Not available in F-Droid version");
             locations.setEnabled(false);
+            disableLocationSettings = true;
         }
 
         final Preference power = findPreference("power_connected");
