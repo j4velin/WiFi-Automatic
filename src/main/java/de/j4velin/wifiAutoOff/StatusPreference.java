@@ -42,10 +42,11 @@ public class StatusPreference extends Preference {
      * Called to update the status preference
      */
     void update() {
-        WifiManager wm = (WifiManager) getContext().getSystemService(Context.WIFI_SERVICE);
-        boolean connected =
-                ((ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE))
-                        .getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
+        WifiManager wm = (WifiManager) getContext().getApplicationContext()
+                .getSystemService(Context.WIFI_SERVICE);
+        boolean connected = ((ConnectivityManager) getContext().getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE))
+                .getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
         if (title == null) return;
         if (wm.isWifiEnabled()) {
             if (!connected) {
@@ -77,10 +78,11 @@ public class StatusPreference extends Preference {
      * @return true, if connected to a WiFi network
      */
     boolean updateSignal() {
-        WifiManager wm = (WifiManager) getContext().getSystemService(Context.WIFI_SERVICE);
-        boolean connected =
-                ((ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE))
-                        .getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting();
+        WifiManager wm = (WifiManager) getContext().getApplicationContext()
+                .getSystemService(Context.WIFI_SERVICE);
+        boolean connected = ((ConnectivityManager) getContext().getApplicationContext()
+                .getSystemService(Context.CONNECTIVITY_SERVICE))
+                .getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting();
         if (sub1 == null) return wm.isWifiEnabled() && connected;
         if (wm.isWifiEnabled() && connected) {
             WifiInfo wi = wm.getConnectionInfo();

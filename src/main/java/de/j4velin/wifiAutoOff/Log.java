@@ -29,7 +29,7 @@ public class Log {
     /**
      * Time to keep the logs in ms
      */
-    public final static long KEEP_DURATION = 3 * 24 * 60 * 60 * 1000; // 3 days
+    final static long KEEP_DURATION = 3 * 24 * 60 * 60 * 1000; // 3 days
 
     public enum Type {
         WIFI_ON(R.drawable.event_wifi_on), WIFI_CONNECTED(R.drawable.event_wifi_on),
@@ -37,7 +37,7 @@ public class Log {
         LOCATION_ENTERED(R.drawable.event_location_entered), TIMER(R.drawable.event_timer),
         AIRPLANE_MODE(R.drawable.event_airplane_mode), SCREEN_OFF(R.drawable.event_display_off),
         UNLOCKED(R.drawable.event_display_on), AC_CONNECTED(R.drawable.event_ac_connected),
-        AC_DISCONNECTED(R.drawable.event_ac_disconnected);
+        AC_DISCONNECTED(R.drawable.event_ac_disconnected), HOTSPOT(R.drawable.event_hotspot);
 
         public final int drawable;
 

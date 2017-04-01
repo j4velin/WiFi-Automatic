@@ -33,6 +33,8 @@ import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.widget.Toast;
 
+import java.lang.reflect.Method;
+
 /**
  * Class for receiving various events and react on them.
  */
@@ -147,8 +149,24 @@ public class Receiver extends BroadcastReceiver {
                 e.printStackTrace();
             }
         }
+        if (on) {
+            // check WiFi hotspot state (dont turn on WiFi if hotspot is active)
+            WifiManager wifi = (WifiManager) context.getApplicationContext()
+                    .getSystemService(Context.WIFI_SERVICE);
+            try {
+                Method m = wifi.getClass().getDeclaredMethod("isWifiApEnabled");
+                if ((boolean) m.invoke(wifi)) {
+                    Log.insert(context, R.string.hotspot_active, Log.Type.HOTSPOT);
+                    return;
+                }
+            } catch (Exception e) {
+                if (BuildConfig.DEBUG) Logger.log(e);
+                e.printStackTrace();
+            }
+        }
         try {
-            WifiManager wm = ((WifiManager) context.getSystemService(Context.WIFI_SERVICE));
+            WifiManager wm = ((WifiManager) context.getApplicationContext()
+                    .getSystemService(Context.WIFI_SERVICE));
             // do we need to change at all?
             if (wm.isWifiEnabled() != on) {
                 Log.insert(context, on ? R.string.event_turn_on : R.string.event_turn_off,
@@ -178,8 +196,8 @@ public class Receiver extends BroadcastReceiver {
         } else {
             switch (action) {
                 case LOCATION_ENTERED_ACTION:
-                    if (!((WifiManager) context.getSystemService(Context.WIFI_SERVICE))
-                            .isWifiEnabled()) {
+                    if (!((WifiManager) context.getApplicationContext()
+                            .getSystemService(Context.WIFI_SERVICE)).isWifiEnabled()) {
                         Log.insert(context, context.getString(R.string.event_location,
                                 intent.getStringExtra(EXTRA_LOCATION_NAME)),
                                 Log.Type.LOCATION_ENTERED);
@@ -213,8 +231,8 @@ public class Receiver extends BroadcastReceiver {
                     stopTimer(context, TIMER_SCREEN_OFF);
                     if (prefs.getBoolean("on_unlock", true)) {
                         boolean noNetTimer = stopTimer(context, TIMER_NO_NETWORK);
-                        if (((WifiManager) context.getSystemService(Context.WIFI_SERVICE))
-                                .isWifiEnabled()) {
+                        if (((WifiManager) context.getApplicationContext()
+                                .getSystemService(Context.WIFI_SERVICE)).isWifiEnabled()) {
                             if (noNetTimer && prefs.getBoolean("off_no_network", true)) {
                                 // if WiFi is already turned on, just restart the NO_NETWORK timer
                                 startTimer(context, TIMER_NO_NETWORK,
@@ -255,10 +273,11 @@ public class Receiver extends BroadcastReceiver {
                                     prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK));
                         }
                         if (prefs.getBoolean("off_screen_off", true) &&
-                                ((Build.VERSION.SDK_INT < 20 && !((PowerManager) context
-                                        .getSystemService(Context.POWER_SERVICE)).isScreenOn()) ||
-                                        (Build.VERSION.SDK_INT >= 20 &&
-                                                !APILevel20Wrapper.isScreenOn(context)))) {
+                                ((Build.VERSION.SDK_INT < 20 &&
+                                        !((PowerManager) context.getApplicationContext()
+                                                .getSystemService(Context.POWER_SERVICE))
+                                                .isScreenOn()) || (Build.VERSION.SDK_INT >= 20 &&
+                                        !APILevel20Wrapper.isScreenOn(context)))) {
                             startTimer(context, TIMER_SCREEN_OFF,
                                     prefs.getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
                         }
@@ -318,10 +337,11 @@ public class Receiver extends BroadcastReceiver {
                             prefs.edit().putBoolean("ignore_screen_off", false).apply();
                             if (BuildConfig.DEBUG)
                                 Logger.log("dont ignore screen off event any more");
-                            if ((Build.VERSION.SDK_INT < 20 && !((PowerManager) context
-                                    .getSystemService(Context.POWER_SERVICE)).isScreenOn()) ||
-                                    (Build.VERSION.SDK_INT >= 20 &&
-                                            !APILevel20Wrapper.isScreenOn(context))) {
+                            if ((Build.VERSION.SDK_INT < 20 &&
+                                    !((PowerManager) context.getApplicationContext()
+                                            .getSystemService(Context.POWER_SERVICE))
+                                            .isScreenOn()) || (Build.VERSION.SDK_INT >= 20 &&
+                                    !APILevel20Wrapper.isScreenOn(context))) {
                                 if (BuildConfig.DEBUG) Logger.log("screen is off -> start timer");
                                 startTimer(context, TIMER_SCREEN_OFF,
                                         prefs.getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));

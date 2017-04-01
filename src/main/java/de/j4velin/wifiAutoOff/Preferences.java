@@ -286,10 +286,11 @@ public class Preferences extends PreferenceActivity {
         status.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(final Preference preference) {
-                WifiManager wm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-                boolean connected =
-                        ((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE))
-                                .getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
+                WifiManager wm = (WifiManager) getApplicationContext()
+                        .getSystemService(Context.WIFI_SERVICE);
+                boolean connected = ((ConnectivityManager) getApplicationContext()
+                        .getSystemService(Context.CONNECTIVITY_SERVICE))
+                        .getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
                 if (wm.isWifiEnabled() && !connected) {
                     try {
                         startActivity(new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK)
