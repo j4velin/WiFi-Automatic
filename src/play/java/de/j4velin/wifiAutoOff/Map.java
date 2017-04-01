@@ -65,7 +65,8 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback {
     public void onRequestPermissionsResult(int requestCode, final String[] permissions,
                                            final int[] grantResults) {
         if (requestCode == REQUEST_PERMISSIONS) {
-            if (grantResults[0] == PermissionChecker.PERMISSION_GRANTED &&
+            if (grantResults.length >= 2 &&
+                    grantResults[0] == PermissionChecker.PERMISSION_GRANTED &&
                     grantResults[1] == PermissionChecker.PERMISSION_GRANTED) {
                 showMap();
             } else {
