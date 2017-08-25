@@ -35,7 +35,7 @@
 
     <string name="general_settings">Общие настройки</string>
     <string name="airplane_title">Режим полета</string>
-    <string name="airplane_summary">"Не включать WiFi в 'режиме полета'"</string>
+    <string name="airplane_summary">Не включать WiFi в \'режиме полета\'</string>
     <string name="when_entering_location">при нахождении в этих местах</string>
     <string name="buy_pro">В бесплатной версии приложения поддерживается только ОДНО местоположение. Вы хотите перейти на Pro версию сейчас?</string>
     <string name="location_text">Включать WiFi при нахождении в этих местах:</string>
@@ -52,7 +52,7 @@
     <string name="log_empty">В журнале нет записей</string>
     <string name="log_summary">Показать последние события по изменению состояния WiFi</string>
     <string name="log_title">Журнал</string>
-    <string name="event_airplane">WiFi не был включен, потому что устройство находится в 'режиме полета'</string>
+    <string name="event_airplane">WiFi не был включен, потому что устройство находится в \'режиме полета\'</string>
     <string name="event_turn_on">Включение WiFi</string>
     <string name="event_turn_off">Выключение WiFi</string>
     <string name="event_location">Нахождение в местоположении: %s</string>
