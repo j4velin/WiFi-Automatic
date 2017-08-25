@@ -70,5 +70,5 @@
     <string name="event_no_network_timer">Запущен таймер сетевой активности (%d min)</string>
     <string name="delete_log">Очистить</string>
     <string name="turn_on_off">Вкл/Выкл</string>
-    <string name="hotspot_active">WiFi не был включен, потому что он находится в режиме 'точки доступа'</string>
+    <string name="hotspot_active">WiFi не был включен, потому что он находится в режиме \'точки доступа\'</string>
 </resources>
