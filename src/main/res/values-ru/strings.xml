@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="adv_wifi_settings">Расширенные функции WiFi</string>
-    <string name="advanced_wifi_settings">Расширенные функции WiFi</string>
-    <string name="airplane_summary">"Не включайть WiFi в режиме 'Самолёт'"</string>
-    <string name="airplane_title">Режим Самолёт</string>
-    <string name="at_summary">каждый день в %s</string>
-    <string name="buy_pro">В бесплатной версии приложения поддерживается только ОДНО местоположение. Вы хотите перейти на Pro версию сейчас?</string>
-    <string name="donate">Пожертвовать</string>
-    <string name="every_summary">каждые %s</string>
+    
     <string name="for_at_least">по истечении %d мин.</string>
-    <string name="general_settings">Общие настройки</string>
-    <string name="invalid_input_number_has_to_be_">Ошибка ввода: Число должно быть >= %1$d и &lt;= %2$d</string>
-    <string name="location_summary">Использовать информацию о местоположении сотовой сети для включения WiFi в определённых местах</string>
-    <string name="location_text">Включать WiFi при вводе этих мест:</string>
-    <string name="minutes_before_turning_off_wifi_">Минуты перед отключением WiFi:</string>
+    <string name="at_summary">каждый день в %s</string>
+    <string name="every_summary">каждые %s</string>
+    <string name="advanced_wifi_settings">Расширенные настройки WiFi</string>
     <string name="more_apps">Другие приложения</string>
-    <string name="not_connected_to_any_network">когда нет активных подключений</string>
-    <string name="power_title">при подключении ЗУ</string>
-
+    <string name="donate">Пожертвовать</string>
+    <string name="turn_wifi_on_">Включать WiFi…</string>
+    <string name="when_device_gets_unlocked">когда устройство разблокировано</string>
+    <string name="turn_wifi_off_when_">Отключать WiFi…</string>
+    <string name="screen_is_off">когда экран отключен</string>
+    <string name="not_connected_to_any_network">когда нет сетевой активности</string>
+    <string name="sleep_policy">"Ваши настройки спящего режима WiFi, будут отключать WiFi как только погаснет экран. Вы можете изменить эти настройки, перейдя в 'Расширенные настройки Wi-Fi' вашего Андроида"</string>
+    <string name="adv_wifi_settings">Расш. настройки WiFi</string>
+    <string name="settings_not_found_">Настройки не найдены!</string>
+    <string name="minutes_before_turning_off_wifi_">Минуты перед отключением WiFi:</string>
+    <string name="turn_wifi_on_at_">Включить WiFi в:</string>
+    <string name="turn_wifi_off_at_">Отключить WiFi в:</string>
+    <string name="turn_wifi_on_every">Включать WiFi каждые …</string>
+    <string name="invalid_input_number_has_to_be_">Ошибка ввода: Число должно быть >= %1$d и &lt;= %2$d</string>
+    <string name="power_title">когда устройство заряжается</string>
+    <string name="power_summary">Будет проигнорирована настройка \"когда экран отключен\"</string>
+    
     <string-array name="time_names">
         <item>5 мин.</item>
         <item>15 мин.</item>
@@ -28,14 +33,42 @@
         <item>10 часов</item>
     </string-array>
 
-    <string name="screen_is_off">когда экран отключен</string>
-    <string name="settings_not_found_">Настройки не найдены!</string>
-    <string name="sleep_policy">"Ваша политика WiFi перехода в сон будет отключать WiFi как только погаснет экран. Вы можете изменить политику, перейдя в 'Расширенные функции Wi-Fi'"</string>
-    <string name="turn_wifi_off_at_">Отключить WiFi в:</string>
-    <string name="turn_wifi_off_when_">Отключать WiFi…</string>
-    <string name="turn_wifi_on_">Включать WiFi…</string>
-    <string name="turn_wifi_on_at_">Включить WiFi в:</string>
-    <string name="turn_wifi_on_every">Включать WiFi каждые …</string>
-    <string name="when_device_gets_unlocked">когда устройство разблокировано</string>
-    <string name="when_entering_location">при вводе этих мест</string>
+    <string name="general_settings">Общие настройки</string>
+    <string name="airplane_title">Режим полета</string>
+    <string name="airplane_summary">Не включать WiFi в \'режиме полета\'</string>
+    <string name="when_entering_location">при нахождении в этих местах</string>
+    <string name="buy_pro">В бесплатной версии приложения поддерживается только ОДНО местоположение. Вы хотите перейти на Pro версию сейчас?</string>
+    <string name="location_text">Включать WiFi при нахождении в этих местах:</string>
+    <string name="location_summary">Использовать информацию о своем местоположении, для включения WiFi в определённых местах</string>
+    <string name="no_connected">WiFi не подключен</string>
+    <string name="click_to_select_network">Нажмите для выбора WiFi сети</string>
+    <string name="wifi_not_enabled">WiFi выключен</string>
+    <string name="click_to_turn_on">Нажмите чтобы включить</string>
+    <string name="location_settings_warning">Настройки вашего телефона запрещают приложению определять местоположение</string>
+    <string name="interval">Интервал:</string>
+    <string name="active_location_scan">Активная проверка местоположения</string>
+    <string name="more_info">Подробнее</string>
+    <string name="no_permission">У приложения нет прав доступа к вашему местоположению</string>
+    <string name="log_empty">В журнале нет записей</string>
+    <string name="log_summary">Показать последние события по изменению состояния WiFi</string>
+    <string name="log_title">Журнал</string>
+    <string name="event_airplane">WiFi не был включен, потому что устройство находится в \'режиме полета\'</string>
+    <string name="event_turn_on">Включение WiFi</string>
+    <string name="event_turn_off">Выключение WiFi</string>
+    <string name="event_location">Нахождение в местоположении: %s</string>
+    <string name="event_display_off_ignored_ac">Отключение экрана не произошло, потому что устройство подключено к зарядке</string>
+    <string name="event_unlocked">Устройство разблокировано</string>
+    <string name="event_connected">WiFi подключен</string>
+    <string name="event_disconnected">WiFi отключен</string>
+    <string name="event_enabled">WiFi включен</string>
+    <string name="event_disabled">WiFi выключен</string>
+    <string name="event_ac">Подключено внешнее питание</string>
+    <string name="event_ac_disconnected">Отключено внешнее питание</string>
+    <string name="event_screen_off_canceled">Таймер отключенного экрана отменен</string>
+    <string name="event_no_network_canceled">Таймер сетевой активности отменен</string>
+    <string name="event_screen_off_timer">Запущен таймер отключенного экрана (%d min)</string>
+    <string name="event_no_network_timer">Запущен таймер сетевой активности (%d min)</string>
+    <string name="delete_log">Очистить</string>
+    <string name="turn_on_off">Вкл/Выкл</string>
+    <string name="hotspot_active">WiFi не был включен, потому что он находится в режиме \'точки доступа\'</string>
 </resources>
