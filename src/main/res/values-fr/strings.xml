@@ -38,7 +38,7 @@
     <string name="airplane_summary">Ne pas activer le Wi-Fi en mode avion</string>
     <string name="when_entering_location">en entrant dans ces lieux</string>
     <string name="buy_pro">Un seul lieu disponible dans la version gratuite de l\'application. Voulez-vous passer à la version pro maintenant ?</string>
-    <string name="location_text">Désactiver le Wi-Fi en entrant dans ces lieux :</string>
+    <string name="location_text">Activer le Wi-Fi en entrant dans ces lieux :</string>
     <string name="location_summary">Utiliser la localisation cellulaire pour activer le Wi-Fi à des lieux spécifiés</string>
     <string name="timeout_too_short">Le paramètre \"aucun délai réseau\" peut être trop court pour rechercher des localisations. Modifier à 5 min maintenant ?</string>
     <string name="no_connected">Wi-Fi déconnecté</string>
