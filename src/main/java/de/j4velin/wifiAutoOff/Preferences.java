@@ -264,7 +264,11 @@ public class Preferences extends PreferenceActivity {
         super.onPause();
         Start.start(this);
         handler.removeCallbacks(signalUpdater);
-        unregisterReceiver(stateChangedReceiver);
+        try {
+            unregisterReceiver(stateChangedReceiver);
+        } catch (IllegalArgumentException e) {
+            // ignore
+        }
     }
 
     @SuppressWarnings("deprecation")
