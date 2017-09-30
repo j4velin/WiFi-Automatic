@@ -333,7 +333,8 @@ public class Locations extends AppCompatActivity {
                                            final int[] grantResults) {
         if (requestCode == REQUEST_PERMISSIONS) {
             if (grantResults[0] == PermissionChecker.PERMISSION_GRANTED &&
-                    grantResults[1] == PermissionChecker.PERMISSION_GRANTED) {
+                    (grantResults.length < 2 ||
+                            grantResults[1] == PermissionChecker.PERMISSION_GRANTED)) {
                 findViewById(R.id.permissionswarning).setVisibility(View.GONE);
             }
         } else {
