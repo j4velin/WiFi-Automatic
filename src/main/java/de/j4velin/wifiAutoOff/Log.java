@@ -57,13 +57,18 @@ public class Log {
      * @param type    the type of the event
      */
     public static void insert(final Context context, final String text, final Type type) {
-        Database db = new Database(context);
         ContentValues values = new ContentValues();
         values.put("date", System.currentTimeMillis());
         values.put("info", text);
         values.put("type", type.name());
-        db.getWritableDatabase().insert(Database.DB_NAME, null, values);
-        db.close();
+        Database db = new Database(context);
+        try {
+            db.getWritableDatabase().insert(Database.DB_NAME, null, values);
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG) Logger.log(e);
+        } finally {
+            db.close();
+        }
         if (BuildConfig.DEBUG) Logger.log(text);
     }
 
