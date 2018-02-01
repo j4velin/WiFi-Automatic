@@ -3,8 +3,8 @@
     package="de.j4velin.wifiAutoOff"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="internalOnly"
-    android:versionCode="176"
-    android:versionName="1.7.6">
+    android:versionCode="1770"
+    android:versionName="1.7.7">
 
     <uses-sdk
         android:minSdkVersion="14"

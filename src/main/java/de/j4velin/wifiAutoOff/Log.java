@@ -37,7 +37,8 @@ public class Log {
         LOCATION_ENTERED(R.drawable.event_location_entered), TIMER(R.drawable.event_timer),
         AIRPLANE_MODE(R.drawable.event_airplane_mode), SCREEN_OFF(R.drawable.event_display_off),
         UNLOCKED(R.drawable.event_display_on), AC_CONNECTED(R.drawable.event_ac_connected),
-        AC_DISCONNECTED(R.drawable.event_ac_disconnected), HOTSPOT(R.drawable.event_hotspot);
+        AC_DISCONNECTED(R.drawable.event_ac_disconnected), HOTSPOT(R.drawable.event_hotspot),
+        ERROR(R.drawable.event_error);
 
         public final int drawable;
 

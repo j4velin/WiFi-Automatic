@@ -129,6 +129,18 @@ public class Receiver extends BroadcastReceiver {
      */
     @SuppressWarnings("deprecation")
     private static void changeWiFi(final Context context, boolean on) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            try {
+                if (APILevel17Wrapper.isAirplaneModeOn(context)) {
+                    Log.insert(context, context.getString(R.string.unable_to_change_reason,
+                            context.getString(R.string.error_reason_airplane)), Log.Type.ERROR);
+                    if (BuildConfig.DEBUG)
+                        Logger.log("Unable to change WiFi state: In airplane mode on Android 8.1");
+                }
+            } catch (final SettingNotFoundException e) {
+                if (BuildConfig.DEBUG) Logger.log(e);
+            }
+        }
         SharedPreferences prefs = getSharedPreferences(context);
         if (on && prefs.getBoolean("airplane", true)) {
             // check for airplane mode
@@ -171,7 +183,11 @@ public class Receiver extends BroadcastReceiver {
             if (wm.isWifiEnabled() != on) {
                 Log.insert(context, on ? R.string.event_turn_on : R.string.event_turn_off,
                         on ? Log.Type.WIFI_ON : Log.Type.WIFI_OFF);
-                wm.setWifiEnabled(on);
+                boolean success = wm.setWifiEnabled(on);
+                if (!success) {
+                    Log.insert(context, R.string.unable_to_change, Log.Type.ERROR);
+                    if (BuildConfig.DEBUG) Logger.log("Unable to change WiFi state");
+                }
             }
         } catch (Exception e) {
             Toast.makeText(context, "Can not change WiFi state: " + e.getClass().getName(),

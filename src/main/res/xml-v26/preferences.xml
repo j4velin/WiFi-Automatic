@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <de.j4velin.wifiAutoOff.NoticePreference
+        android:selectable="false"
+        android:summary="@string/airplane_notice"
+        android:title="@string/airplane_title"/>
+
+    <de.j4velin.wifiAutoOff.StatusPreference
+        android:key="status"/>
+
+    <PreferenceCategory android:title="@string/turn_wifi_on_">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="on_unlock"
+            android:title="@string/when_device_gets_unlocked"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="on_at"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="on_every"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="power_connected"
+            android:summary="@string/power_summary"
+            android:title="@string/power_title"/>
+        <Preference
+            android:key="locations"
+            android:summary="@string/location_summary"
+            android:title="@string/when_entering_location"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/turn_wifi_off_when_">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="off_screen_off"
+            android:title="@string/screen_is_off"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="off_no_network"
+            android:title="@string/not_connected_to_any_network"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="off_at"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/general_settings">
+        <Preference
+            android:key="log"
+            android:summary="@string/log_summary"
+            android:title="@string/log_title"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -305,7 +305,25 @@ public class Preferences extends PreferenceActivity {
                     }
                 } else if (!wm.isWifiEnabled()) {
                     try {
-                        wm.setWifiEnabled(true);
+                        boolean success = wm.setWifiEnabled(true);
+                        if (!success) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                                try {
+                                    if (APILevel17Wrapper
+                                            .isAirplaneModeOn(getApplicationContext())) {
+                                        Toast.makeText(Preferences.this,
+                                                getString(R.string.unable_to_change_reason,
+                                                        getString(R.string.error_reason_airplane)),
+                                                Toast.LENGTH_LONG).show();
+                                        return true;
+                                    }
+                                } catch (final SettingNotFoundException e) {
+                                    if (BuildConfig.DEBUG) Logger.log(e);
+                                }
+                            }
+                            Toast.makeText(Preferences.this, R.string.unable_to_change,
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     } catch (SecurityException ex) {
                         ex.printStackTrace();
                         Toast.makeText(Preferences.this, "No permission to enable WiFi",
