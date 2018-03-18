@@ -332,7 +332,8 @@ public class Locations extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, final String[] permissions,
                                            final int[] grantResults) {
         if (requestCode == REQUEST_PERMISSIONS) {
-            if (grantResults[0] == PermissionChecker.PERMISSION_GRANTED &&
+            if (grantResults.length > 0 &&
+                    grantResults[0] == PermissionChecker.PERMISSION_GRANTED &&
                     (grantResults.length < 2 ||
                             grantResults[1] == PermissionChecker.PERMISSION_GRANTED)) {
                 findViewById(R.id.permissionswarning).setVisibility(View.GONE);

@@ -19,6 +19,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
@@ -120,10 +121,14 @@ public class Log {
      */
     public static void deleteOldLogs(final Context context, long duration) {
         Database db = new Database(context);
-        int deleted = db.getWritableDatabase().delete(Database.DB_NAME, "date < ?",
-                new String[]{String.valueOf(System.currentTimeMillis() - duration)});
+        try {
+            int deleted = db.getWritableDatabase().delete(Database.DB_NAME, "date < ?",
+                    new String[]{String.valueOf(System.currentTimeMillis() - duration)});
+            if (BuildConfig.DEBUG) Logger.log("deleted " + deleted + " old log entries");
+        } catch (SQLiteDatabaseLockedException e) {
+            if (BuildConfig.DEBUG) Logger.log("cant delete log: database locked");
+        }
         db.close();
-        if (BuildConfig.DEBUG) Logger.log("deleted " + deleted + " old log entries");
     }
 
     /**
