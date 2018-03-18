@@ -237,8 +237,9 @@ public class Preferences extends PreferenceActivity {
             return ((android.os.Build.VERSION.SDK_INT >=
                     android.os.Build.VERSION_CODES.JELLY_BEAN_MR1 &&
                     APILevel17Wrapper.sleepPolicySetToNever(c)) ||
-                    (Settings.System.WIFI_SLEEP_POLICY_NEVER == Settings.System
-                            .getInt(c.getContentResolver(), Settings.System.WIFI_SLEEP_POLICY)));
+                    Settings.System.WIFI_SLEEP_POLICY_NEVER == Settings.System
+                            .getInt(c.getContentResolver(), Settings.System.WIFI_SLEEP_POLICY) ||
+                    Build.VERSION.SDK_INT >= 27);
         } catch (SettingNotFoundException e) {
             e.printStackTrace();
         }
