@@ -78,10 +78,10 @@
     <string name="event_disabled">WiFi desactivado</string>
     <string name="event_ac">Conectado a toma de corriente externa</string>
     <string name="event_ac_disconnected">Desconectado de la toma de corriente</string>
-    <string name="event_screen_off_canceled">Se ha cancelado el temporizador para apagar la pantalla</string>
-    <string name="event_no_network_canceled">Se ha cancelado el temporizador de red</string>
-    <string name="event_screen_off_timer">Temporizador de pantalla asignado (%d min)</string>
-    <string name="event_no_network_timer">Temporizador de red asignado (%d min)</string>
+    <string name="event_screen_off_canceled">Se ha cancelado el temporizador de pantalla apagada</string>
+    <string name="event_no_network_canceled">Se ha cancelado el temporizador de sin red</string>
+    <string name="event_screen_off_timer">Temporizador de pantalla apagada asignado (%d min)</string>
+    <string name="event_no_network_timer">Temporizador de sin red asignado (%d min)</string>
     <string name="delete_log">Borrar registro</string>
     <string name="turn_on_off">Activar/Desactivar</string>
     <string name="hotspot_active">No activar el WiFi si hay un punto de acceso WiFi activo</string>
