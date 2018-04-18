@@ -78,17 +78,17 @@
     <string name="event_disabled">WiFi desactivado</string>
     <string name="event_ac">Conectado a toma de corriente externa</string>
     <string name="event_ac_disconnected">Desconectado de la toma de corriente</string>
-    <string name="event_screen_off_canceled">Screen off timer canceled</string>
-    <string name="event_no_network_canceled">No network timer canceled</string>
-    <string name="event_screen_off_timer">Screen off timer set (%d min)</string>
-    <string name="event_no_network_timer">No network timer set (%d min)</string>
-    <string name="delete_log">Delete log</string>
-    <string name="turn_on_off">Turn on/off</string>
-    <string name="hotspot_active">Not turning WiFi on as WiFi hotspot is active</string>
-    <string name="unable_to_change">Unable to change WiFi state</string>
-    <string name="unable_to_change_reason">Unable to change WiFi state: %s</string>
-    <string name="error_reason_airplane">Device is in airplane mode</string>
-    <string name="airplane_notice">Notice: On your Android version, apps can not change the WiFi
-        state while the device is in airplane mode!
+    <string name="event_screen_off_canceled">Se ha cancelado el temporizador para apagar la pantalla</string>
+    <string name="event_no_network_canceled">Se ha cancelado el temporizador de red</string>
+    <string name="event_screen_off_timer">Temporizador de pantalla asignado (%d min)</string>
+    <string name="event_no_network_timer">Temporizador de red asignado (%d min)</string>
+    <string name="delete_log">Borrar registro</string>
+    <string name="turn_on_off">Activar/Desactivar</string>
+    <string name="hotspot_active">No activar el WiFi si hay un punto de acceso WiFi activo</string>
+    <string name="unable_to_change">No se puede cambiar el estado del WiFi</string>
+    <string name="unable_to_change_reason">No se puede cambiar el estado del WiFi: %s</string>
+    <string name="error_reason_airplane">El dispositivo está en modo avión</string>
+    <string name="airplane_notice">Aviso: ¡En su versión de Android, las aplicaciones no pueden cambiar el
+        estado del WiFi si el dispositivo está en modo avión!
     </string>
 </resources>
