@@ -13,8 +13,7 @@
     <string name="turn_wifi_off_when_">Spegni il WiFi quando&#8230;</string>
     <string name="screen_is_off">lo schermo e` spento</string>
     <string name="not_connected_to_any_network">non sei connesso ad alcuna rete</string>
-    <string name="sleep_policy">Your WiFi sleep policy is set to automatically disable WiFi as soon
-        as the display goes off. You can change the policy in the Android \'Advanced WiFi settings\'
+    <string name="sleep_policy">Le tue impostazioni del WiFi sono impostate per disabilitare automaticamente il WiFi quando lo schermo si spegne. Puoi cambiare le impostazioni nel menu \'Impostazioni avanzate WiFi\' di Android
     </string>
     <string name="adv_wifi_settings">Impostazioni WiFi avanzate</string>
     <string name="settings_not_found_">Impostazione non trovata!</string>
