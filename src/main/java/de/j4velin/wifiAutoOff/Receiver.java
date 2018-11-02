@@ -1,12 +1,12 @@
 /*
  * Copyright 2013 Thomas Hoffmann
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -69,17 +69,10 @@ public class Receiver extends BroadcastReceiver {
                 new Intent(context, Receiver.class).putExtra("timer", id).setAction(action);
         if (PendingIntent.getBroadcast(context, id, timerIntent, PendingIntent.FLAG_NO_CREATE) ==
                 null) {
-            if (Build.VERSION.SDK_INT >= 19) {
-                APILevel19Wrapper.setExactTimer(context, AlarmManager.RTC_WAKEUP,
-                        System.currentTimeMillis() + 60000 * time, PendingIntent
-                                .getBroadcast(context, id, timerIntent,
-                                        PendingIntent.FLAG_UPDATE_CURRENT));
-            } else {
-                ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE))
-                        .set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 60000 * time,
-                                PendingIntent.getBroadcast(context, id, timerIntent,
-                                        PendingIntent.FLAG_UPDATE_CURRENT));
-            }
+            Util.setTimer(context, AlarmManager.RTC_WAKEUP,
+                    System.currentTimeMillis() + 60000 * time, PendingIntent
+                            .getBroadcast(context, id, timerIntent,
+                                    PendingIntent.FLAG_UPDATE_CURRENT));
             Log.insert(context, context.getString(
                     id == TIMER_SCREEN_OFF ? R.string.event_screen_off_timer :
                             R.string.event_no_network_timer, time), Log.Type.TIMER);

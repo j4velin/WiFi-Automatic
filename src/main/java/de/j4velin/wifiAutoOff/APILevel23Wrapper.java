@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Thomas Hoffmann
+ * Copyright 2016 Thomas Hoffmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package de.j4velin.wifiAutoOff;
 
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.os.Build;
 
-@TargetApi(19)
-abstract class APILevel19Wrapper {
-    static void setExactTimer(final AlarmManager am, int type, long time, PendingIntent pi) {
-        am.setExact(type, time, pi);
+@TargetApi(Build.VERSION_CODES.M)
+public class APILevel23Wrapper {
+
+    public static void setAlarmWhileIdle(AlarmManager am, int type, long time,
+                                         PendingIntent intent) {
+        am.setAndAllowWhileIdle(type, time, intent);
     }
+
 }
