@@ -3,12 +3,12 @@
     package="de.j4velin.wifiAutoOff"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="internalOnly"
-    android:versionCode="1780"
-    android:versionName="1.7.8">
+    android:versionCode="1790"
+    android:versionName="1.7.9">
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="25"/>
+        android:targetSdkVersion="27"/>
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
