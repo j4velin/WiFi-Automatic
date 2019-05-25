@@ -1,12 +1,12 @@
 /*
  * Copyright 2013 Thomas Hoffmann
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,8 +46,8 @@ import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
 import android.support.annotation.LayoutRes;
@@ -68,7 +68,10 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Preferences extends PreferenceActivity {
 
@@ -76,6 +79,9 @@ public class Preferences extends PreferenceActivity {
 
     private StatusPreference status;
     private AppCompatDelegate mDelegate;
+
+    private final static Set<String> NON_DISABLE_PREFS =
+            new HashSet<>(Arrays.asList("notice", "status", "log"));
 
     /**
      * whether the location settings should be enabled by the enable/disable app switch
@@ -119,29 +125,16 @@ public class Preferences extends PreferenceActivity {
                 .getComponentEnabledSetting(new ComponentName(Preferences.this, Receiver.class)) !=
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
 
-        if (Build.VERSION.SDK_INT < 14) {
-            menu.findItem(R.id.enable)
-                    .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(final MenuItem menuItem) {
-                            boolean isEnabled = getPackageManager().getComponentEnabledSetting(
-                                    new ComponentName(Preferences.this, Receiver.class)) !=
-                                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
-                            changeEnableState(!isEnabled);
-                            return true;
-                        }
-                    });
-        } else {
-            CompoundButton enable =
-                    (CompoundButton) MenuItemCompat.getActionView(menu.findItem(R.id.enable));
-            enable.setChecked(isEnabled);
-            enable.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    changeEnableState(isChecked);
-                }
-            });
-        }
+        CompoundButton enable =
+                (CompoundButton) MenuItemCompat.getActionView(menu.findItem(R.id.enable));
+        enable.setChecked(isEnabled);
+        enable.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                enableSettings(isChecked);
+                changeEnableState(getApplicationContext(), isChecked);
+            }
+        });
 
         // disable initially if not checked
         if (!isEnabled) {
@@ -152,30 +145,47 @@ public class Preferences extends PreferenceActivity {
 
     @SuppressWarnings("deprecation")
     private void enableSettings(final boolean enable) {
-        PreferenceScreen ps = getPreferenceScreen();
-        // start at 1 to skip "status" preference
-        for (int i = 1; i < ps.getPreferenceCount(); i++) {
-            ps.getPreference(i).setEnabled(enable);
-        }
+        enablePrefGroup(getPreferenceScreen(), enable);
         if (enable && disableLocationSettings) {
             // disable locations again if disableLocationSettings is set
             findPreference("locations").setEnabled(false);
         }
     }
 
-    private void changeEnableState(final boolean enable) {
-        enableSettings(enable);
-        getPackageManager()
-                .setComponentEnabledSetting(new ComponentName(Preferences.this, Receiver.class),
+    private static void enablePrefGroup(PreferenceGroup pg, boolean enable) {
+        for (int i = 0; i < pg.getPreferenceCount(); i++) {
+            Preference p = pg.getPreference(i);
+            if (p instanceof PreferenceGroup) {
+                enablePrefGroup((PreferenceGroup) p, enable);
+            } else if (!p.hasKey() || !NON_DISABLE_PREFS.contains(p.getKey())) {
+                p.setEnabled(enable);
+            }
+        }
+    }
+
+    /**
+     * Enables/disables the app
+     *
+     * @param context the context
+     * @param enable  true to enable the app
+     */
+    static void changeEnableState(final Context context, final boolean enable) {
+        Log.insert(context, enable ? R.string.app_enabled : R.string.app_disabled,
+                enable ? Log.Type.APP_ENABLED : Log.Type.APP_DISABLED);
+        context.getPackageManager()
+                .setComponentEnabledSetting(new ComponentName(context, Receiver.class),
                         enable ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
                                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                         PackageManager.DONT_KILL_APP);
-        if (!enable) stopService(new Intent(Preferences.this, ScreenChangeDetector.class));
-        getPackageManager().setComponentEnabledSetting(
-                new ComponentName(Preferences.this, ScreenChangeDetector.class),
-                enable ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
-                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP);
+        if (!enable) context.stopService(new Intent(context, ScreenChangeDetector.class));
+        context.getPackageManager()
+                .setComponentEnabledSetting(new ComponentName(context, ScreenChangeDetector.class),
+                        enable ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
+                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                        PackageManager.DONT_KILL_APP);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            APILevel24Wrapper.updateTile(context);
+        }
     }
 
     @Override

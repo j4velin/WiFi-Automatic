@@ -91,4 +91,6 @@
     <string name="airplane_notice">Notice: On your Android version, apps can not change the WiFi
         state while the device is in airplane mode!
     </string>
+    <string name="app_disabled">App disabled</string>
+    <string name="app_enabled">App enabled</string>
 </resources>

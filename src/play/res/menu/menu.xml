@@ -17,4 +17,11 @@
         android:orderInCategory="100"
         android:title="@string/more_apps"
         app:showAsAction="never"/>
+    <item
+        android:visible="false"
+        android:id="@+id/action_donate"
+        android:orderInCategory="100"
+        android:title="@string/donate"
+        app:showAsAction="never"/>
+
 </menu>

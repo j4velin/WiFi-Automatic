@@ -2,6 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <de.j4velin.wifiAutoOff.NoticePreference
+        android:key="notice"
         android:selectable="false"
         android:summary="@string/airplane_notice"
         android:title="@string/airplane_title"/>
