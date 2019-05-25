@@ -30,10 +30,10 @@ public class StatusPreference extends Preference {
         LayoutInflater li =
                 (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = li.inflate(R.layout.statepreference, parent, false);
-        image = (ImageView) v.findViewById(R.id.icon);
-        title = (TextView) v.findViewById(R.id.title);
-        sub1 = (TextView) v.findViewById(R.id.sub1);
-        sub2 = (TextView) v.findViewById(R.id.sub2);
+        image = v.findViewById(R.id.icon);
+        title = v.findViewById(R.id.title);
+        sub1 = v.findViewById(R.id.sub1);
+        sub2 = v.findViewById(R.id.sub2);
         update();
         return v;
     }
@@ -56,7 +56,12 @@ public class StatusPreference extends Preference {
                 sub2.setVisibility(View.GONE);
             } else {
                 WifiInfo wi = wm.getConnectionInfo();
-                title.setText(wi.getSSID());
+                String ssid = wi.getSSID();
+                if (ssid.contains("unknown ssid")) {
+                    // retrieve the SSID might require location permission on some Android versions
+                    ssid = getContext().getString(R.string.event_connected);
+                }
+                title.setText(ssid);
                 image.setColorFilter(getContext().getResources().getColor(R.color.colorAccent));
                 updateSignal();
                 int ip = wi.getIpAddress();
