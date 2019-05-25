@@ -152,7 +152,7 @@ public class Locations extends AppCompatActivity {
             }
         });
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.locations);
+        mRecyclerView = findViewById(R.id.locations);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -180,8 +180,8 @@ public class Locations extends AppCompatActivity {
         });
 
         final SharedPreferences prefs = getSharedPreferences("locationPrefs", MODE_PRIVATE);
-        CheckBox active = (CheckBox) findViewById(R.id.active);
-        final EditText interval = (EditText) findViewById(R.id.scaninterval);
+        CheckBox active = findViewById(R.id.active);
+        final EditText interval = findViewById(R.id.scaninterval);
         active.setChecked(prefs.getBoolean("active", false));
         interval.setText(String.valueOf(prefs.getInt("interval", 15)));
         final View intervalLayout = findViewById(R.id.interval);
@@ -256,9 +256,17 @@ public class Locations extends AppCompatActivity {
             findViewById(R.id.permissionswarning).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    ActivityCompat.requestPermissions(Locations.this,
-                            new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
-                                    Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(Locations.this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        ActivityCompat.requestPermissions(Locations.this,
+                                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                                        Manifest.permission.ACCESS_FINE_LOCATION},
+                                REQUEST_PERMISSIONS);
+                    } else {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        intent.setData(Uri.fromParts("package", getPackageName(), null));
+                        startActivity(intent);
+                    }
                 }
             });
         } else {
