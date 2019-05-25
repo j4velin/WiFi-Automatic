@@ -134,6 +134,7 @@ abstract class Start {
                 PackageManager.DONT_KILL_APP);
 
         c.startService(new Intent(c, GeofenceUpdateService.class));
+        APILevel26ForegroundService.start(c);
 
         if (BuildConfig.DEBUG) Logger.log("all timers set/cleared");
     }
