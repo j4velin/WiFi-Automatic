@@ -212,10 +212,10 @@ public class Preferences extends PreferenceActivity {
             case R.id.action_donate:
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("http://j4velin.de/donate.php"))
+                            Uri.parse("https://j4velin.de/donate.php"))
                             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                 } catch (ActivityNotFoundException anf) {
-                    Toast.makeText(this, "No browser found to load http://j4velin.de/donate.php",
+                    Toast.makeText(this, "No browser found to load https://j4velin.de/donate.php",
                             Toast.LENGTH_LONG).show();
                 }
                 break;
