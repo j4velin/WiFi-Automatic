@@ -101,4 +101,11 @@
     <string name="airplane_notice">Hinweis: In deiner Android Version kann der WLAN Status nicht
         durch Apps geändert werden, wenn sich das Gerät im Flugmdus befindet!
     </string>
+    <string name="app_disabled">App ausgeschaltet</string>
+    <string name="app_enabled">App eingeschaltet</string>
+    <string name="hide_notification">Klicke hier um diese Benachrichtigung auszublenden</string>
+    <string name="notification_desc">Diese Benachrichtung wird benötigt, damit WiFi Automatic im
+        Hintergrund laufen kann. Die Benachrichtung kann in den Einstellungen ausgeblendet werden
+        ohne das die Funktionalität der App beeinträchtigt wird.
+    </string>
 </resources>
