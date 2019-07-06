@@ -15,9 +15,10 @@
  */
 package de.j4velin.wifiAutoOff;
 
-import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
-import android.os.IBinder;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 
 /**
  * Dummy class, "play" build flavor contains actual implementation
