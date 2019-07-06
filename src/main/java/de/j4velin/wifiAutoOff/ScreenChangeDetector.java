@@ -1,12 +1,12 @@
 /*
  * Copyright 2013 Thomas Hoffmann
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -80,17 +80,18 @@ public class ScreenChangeDetector extends Service {
         br = null;
     }
 
-    private class ScreenOffReceiver extends BroadcastReceiver {
-
+    static class ScreenOffReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(final Context context, final Intent intent) {
             if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
-                sendBroadcast(new Intent(context, Receiver.class).setAction(SCREEN_OFF_ACTION));
+                context.sendBroadcast(
+                        new Intent(context, Receiver.class).setAction(SCREEN_OFF_ACTION));
             } else if (Intent.ACTION_SCREEN_ON.equals(intent.getAction()) &&
-                    !((KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE))
+                    !((KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE))
                             .inKeyguardRestrictedInputMode()) {
                 // SCREEN_ON is only send if there is no lockscreen active! Otherwise the Receiver will get USER_PRESENT
-                sendBroadcast(new Intent(context, Receiver.class).setAction(SCREEN_ON_ACTION));
+                context.sendBroadcast(
+                        new Intent(context, Receiver.class).setAction(SCREEN_ON_ACTION));
             }
         }
 

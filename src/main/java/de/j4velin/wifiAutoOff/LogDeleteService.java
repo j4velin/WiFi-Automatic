@@ -1,22 +1,25 @@
 package de.j4velin.wifiAutoOff;
 
 import android.app.AlarmManager;
-import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 
 /**
  * Service to call {@link Log#deleteOldLogs(Context, long)} every {@link Log#KEEP_DURATION} ms
  */
-public class LogDeleteService extends IntentService {
+public class LogDeleteService extends JobIntentService {
 
-    public LogDeleteService() {
-        super("LogDeleteService");
+    private static final int JOB_ID = 42;
+
+    public static void enqueueJob(Context context) {
+        enqueueWork(context, LogDeleteService.class, JOB_ID, new Intent());
     }
 
     @Override
-    protected void onHandleIntent(final Intent intent) {
+    protected void onHandleWork(@NonNull Intent intent) {
         Log.deleteOldLogs(this, Log.KEEP_DURATION);
         ((AlarmManager) getSystemService(Context.ALARM_SERVICE))
                 .set(AlarmManager.RTC, System.currentTimeMillis() + Log.KEEP_DURATION, PendingIntent

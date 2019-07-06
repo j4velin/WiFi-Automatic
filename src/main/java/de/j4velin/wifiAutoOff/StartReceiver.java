@@ -35,7 +35,7 @@ public class StartReceiver extends BroadcastReceiver {
         if (BuildConfig.DEBUG) Logger.log("received: " + intent.getAction());
         if (!Intent.ACTION_PACKAGE_REPLACED.equals(intent.getAction()) ||
                 intent.getDataString().contains(context.getPackageName())) {
-            context.startService(new Intent(context, LogDeleteService.class));
+            LogDeleteService.enqueueJob(context);
         }
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             // AC already connected on boot?

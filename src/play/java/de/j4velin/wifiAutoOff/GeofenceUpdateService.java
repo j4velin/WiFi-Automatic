@@ -17,11 +17,12 @@ package de.j4velin.wifiAutoOff;
 
 import android.Manifest;
 import android.app.PendingIntent;
-import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.IBinder;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 import android.support.v4.content.PermissionChecker;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -33,25 +34,24 @@ import com.google.android.gms.location.LocationServices;
 
 import java.util.List;
 
-public class GeofenceUpdateService extends Service implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+public class GeofenceUpdateService extends JobIntentService implements
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private final static int LOCATION_RANGE_METER = 200;
+    private static final int JOB_ID = 4242;
     private GoogleApiClient mLocationClient;
 
-    @Override
-    public IBinder onBind(final Intent intent) {
-        return null;
+    public static void enqueueJob(Context context) {
+        enqueueWork(context, GeofenceUpdateService.class, JOB_ID, new Intent());
     }
 
     @Override
-    public int onStartCommand(final Intent intent, int flags, int startId) {
+    protected void onHandleWork(@NonNull Intent intent) {
         if (mLocationClient == null) {
             mLocationClient = new GoogleApiClient.Builder(this).addApi(LocationServices.API)
                     .addConnectionCallbacks(this).addOnConnectionFailedListener(this).build();
             mLocationClient.connect();
         }
-        return START_NOT_STICKY;
     }
 
     @Override

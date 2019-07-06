@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.NetworkInfo;
+import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
@@ -233,6 +234,7 @@ public class Receiver extends BroadcastReceiver {
                     }
                     break;
                 case UnlockReceiver.USER_PRESENT_ACTION:
+                case Intent.ACTION_USER_PRESENT:
                 case ScreenChangeDetector.SCREEN_ON_ACTION:
                     Log.insert(context, R.string.event_unlocked, Log.Type.UNLOCKED);
                     // user unlocked the device -> stop TIMER_SCREEN_OFF, might turn on
@@ -277,9 +279,19 @@ public class Receiver extends BroadcastReceiver {
                     if (intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,
                             WifiManager.WIFI_STATE_UNKNOWN) == WifiManager.WIFI_STATE_ENABLED) {
                         Log.insert(context, R.string.event_enabled, Log.Type.WIFI_ON);
-                        if (prefs.getBoolean("off_no_network", true)) {
-                            startTimer(context, TIMER_NO_NETWORK,
-                                    prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK));
+                        WifiManager wm = ((WifiManager) context.getApplicationContext()
+                                .getSystemService(Context.WIFI_SERVICE));
+                        if (wm != null && wm.getConnectionInfo() != null &&
+                                wm.getConnectionInfo().getSupplicantState() ==
+                                        SupplicantState.COMPLETED) {
+                            if (BuildConfig.DEBUG) {
+                                Logger.log("Wifi already connected");
+                            }
+                        } else {
+                            if (prefs.getBoolean("off_no_network", true)) {
+                                startTimer(context, TIMER_NO_NETWORK,
+                                        prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK));
+                            }
                         }
                         if (prefs.getBoolean("off_screen_off", true) &&
                                 ((Build.VERSION.SDK_INT < 20 &&

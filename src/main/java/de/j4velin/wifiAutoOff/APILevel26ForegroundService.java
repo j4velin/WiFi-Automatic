@@ -10,8 +10,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 
@@ -44,6 +46,8 @@ public class APILevel26ForegroundService extends Service {
                     new IntentFilter("android.net.wifi.p2p.CONNECTION_STATE_CHANGE"),
                     new IntentFilter("android.intent.action.ACTION_POWER_CONNECTED"),
                     new IntentFilter("android.intent.action.ACTION_POWER_DISCONNECTED")};
+    private static ScreenChangeDetector.ScreenOffReceiver screenOffReceiver;
+    private static boolean registered;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -61,9 +65,42 @@ public class APILevel26ForegroundService extends Service {
                                         .putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName())
                                         .putExtra(Settings.EXTRA_CHANNEL_ID, CHANNEL_ID), 0))
                         .build());
-        for (IntentFilter filter : FILTERS) {
-            registerReceiver(RECEIVER, filter);
+        synchronized (CHANNEL_ID) {
+            if (!registered) {
+                for (IntentFilter filter : FILTERS) {
+                    registerReceiver(RECEIVER, filter);
+                }
+                registered = true;
+            }
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            if (prefs.getBoolean("off_screen_off", true) || prefs.getBoolean("on_unlock", true)) {
+                if (screenOffReceiver == null) {
+                    screenOffReceiver = new ScreenChangeDetector.ScreenOffReceiver();
+                }
+                registerReceiver(screenOffReceiver, new IntentFilter(Intent.ACTION_SCREEN_ON));
+                registerReceiver(screenOffReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF));
+                registerReceiver(RECEIVER, new IntentFilter(Intent.ACTION_USER_PRESENT));
+            } else if (screenOffReceiver != null) {
+                unregisterReceiver(screenOffReceiver);
+                screenOffReceiver = null;
+            }
         }
         return START_STICKY;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        synchronized (CHANNEL_ID) {
+            registered = false;
+            try {
+                unregisterReceiver(RECEIVER);
+                if (screenOffReceiver != null) {
+                    unregisterReceiver(screenOffReceiver);
+                }
+            } catch (Throwable t) {
+                if (BuildConfig.DEBUG) Logger.log(t);
+            }
+        }
     }
 }

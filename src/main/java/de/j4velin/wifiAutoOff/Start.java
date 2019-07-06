@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.preference.PreferenceManager;
 
 import java.util.Calendar;
@@ -41,11 +42,6 @@ abstract class Start {
     static void createTimers(final Context c) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(c);
         AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
-        if (prefs.getBoolean("off_screen_off", true) || prefs.getBoolean("on_unlock", true)) {
-            c.startService(new Intent(c, ScreenChangeDetector.class));
-        } else {
-            c.stopService(new Intent(c, ScreenChangeDetector.class));
-        }
 
         Calendar cal = Calendar.getInstance();
 
@@ -128,12 +124,22 @@ abstract class Start {
         }
 
         c.getPackageManager().setComponentEnabledSetting(new ComponentName(c, UnlockReceiver.class),
-                prefs.getBoolean("on_unlock", true) ?
+                prefs.getBoolean("on_unlock", true) &&
+                        Build.VERSION.SDK_INT < Build.VERSION_CODES.O ?
                         PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
                         PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                 PackageManager.DONT_KILL_APP);
 
-        c.startService(new Intent(c, GeofenceUpdateService.class));
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            // on O and later, the APILevel26ForegroundService handles this
+            if (prefs.getBoolean("off_screen_off", true) || prefs.getBoolean("on_unlock", true)) {
+                c.startService(new Intent(c, ScreenChangeDetector.class));
+            } else {
+                c.stopService(new Intent(c, ScreenChangeDetector.class));
+            }
+        }
+
+        GeofenceUpdateService.enqueueJob(c);
         APILevel26ForegroundService.start(c);
 
         if (BuildConfig.DEBUG) Logger.log("all timers set/cleared");
