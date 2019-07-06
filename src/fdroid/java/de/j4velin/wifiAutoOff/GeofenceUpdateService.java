@@ -22,17 +22,14 @@ import android.os.IBinder;
 /**
  * Dummy class, "play" build flavor contains actual implementation
  */
-public class GeofenceUpdateService extends Service {
+public class GeofenceUpdateService extends JobIntentService {
 
-    @Override
-    public IBinder onBind(final Intent intent) {
-        return null;
+    public static void enqueueJob(Context context) {
     }
 
     @Override
-    public int onStartCommand(final Intent intent, int flags, int startId) {
+    protected void onHandleWork(@NonNull Intent intent) {
         stopSelf();
-        return START_NOT_STICKY;
     }
 
 }
