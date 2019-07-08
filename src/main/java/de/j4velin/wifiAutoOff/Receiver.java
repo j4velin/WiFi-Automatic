@@ -42,6 +42,8 @@ import java.lang.reflect.Method;
 public class Receiver extends BroadcastReceiver {
 
     public final static String LOCATION_ENTERED_ACTION = "LOCATION_ENTERED";
+    // to prevent SecurityException: Not allowed to send ACTION_POWER_CONNECTED
+    public final static String POWER_CONNECTED = "POWER_CONNECTED";
     public final static String EXTRA_LOCATION_NAME = "name";
     private static NetworkInfo.State previousState = null;
 
@@ -335,6 +337,7 @@ public class Receiver extends BroadcastReceiver {
                     }
                     previousState = nwi2.getState();
                     break;
+                case POWER_CONNECTED:
                 case Intent.ACTION_POWER_CONNECTED:
                     // connected to external power supply
                     if (prefs.getBoolean("power_connected", false)) {

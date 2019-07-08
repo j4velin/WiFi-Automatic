@@ -44,8 +44,9 @@ public class StartReceiver extends BroadcastReceiver {
             int plugged = batteryIntent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
             if (plugged == BatteryManager.BATTERY_PLUGGED_AC ||
                     plugged == BatteryManager.BATTERY_PLUGGED_USB) {
-                context.sendBroadcast(new Intent(context, Receiver.class)
-                        .setAction(Intent.ACTION_POWER_CONNECTED));
+                context.sendBroadcast(
+                        // we're not allowed to send Intent.ACTION_POWER_CONNECTED, so use our own action
+                        new Intent(context, Receiver.class).setAction(Receiver.POWER_CONNECTED));
             }
         }
         Start.start(context);

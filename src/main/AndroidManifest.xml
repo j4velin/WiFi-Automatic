@@ -3,8 +3,8 @@
     package="de.j4velin.wifiAutoOff"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="internalOnly"
-    android:versionCode="1820"
-    android:versionName="1.8.2">
+    android:versionCode="1830"
+    android:versionName="1.8.3">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK" android:maxSdkVersion="26"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:allowBackup="true"
