@@ -129,8 +129,11 @@ public class Log {
             if (BuildConfig.DEBUG) Logger.log("deleted " + deleted + " old log entries");
         } catch (SQLiteDatabaseLockedException e) {
             if (BuildConfig.DEBUG) Logger.log("cant delete log: database locked");
+        } catch (Throwable t) {
+            if (BuildConfig.DEBUG) Logger.log("cant delete log: " + t.getMessage());
+        } finally {
+            db.close();
         }
-        db.close();
     }
 
     /**

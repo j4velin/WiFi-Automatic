@@ -39,14 +39,20 @@ public class StartReceiver extends BroadcastReceiver {
         }
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             // AC already connected on boot?
-            Intent batteryIntent =
-                    context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-            int plugged = batteryIntent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-            if (plugged == BatteryManager.BATTERY_PLUGGED_AC ||
-                    plugged == BatteryManager.BATTERY_PLUGGED_USB) {
-                context.sendBroadcast(
-                        // we're not allowed to send Intent.ACTION_POWER_CONNECTED, so use our own action
-                        new Intent(context, Receiver.class).setAction(Receiver.POWER_CONNECTED));
+            try {
+                Intent batteryIntent = context.registerReceiver(null,
+                        new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+                int plugged = batteryIntent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+                if (plugged == BatteryManager.BATTERY_PLUGGED_AC ||
+                        plugged == BatteryManager.BATTERY_PLUGGED_USB) {
+                    context.sendBroadcast(
+                            // we're not allowed to send Intent.ACTION_POWER_CONNECTED, so use our own action
+                            new Intent(context, Receiver.class)
+                                    .setAction(Receiver.POWER_CONNECTED));
+                }
+            } catch (Throwable t) {
+                // ReceiverCallNotAllowedException might be thrown on Samsung devices...
+                if (BuildConfig.DEBUG) Logger.log(t);
             }
         }
         Start.start(context);
