@@ -172,17 +172,25 @@ public class Preferences extends PreferenceActivity {
     static void changeEnableState(final Context context, final boolean enable) {
         Log.insert(context, enable ? R.string.app_enabled : R.string.app_disabled,
                 enable ? Log.Type.APP_ENABLED : Log.Type.APP_DISABLED);
-        context.getPackageManager()
-                .setComponentEnabledSetting(new ComponentName(context, Receiver.class),
-                        enable ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
-                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                        PackageManager.DONT_KILL_APP);
-        if (!enable) context.stopService(new Intent(context, ScreenChangeDetector.class));
-        context.getPackageManager()
-                .setComponentEnabledSetting(new ComponentName(context, ScreenChangeDetector.class),
-                        enable ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
-                                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                        PackageManager.DONT_KILL_APP);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (enable) {
+                APILevel26ForegroundService.start(context);
+            } else {
+                context.stopService(new Intent(context, APILevel26ForegroundService.class));
+            }
+        } else {
+            context.getPackageManager()
+                    .setComponentEnabledSetting(new ComponentName(context, Receiver.class),
+                            enable ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
+                                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                            PackageManager.DONT_KILL_APP);
+            if (!enable) context.stopService(new Intent(context, ScreenChangeDetector.class));
+            context.getPackageManager().setComponentEnabledSetting(
+                    new ComponentName(context, ScreenChangeDetector.class),
+                    enable ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
+                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                    PackageManager.DONT_KILL_APP);
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             APILevel24Wrapper.updateTile(context);
         }

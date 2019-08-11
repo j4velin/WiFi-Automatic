@@ -55,6 +55,12 @@ public class APILevel26ForegroundService extends Service {
     }
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        if (BuildConfig.DEBUG) Logger.log("API26ForegroundService onCreate");
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         startForeground(42,
                 new NotificationCompat.Builder(this, CHANNEL_ID).setSmallIcon(R.drawable.icon_black)
@@ -91,6 +97,7 @@ public class APILevel26ForegroundService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (BuildConfig.DEBUG) Logger.log("API26ForegroundService onDestroy");
         synchronized (CHANNEL_ID) {
             registered = false;
             try {
