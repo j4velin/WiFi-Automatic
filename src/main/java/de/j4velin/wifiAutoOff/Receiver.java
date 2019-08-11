@@ -234,6 +234,7 @@ public class Receiver extends BroadcastReceiver {
                     if (prefs.getBoolean("off_screen_off", true)) {
                         if (!prefs.getBoolean("ignore_screen_off", false)) {
                             // screen went off -> start TIMER_SCREEN_OFF
+                            Log.insert(context, R.string.event_screen_off, Log.Type.SCREEN_OFF);
                             startTimer(context, TIMER_SCREEN_OFF,
                                     prefs.getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
                         } else {
@@ -245,7 +246,11 @@ public class Receiver extends BroadcastReceiver {
                 case UnlockReceiver.USER_PRESENT_ACTION:
                 case Intent.ACTION_USER_PRESENT:
                 case ScreenChangeDetector.SCREEN_ON_ACTION:
-                    Log.insert(context, R.string.event_unlocked, Log.Type.UNLOCKED);
+                    if (action.equals(ScreenChangeDetector.SCREEN_ON_ACTION)) {
+                        Log.insert(context, R.string.event_screen_on, Log.Type.SCREEN_ON);
+                    } else {
+                        Log.insert(context, R.string.event_unlocked, Log.Type.UNLOCKED);
+                    }
                     // user unlocked the device -> stop TIMER_SCREEN_OFF, might turn on
                     // WiFi
                     stopTimer(context, TIMER_SCREEN_OFF);

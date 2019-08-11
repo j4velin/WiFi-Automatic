@@ -37,7 +37,8 @@ public class Log {
         WIFI_OFF(R.drawable.event_wifi_off), WIFI_DISCONNECTED(R.drawable.event_wifi_disconnected),
         LOCATION_ENTERED(R.drawable.event_location_entered), TIMER(R.drawable.event_timer),
         AIRPLANE_MODE(R.drawable.event_airplane_mode), SCREEN_OFF(R.drawable.event_display_off),
-        UNLOCKED(R.drawable.event_display_on), AC_CONNECTED(R.drawable.event_ac_connected),
+        SCREEN_ON(R.drawable.event_display_on), UNLOCKED(R.drawable.event_unlock),
+        AC_CONNECTED(R.drawable.event_ac_connected),
         AC_DISCONNECTED(R.drawable.event_ac_disconnected), HOTSPOT(R.drawable.event_hotspot),
         ERROR(R.drawable.event_error), APP_DISABLED(R.drawable.event_app_disabled),
         APP_ENABLED(R.drawable.event_app_enabled);

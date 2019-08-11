@@ -82,6 +82,8 @@
     <string name="event_no_network_canceled">No network timer canceled</string>
     <string name="event_screen_off_timer">Screen off timer set (%d min)</string>
     <string name="event_no_network_timer">No network timer set (%d min)</string>
+    <string name="event_screen_off">Display turned off</string>
+    <string name="event_screen_on">Display turned on</string>
     <string name="delete_log">Delete log</string>
     <string name="turn_on_off">Turn on/off</string>
     <string name="hotspot_active">Not turning WiFi on as WiFi hotspot is active</string>

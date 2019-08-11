@@ -92,6 +92,8 @@
     <string name="event_no_network_canceled">"Keine Verbindung" Timer abgebrochen</string>
     <string name="event_screen_off_timer">"Display aus" Timer gesetzt (%d min)</string>
     <string name="event_no_network_timer">"Keine Verbindung" Timer gesetzt (%d min)</string>
+    <string name="event_screen_off">Display ausgeschaltet</string>
+    <string name="event_screen_on">Display eingeschaltet</string>
     <string name="delete_log">Log löschen</string>
     <string name="turn_on_off">Ein-/Ausschalten</string>
     <string name="hotspot_active">WiFi Hotspot aktiv, WLAN wird nicht eingeschaltet</string>
