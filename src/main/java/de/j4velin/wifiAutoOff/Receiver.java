@@ -191,6 +191,13 @@ public class Receiver extends BroadcastReceiver {
         }
     }
 
+    private static boolean isWiFiConnected(final Context context) {
+        WifiManager wm = ((WifiManager) context.getApplicationContext()
+                .getSystemService(Context.WIFI_SERVICE));
+        return (wm != null && wm.getConnectionInfo() != null &&
+                wm.getConnectionInfo().getSupplicantState() == SupplicantState.COMPLETED);
+    }
+
     @SuppressLint("InlinedApi")
     @Override
     public void onReceive(final Context context, final Intent intent) {
@@ -281,11 +288,7 @@ public class Receiver extends BroadcastReceiver {
                     if (intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,
                             WifiManager.WIFI_STATE_UNKNOWN) == WifiManager.WIFI_STATE_ENABLED) {
                         Log.insert(context, R.string.event_enabled, Log.Type.WIFI_ON);
-                        WifiManager wm = ((WifiManager) context.getApplicationContext()
-                                .getSystemService(Context.WIFI_SERVICE));
-                        if (wm != null && wm.getConnectionInfo() != null &&
-                                wm.getConnectionInfo().getSupplicantState() ==
-                                        SupplicantState.COMPLETED) {
+                        if (isWiFiConnected(context)) {
                             if (BuildConfig.DEBUG) {
                                 Logger.log("Wifi already connected");
                             }
@@ -325,7 +328,8 @@ public class Receiver extends BroadcastReceiver {
                             Log.insert(context, R.string.event_connected, Log.Type.WIFI_CONNECTED);
                         }
                         stopTimer(context, TIMER_NO_NETWORK);
-                    } else if (nwi2.getState().equals(NetworkInfo.State.DISCONNECTED)) {
+                    } else if (nwi2.getState().equals(NetworkInfo.State.DISCONNECTED) &&
+                            !isWiFiConnected(context)) {
                         if (!nwi2.getState().equals(previousState)) {
                             Log.insert(context, R.string.event_disconnected,
                                     Log.Type.WIFI_DISCONNECTED);
