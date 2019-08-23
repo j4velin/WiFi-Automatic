@@ -87,7 +87,11 @@ public class APILevel26ForegroundService extends Service {
                 registerReceiver(screenOffReceiver, new IntentFilter(Intent.ACTION_SCREEN_OFF));
                 registerReceiver(RECEIVER, new IntentFilter(Intent.ACTION_USER_PRESENT));
             } else if (screenOffReceiver != null) {
-                unregisterReceiver(screenOffReceiver);
+                try {
+                    unregisterReceiver(screenOffReceiver);
+                } catch (Exception e) {
+                    // ignore
+                }
                 screenOffReceiver = null;
             }
         }

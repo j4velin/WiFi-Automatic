@@ -30,7 +30,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.RemoteException;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.PermissionChecker;
@@ -61,8 +60,13 @@ import java.util.List;
 public class Locations extends AppCompatActivity {
 
     private final static int REQUEST_LOCATION = 1, REQUEST_BUY = 3, REQUEST_PERMISSIONS = 4;
+    private final static String SKU = "de.j4velin.wifiautomatic.billing.pro";
 
+    private static boolean PREMIUM_ENABLED = false;
     private IInAppBillingService mService;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private List<Location> locations;
     private final ServiceConnection mServiceConn = new ServiceConnection() {
         @Override
         public void onServiceDisconnected(final ComponentName name) {
@@ -75,26 +79,23 @@ public class Locations extends AppCompatActivity {
             try {
                 Bundle ownedItems = mService.getPurchases(3, getPackageName(), "inapp", null);
                 if (ownedItems.getInt("RESPONSE_CODE") == 0) {
-                    PREMIUM_ENABLED =
-                            ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST") != null &&
-                                    ownedItems.getStringArrayList("INAPP_PURCHASE_ITEM_LIST")
-                                            .contains("de.j4velin.wifiautomatic.billing.pro");
-                    getSharedPreferences("settings", Context.MODE_PRIVATE).edit()
-                            .putBoolean("pro", PREMIUM_ENABLED).commit();
+                    List<String> items = ownedItems.getStringArrayList("INAPP_PURCHASE_DATA_LIST");
+                    for (String item : items) {
+                        if (BuildConfig.DEBUG) Logger.log(item);
+                        final JSONObject jo = new JSONObject(item);
+                        if (jo.getString("productId").equals(SKU)) {
+                            PREMIUM_ENABLED = jo.getInt("purchaseState") == 0;
+                            getSharedPreferences("settings", Context.MODE_PRIVATE).edit()
+                                    .putBoolean("pro", PREMIUM_ENABLED).apply();
+                            break;
+                        }
+                    }
                 }
-            } catch (RemoteException e) {
-                Toast.makeText(Locations.this, e.getClass().getName() + ": " + e.getMessage(),
-                        Toast.LENGTH_LONG).show();
-                e.printStackTrace();
+            } catch (Exception e) {
+                if (BuildConfig.DEBUG) Logger.log(e);
             }
         }
     };
-
-    private static boolean PREMIUM_ENABLED = false;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView mRecyclerView;
-
-    private List<Location> locations;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -120,8 +121,7 @@ public class Locations extends AppCompatActivity {
                                 public void onClick(final DialogInterface dialog, int which) {
                                     try {
                                         Bundle buyIntentBundle =
-                                                mService.getBuyIntent(3, getPackageName(),
-                                                        "de.j4velin.wifiautomatic.billing.pro",
+                                                mService.getBuyIntent(3, getPackageName(), SKU,
                                                         "inapp", getPackageName());
                                         if (buyIntentBundle.getInt("RESPONSE_CODE") == 0) {
                                             PendingIntent pendingIntent =
@@ -135,7 +135,6 @@ public class Locations extends AppCompatActivity {
                                         Toast.makeText(Locations.this,
                                                 e.getClass().getName() + ": " + e.getMessage(),
                                                 Toast.LENGTH_LONG).show();
-                                        e.printStackTrace();
                                     }
                                     dialog.dismiss();
                                 }
@@ -220,10 +219,10 @@ public class Locations extends AppCompatActivity {
             public void onClick(final View v) {
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("http://j4velin.de/faq/index.php?app=wa")));
+                            Uri.parse("https://j4velin.de/faq/index.php?app=wa")));
                 } catch (ActivityNotFoundException anf) {
                     Toast.makeText(Locations.this,
-                            "No browser found to load http://j4velin.de/faq/index.php?app=wa",
+                            "No browser found to load https://j4velin.de/faq/index.php?app=wa",
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -316,11 +315,10 @@ public class Locations extends AppCompatActivity {
                 if (data.getIntExtra("RESPONSE_CODE", 0) == 0) {
                     try {
                         JSONObject jo = new JSONObject(data.getStringExtra("INAPP_PURCHASE_DATA"));
-                        PREMIUM_ENABLED = jo.getString("productId")
-                                .equals("de.j4velin.wifiautomatic.billing.pro") &&
+                        PREMIUM_ENABLED = jo.getString("productId").equals(SKU) &&
                                 jo.getString("developerPayload").equals(getPackageName());
                         getSharedPreferences("settings", Context.MODE_PRIVATE).edit()
-                                .putBoolean("pro", PREMIUM_ENABLED).commit();
+                                .putBoolean("pro", PREMIUM_ENABLED).apply();
                         if (PREMIUM_ENABLED) {
                             Toast.makeText(this, "Thank you!", Toast.LENGTH_SHORT).show();
                         }
@@ -411,8 +409,8 @@ public class Locations extends AppCompatActivity {
 
             public LocationHolder(final View v) {
                 super(v);
-                text = (TextView) v.findViewById(R.id.text);
-                subtext = (TextView) v.findViewById(R.id.subtext);
+                text = v.findViewById(R.id.text);
+                subtext = v.findViewById(R.id.subtext);
                 delete = v.findViewById(R.id.delete);
             }
         }
