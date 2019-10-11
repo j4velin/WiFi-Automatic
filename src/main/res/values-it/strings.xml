@@ -25,7 +25,7 @@
         %2$d
     </string>
     <string name="power_title">quando e` in carica</string>
-    <string name="power_summary">Ignora l'impostazione \"quando lo schermo e` spento\" mentre e` in carica
+    <string name="power_summary">Ignora l\'impostazione \"quando lo schermo e` spento\" mentre e` in carica
     </string>
 
     <string-array name="time_names">
@@ -42,7 +42,7 @@
     <string name="airplane_title">Modalita` aereo</string>
     <string name="airplane_summary">Non abilitare il WiFi in modalita` aereo</string>
     <string name="when_entering_location">quanto ci si trova in queste posizioni</string>
-    <string name="buy_pro">Solo una posizione e` supportata nella versione free dell'app. Vuoi installare la versione pro ora?
+    <string name="buy_pro">Solo una posizione e` supportata nella versione free dell\'app. Vuoi installare la versione pro ora?
     </string>
     <string name="location_text">Accendi il WiFi quando sei in queste posizioni:</string>
     <string name="location_summary">Usa le informazioni della posizione della cella per accendere il WiFi in una determinata posizione
@@ -51,11 +51,11 @@
     <string name="click_to_select_network">Clicca per selezionare la rete WiFi</string>
     <string name="wifi_not_enabled">WiFi disabilitato</string>
     <string name="click_to_turn_on">Clicca per accendere</string>
-    <string name="location_settings_warning">Le tue impostazioni non permettono all'app di determinare la tua posizione</string>
+    <string name="location_settings_warning">Le tue impostazioni non permettono all\'app di determinare la tua posizione</string>
     <string name="interval">Intervallo:</string>
     <string name="active_location_scan">Attiva lo scan della posizione</string>
     <string name="more_info">Altre informazioni</string>
-    <string name="no_permission">L'App non ha i permessi per accedere alla tua posizione</string>
+    <string name="no_permission">L\'App non ha i permessi per accedere alla tua posizione</string>
     <string name="log_empty">Nessun log ancora</string>
     <string name="log_summary">Mostra gli ultimi eventi che hanno cambiato lo stato del WiFi</string>
     <string name="log_title">Log</string>
@@ -63,7 +63,7 @@
     <string name="event_turn_on">Accendi il WiFi</string>
     <string name="event_turn_off">Spegni il WiFi</string>
     <string name="event_location">Posizione inserita: %s</string>
-    <string name="event_display_off_ignored_ac">L'evento schermo spento e` stato ignorato perche` il device e` in carica
+    <string name="event_display_off_ignored_ac">L\'evento schermo spento e` stato ignorato perche` il device e` in carica
     </string>
     <string name="event_unlocked">Device sbloccato</string>
     <string name="event_connected">WiFi connesso</string>
@@ -78,11 +78,11 @@
     <string name="event_no_network_timer">Timer senza rete impostato (%d min)</string>
     <string name="delete_log">Cancella log</string>
     <string name="turn_on_off">Accendi/Spegni</string>
-    <string name="hotspot_active">Non accendere il WiFi se l'hotspot WiFi e` attivo</string>
+    <string name="hotspot_active">Non accendere il WiFi se l\'hotspot WiFi e` attivo</string>
     <string name="unable_to_change">Impossibile cambiare lo stato del WiFi</string>
     <string name="unable_to_change_reason">Impossibile cambiare lo stato del WiFi: %s</string>
     <string name="error_reason_airplane">Il device e` in modalita` aereo</string>
-    <string name="airplane_notice">Attenzione: Con la tua versione di Android, l'app non puo` cambiare lo stato del WiFi
+    <string name="airplane_notice">Attenzione: Con la tua versione di Android, l\'app non puo` cambiare lo stato del WiFi
         mentre il device e` in modalita` aereo!
     </string>
 </resources>
