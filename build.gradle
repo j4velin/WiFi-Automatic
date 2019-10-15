@@ -35,12 +35,13 @@ android {
         buildToolsVersion rootProject.ext.buildToolsVersion
     } else {
         logger.warn('compileSdkVersion not found in rootProject')
-        compileSdkVersion 27
-        buildToolsVersion "27.0.3"
+        compileSdkVersion 29
+        buildToolsVersion "29.0.2"
     }
 
     defaultConfig {
         applicationId "de.j4velin.wifiAutoOff"
+        minSdkVersion 14
         if (!project.file("key.properties").exists()) {
             resValue "string", "maps_api_key", "0000"
         }
