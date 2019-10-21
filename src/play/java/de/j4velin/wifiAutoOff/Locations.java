@@ -255,17 +255,9 @@ public class Locations extends AppCompatActivity {
             findViewById(R.id.permissionswarning).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(Locations.this,
-                            Manifest.permission.ACCESS_FINE_LOCATION)) {
-                        ActivityCompat.requestPermissions(Locations.this,
-                                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
-                                        Manifest.permission.ACCESS_FINE_LOCATION},
-                                REQUEST_PERMISSIONS);
-                    } else {
-                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        intent.setData(Uri.fromParts("package", getPackageName(), null));
-                        startActivity(intent);
-                    }
+                    ActivityCompat.requestPermissions(Locations.this,
+                            new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                                    Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
                 }
             });
         } else {
@@ -343,6 +335,13 @@ public class Locations extends AppCompatActivity {
                     (grantResults.length < 2 ||
                             grantResults[1] == PermissionChecker.PERMISSION_GRANTED)) {
                 findViewById(R.id.permissionswarning).setVisibility(View.GONE);
+            } else {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(Locations.this,
+                        Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    intent.setData(Uri.fromParts("package", getPackageName(), null));
+                    startActivity(intent);
+                }
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
