@@ -335,13 +335,10 @@ public class Locations extends AppCompatActivity {
                     (grantResults.length < 2 ||
                             grantResults[1] == PermissionChecker.PERMISSION_GRANTED)) {
                 findViewById(R.id.permissionswarning).setVisibility(View.GONE);
-            } else {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(Locations.this,
-                        Manifest.permission.ACCESS_FINE_LOCATION)) {
-                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                    intent.setData(Uri.fromParts("package", getPackageName(), null));
-                    startActivity(intent);
-                }
+            } else if (ActivityCompat.shouldShowRequestPermissionRationale(Locations.this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                Toast.makeText(this, R.string.location_permission_denied, Toast.LENGTH_SHORT)
+                        .show();
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);

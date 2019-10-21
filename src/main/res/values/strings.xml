@@ -99,4 +99,5 @@
     <string name="notification_desc">This notification is necessary to keep WiFi Automatic running
         on Android 8+ devices. You can safely disable it from being shown.
     </string>
+    <string name="location_permission_denied">This feature will not work without location permission</string>
 </resources>
