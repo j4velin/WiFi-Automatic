@@ -42,7 +42,11 @@ public class GeofenceUpdateService extends JobIntentService implements
     private GoogleApiClient mLocationClient;
 
     public static void enqueueJob(Context context) {
-        enqueueWork(context, GeofenceUpdateService.class, JOB_ID, new Intent());
+        try {
+            enqueueWork(context, GeofenceUpdateService.class, JOB_ID, new Intent());
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG) Logger.log(e);
+        }
     }
 
     @Override
