@@ -247,17 +247,15 @@ public class Locations extends AppCompatActivity {
         findViewById(R.id.locationsettingswarning)
                 .setVisibility(locationAccessEnabled ? View.GONE : View.VISIBLE);
 
-        if (PermissionChecker
-                .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                PermissionChecker.PERMISSION_GRANTED || PermissionChecker
-                .checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PermissionChecker.PERMISSION_GRANTED) {
+        if (!hasPermissions()) {
             findViewById(R.id.permissionswarning).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
                     ActivityCompat.requestPermissions(Locations.this,
                             new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
-                                    Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS);
+                                    Manifest.permission.ACCESS_FINE_LOCATION,
+                                    Manifest.permission.ACCESS_BACKGROUND_LOCATION},
+                            REQUEST_PERMISSIONS);
                 }
             });
         } else {
@@ -326,17 +324,30 @@ public class Locations extends AppCompatActivity {
         }
     }
 
+    private boolean hasPermissions() {
+        boolean result = PermissionChecker
+                .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                PermissionChecker.PERMISSION_GRANTED && PermissionChecker
+                .checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PermissionChecker.PERMISSION_GRANTED;
+        if (Build.VERSION.SDK_INT >= 29) {
+            result &= PermissionChecker
+                    .checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) ==
+                    PermissionChecker.PERMISSION_GRANTED;
+        }
+        return result;
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, final String[] permissions,
                                            final int[] grantResults) {
         if (requestCode == REQUEST_PERMISSIONS) {
-            if (grantResults.length > 0 &&
-                    grantResults[0] == PermissionChecker.PERMISSION_GRANTED &&
-                    (grantResults.length < 2 ||
-                            grantResults[1] == PermissionChecker.PERMISSION_GRANTED)) {
+            if (hasPermissions()) {
                 findViewById(R.id.permissionswarning).setVisibility(View.GONE);
             } else if (ActivityCompat.shouldShowRequestPermissionRationale(Locations.this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    Manifest.permission.ACCESS_FINE_LOCATION) || ActivityCompat
+                    .shouldShowRequestPermissionRationale(Locations.this,
+                            Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
                 Toast.makeText(this, R.string.location_permission_denied, Toast.LENGTH_SHORT)
                         .show();
             }
