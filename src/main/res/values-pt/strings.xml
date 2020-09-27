@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    
+    <string name="for_at_least">por pelo menos %d minutos</string>
+    <string name="at_summary">todos dias às %s</string>
+    <string name="every_summary">cada %s</string>
+    <string name="advanced_wifi_settings">Ajustes avançados de WiFi</string>
+    <string name="more_apps">Mais apps</string>
+    <string name="donate">Doar</string>
+    <string name="turn_wifi_on_">Ligue o WiFi&#8230;</string>
+    <string name="when_device_gets_unlocked">ao desbloquear o dispositivo</string>
+    <string name="turn_wifi_off_when_">Desligar WiFi quando&#8230;</string>
+    <string name="screen_is_off">a tela desliga</string>
+    <string name="not_connected_to_any_network">não está conectado a ninhuma rede</string>
+    <string name="sleep_policy">Sua política de hibernação de Wi-Fi está definida para desativar automaticamente
+        o WiFi quando a tela é desligada. Você pode alterar a política nos \'ajustes avançados de WiFi\' do Android
+    </string>
+    <string name="adv_wifi_settings">Ajustes av. de WiFi</string>
+    <string name="settings_not_found_">Nenhuma configuração encontrada!</string>
+    <string name="minutes_before_turning_off_wifi_">Minutos antes de desligar o WiFi:</string>
+    <string name="turn_wifi_on_at_">Ligue o WiFi em:</string>
+    <string name="turn_wifi_off_at_">Desligue o WiFi em:</string>
+    <string name="turn_wifi_on_every">Ligue o WiFi a cada &#8230;</string>
+    <string name="invalid_input_number_has_to_be_">Entrada inválida: o número deve ser >= %1$d y &lt;=
+        %2$d
+    </string>
+    <string name="power_title">durante o carregamento</string>
+    <string name="power_summary">Ignorar também as configurações \"quando a tela desliga\" durante o carregamento
+    </string>
+    
+    <string-array name="time_names">
+        <item>5 minutos</item>
+        <item>15 minutos</item>
+        <item>30 minutos</item>
+        <item>1 hora</item>
+        <item>2 horas</item>
+        <item>5 horas</item>
+        <item>10 horas</item>
+    </string-array>
+
+    <string name="general_settings">Configurações Gerais</string>
+    <string name="airplane_title">Modo avião</string>
+    <string name="airplane_summary">Não habilitar WiFi ao estrar em modo avião</string>
+    <string name="when_entering_location">ao entrar nestas localizações</string>
+    <string name="buy_pro">A versão gratuita do app permite uma só Localização. Deseja
+        atualizar para a versão pro?
+    </string>
+    <string name="location_text">Ligue o WiFi ao entrar nestes locais:</string>
+    <string name="location_summary">Use as informações de localização do seu telefone para ligar o WiFi em locais
+        definidas
+    </string>
+    <string name="no_connected">Wi-Fi desconectado</string>
+    <string name="click_to_select_network">Pressione para selecionar uma rede WiFi</string>
+    <string name="wifi_not_enabled">Wifi desativado</string>
+    <string name="click_to_turn_on">Pressione para ligar</string>
+    <string name="location_settings_warning">Sua configuração atual impede que o aplicativo detecte sua
+         Localização
+    </string>
+    <string name="interval">Intervalo:</string>
+    <string name="active_location_scan">Verificação de localização ativa</string>
+    <string name="more_info">Mais informações</string>
+    <string name="no_permission">O aplicativo não tem permissão para acessar sua localização</string>
+    <string name="log_empty">Ainda não há registros</string>
+    <string name="log_summary">Mostra os últimos eventos que mudaram o status do WiFi</string>
+    <string name="log_title">Registro</string>
+    <string name="event_airplane">O WiFi não será ativado porque o dispositivo está no modo avião</string>
+    <string name="event_turn_on">Ativando WiFi</string>
+    <string name="event_turn_off">Desativando WiFi</string>
+    <string name="event_location">Localização inserida: %s</string>
+    <string name="event_display_off_ignored_ac">Status da tela ignorado devido ao dispositivo estar conectado
+         para uma tomada
+    </string>
+    <string name="event_unlocked">Dispositivo desbloqueado</string>
+    <string name="event_connected">WiFi conectado</string>
+    <string name="event_disconnected">Wi-Fi desconectado</string>
+    <string name="event_enabled">Wi-Fi habilitado</string>
+    <string name="event_disabled">Wifi desativado</string>
+    <string name="event_ac">Conectado a uma tomada externa</string>
+    <string name="event_ac_disconnected">Desconectado da tomada</string>
+    <string name="event_screen_off_canceled">O temporizador de desligamento da tela foi cancelado</string>
+    <string name="event_no_network_canceled">Nenhum timer de rede foi cancelado</string>
+    <string name="event_screen_off_timer">Temporizador de desligamento de tela atribuído (%d min)</string>
+    <string name="event_no_network_timer">Nenhum temporizador atribuído à rede (%d min)</string>
+    <string name="delete_log">Apagar registro de logs</string>
+    <string name="turn_on_off">Ativar/Desativar</string>
+    <string name="hotspot_active">Não ative o WiFi se houver um ponto de acesso WiFi ativo</string>
+    <string name="unable_to_change">Não é possível alterar o status do WiFi</string>
+    <string name="unable_to_change_reason">Não é possível alterar o status do WiFi: %s</string>
+    <string name="error_reason_airplane">O dispositivo está em modo avião</string>
+    <string name="airplane_notice">Aviso: Na sua versão Android, os aplicativos não podem alterar o
+         Status do WiFi se o dispositivo estiver no modo avião!
+    </string>
+</resources>
