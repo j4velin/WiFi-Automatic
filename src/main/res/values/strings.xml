@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools"
-           tools:ignore="MissingTranslation,ExtraTranslation">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation,ExtraTranslation">
 
     <string name="for_at_least">for at least %d min</string>
     <string name="at_summary">everyday at %s</string>
@@ -100,4 +99,6 @@
         on Android 8+ devices. You can safely disable it from being shown.
     </string>
     <string name="location_permission_denied">This feature will not work without location permission</string>
+    <string name="location_permission_29">This feature requires the permission to access your location,
+        even while not actively using the app in the foreground. Do you want to grant this permission now?</string>
 </resources>

@@ -16,6 +16,7 @@
 package de.j4velin.wifiAutoOff;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -251,15 +252,41 @@ public class Locations extends AppCompatActivity {
             findViewById(R.id.permissionswarning).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    ActivityCompat.requestPermissions(Locations.this,
-                            new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
-                                    Manifest.permission.ACCESS_FINE_LOCATION,
-                                    Manifest.permission.ACCESS_BACKGROUND_LOCATION},
-                            REQUEST_PERMISSIONS);
+                    askForPermissions(Locations.this);
                 }
             });
         } else {
             findViewById(R.id.permissionswarning).setVisibility(View.GONE);
+        }
+    }
+
+    private static void askForPermissions(final Activity activity) {
+        // for whatever reason, Google Play wants us to show our own dialog asking for background
+        // location permission on SDK level >= 29
+        if (Build.VERSION.SDK_INT >= 29) {
+            new AlertDialog.Builder(activity).setMessage(R.string.location_permission_29)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+                            intent.setData(uri);
+                            activity.startActivity(intent);
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    }).create().show();
+        } else {
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_BACKGROUND_LOCATION},
+                    REQUEST_PERMISSIONS);
         }
     }
 
