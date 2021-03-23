@@ -6,7 +6,7 @@
     android:versionCode="1900"
     android:versionName="1.9">
 
-    <uses-sdk android:targetSdkVersion="28"/>
+    <uses-sdk android:targetSdkVersion="29"/>
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
