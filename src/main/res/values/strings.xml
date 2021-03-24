@@ -99,6 +99,6 @@
         on Android 8+ devices. You can safely disable it from being shown.
     </string>
     <string name="location_permission_denied">This feature will not work without location permission</string>
-    <string name="location_permission_29">This feature requires the permission to access your location,
-        even while not actively using the app in the foreground. Do you want to grant this permission now?</string>
+    <string name="location_permission_29">Enabling WiFi based on your location requires the permission to access your location,
+        even when the app is closed or not in use. Do you want to grant this permission now?</string>
 </resources>
