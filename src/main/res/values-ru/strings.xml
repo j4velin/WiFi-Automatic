@@ -12,7 +12,7 @@
     <string name="turn_wifi_off_when_">Отключать WiFi…</string>
     <string name="screen_is_off">когда экран отключен</string>
     <string name="not_connected_to_any_network">когда нет сетевой активности</string>
-    <string name="sleep_policy">"Ваши настройки спящего режима WiFi, будут отключать WiFi как только погаснет экран. Вы можете изменить это, перейдя в \'Расширенные настройки WiFi\' вашего Android"</string>
+    <string name="sleep_policy">Ваши настройки спящего режима WiFi, будут отключать WiFi как только погаснет экран. Вы можете изменить это, перейдя в \'Расширенные настройки WiFi\' вашего Android</string>
     <string name="adv_wifi_settings">Расш. настройки WiFi</string>
     <string name="settings_not_found_">Настройки не найдены!</string>
     <string name="minutes_before_turning_off_wifi_">Минуты перед отключением WiFi:</string>
@@ -21,7 +21,7 @@
     <string name="turn_wifi_on_every">Включать WiFi каждые …</string>
     <string name="invalid_input_number_has_to_be_">Ошибка ввода: Число должно быть >= %1$d и &lt;= %2$d</string>
     <string name="power_title">когда устройство заряжается</string>
-    <string name="power_summary">Будет проигнорирована настройка \"когда экран отключен\"</string>
+    <string name="power_summary">Будет проигнорирована настройка \'когда экран отключен\'</string>
     
     <string-array name="time_names">
         <item>5 мин.</item>
