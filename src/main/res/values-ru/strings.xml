@@ -12,7 +12,7 @@
     <string name="turn_wifi_off_when_">Отключать WiFi…</string>
     <string name="screen_is_off">когда экран отключен</string>
     <string name="not_connected_to_any_network">когда нет сетевой активности</string>
-    <string name="sleep_policy">"Ваши настройки спящего режима WiFi, будут отключать WiFi как только погаснет экран. Вы можете изменить это, перейдя в 'Расширенные настройки WiFi' вашего Android"</string>
+    <string name="sleep_policy">"Ваши настройки спящего режима WiFi, будут отключать WiFi как только погаснет экран. Вы можете изменить это, перейдя в \'Расширенные настройки WiFi\' вашего Android"</string>
     <string name="adv_wifi_settings">Расш. настройки WiFi</string>
     <string name="settings_not_found_">Настройки не найдены!</string>
     <string name="minutes_before_turning_off_wifi_">Минуты перед отключением WiFi:</string>
@@ -72,11 +72,11 @@
     <string name="event_screen_on">Экран включен/string>
     <string name="delete_log">Очистить</string>
     <string name="turn_on_off">Вкл/Выкл</string>
-    <string name="hotspot_active">WiFi не был переключен, так как он находится в режиме \'Точка доступа\'</string>
+    <string name="hotspot_active">WiFi не был переключен, так как он находится в режиме \'точка доступа\'</string>
     <string name="unable_to_change">Невозможно переключить WiFi</string>
     <string name="unable_to_change_reason">Невозможно переключить WiFi: %s</string>
-    <string name="error_reason_airplane">Устройство находится в режиме полета</string>
-    <string name="airplane_notice">Внимание: На вашей версии Android нельзя переключать WiFi, если устройство находится в режиме полета!</string>
+    <string name="error_reason_airplane">Устройство находится в \'режиме полета\'</string>
+    <string name="airplane_notice">Внимание: На вашей версии Android нельзя переключать WiFi, если устройство находится в \'режиме полета\'!</string>
     <string name="app_disabled">Приложение неактивно</string>
     <string name="app_enabled">Приложение активно</string>
     <string name="hide_notification">Нажмите сюда, что бы скрыть это уведомление</string>
