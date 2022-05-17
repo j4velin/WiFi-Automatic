@@ -19,6 +19,7 @@ package de.j4velin.wifiAutoOff;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.bluetooth.BluetoothAdapter;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
@@ -198,6 +200,19 @@ public class Receiver extends BroadcastReceiver {
                 wm.getConnectionInfo().getSupplicantState() == SupplicantState.COMPLETED);
     }
 
+    private static boolean isBluetoothConnected() {
+        for (BluetoothDevice device : BluetoothAdapter.getDefaultAdapter().getBondedDevices()) {
+            try {
+                Method m = device.getClass().getMethod("isConnected", (Class[]) null);
+                boolean connected = (boolean) m.invoke(device, (Object[]) null);
+                return connected;
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
+            }
+        }
+        return false;
+    }
+
     @SuppressLint("InlinedApi")
     @Override
     public void onReceive(final Context context, final Intent intent) {
@@ -276,6 +291,9 @@ public class Receiver extends BroadcastReceiver {
                         if (!nwi.getState().equals(previousState)) {
                             Log.insert(context, R.string.event_connected, Log.Type.WIFI_CONNECTED);
                         }
+                        if (prefs.getBoolean("wifi_toggle_bluetooth", true)) {
+                            BluetoothAdapter.getDefaultAdapter().enable();
+                        }
                         stopTimer(context, TIMER_NO_NETWORK);
                     } else if (nwi.getState().equals(NetworkInfo.State.DISCONNECTED)) {
                         if (!nwi.getState().equals(previousState)) {
@@ -297,6 +315,9 @@ public class Receiver extends BroadcastReceiver {
                             if (BuildConfig.DEBUG) {
                                 Logger.log("Wifi already connected");
                             }
+                            if (prefs.getBoolean("wifi_toggle_bluetooth", true)) {
+                                BluetoothAdapter.getDefaultAdapter().enable();
+                            }
                         } else {
                             if (prefs.getBoolean("off_no_network", true)) {
                                 startTimer(context, TIMER_NO_NETWORK,
@@ -317,6 +338,15 @@ public class Receiver extends BroadcastReceiver {
                         Log.insert(context, R.string.event_disabled, Log.Type.WIFI_OFF);
                         stopTimer(context, TIMER_SCREEN_OFF);
                         stopTimer(context, TIMER_NO_NETWORK);
+
+                        if (prefs.getBoolean("wifi_toggle_bluetooth", true)) {
+                            if (!prefs.getBoolean("wifi_bluetooth_connected", false)) {
+                                BluetoothAdapter.getDefaultAdapter().disable();
+                            }
+                            else if (isBluetoothConnected() == false) {
+                                BluetoothAdapter.getDefaultAdapter().disable();
+                            }
+                        }
                     }
                     break;
                 case WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION:
@@ -332,6 +362,9 @@ public class Receiver extends BroadcastReceiver {
                         if (!nwi2.getState().equals(previousState)) {
                             Log.insert(context, R.string.event_connected, Log.Type.WIFI_CONNECTED);
                         }
+                        if (prefs.getBoolean("wifi_toggle_bluetooth", true)) {
+                            BluetoothAdapter.getDefaultAdapter().enable();
+                        }
                         stopTimer(context, TIMER_NO_NETWORK);
                     } else if (nwi2.getState().equals(NetworkInfo.State.DISCONNECTED) &&
                             !isWiFiConnected(context)) {
@@ -343,7 +376,14 @@ public class Receiver extends BroadcastReceiver {
                             startTimer(context, TIMER_NO_NETWORK,
                                     prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK));
                         }
-                    }
+                        if (prefs.getBoolean("wifi_toggle_bluetooth", true)) {
+                            if (!prefs.getBoolean("wifi_bluetooth_connected", false)) {
+                                BluetoothAdapter.getDefaultAdapter().disable();
+                            }
+                            else if (isBluetoothConnected() == false) {
+                                BluetoothAdapter.getDefaultAdapter().disable();
+                            }
+                        }                    }
                     previousState = nwi2.getState();
                     break;
                 case POWER_CONNECTED:

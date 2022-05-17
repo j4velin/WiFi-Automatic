@@ -69,7 +69,7 @@
     <string name="event_screen_off_timer">Запущен таймер отключения экрана (%d мин)</string>
     <string name="event_no_network_timer">Запущен таймер сетевой активности (%d мин)</string>
     <string name="event_screen_off">Экран выключен</string>
-    <string name="event_screen_on">Экран включен/string>
+    <string name="event_screen_on">Экран включен</string>
     <string name="delete_log">Очистить</string>
     <string name="turn_on_off">Вкл/Выкл</string>
     <string name="hotspot_active">WiFi не был переключен, так как он находится в режиме \'точка доступа\'</string>

@@ -572,6 +572,27 @@ public class Preferences extends PreferenceActivity {
             }
         });
 
+        final CheckBoxPreference bluetoothConnected = (CheckBoxPreference) findPreference("wifi_bluetooth_connected");
+        final CheckBoxPreference wifiToggleBluetooth = (CheckBoxPreference) findPreference("wifi_toggle_bluetooth");
+
+        if (!wifiToggleBluetooth.isChecked()) {
+            bluetoothConnected.setEnabled(false);
+            bluetoothConnected.setChecked(false);
+        }
+
+        wifiToggleBluetooth.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                if (wifiToggleBluetooth.isChecked()) {
+                    bluetoothConnected.setEnabled(true);
+                } else {
+                    bluetoothConnected.setEnabled(false);
+                    bluetoothConnected.setChecked(false);
+                }
+                return true;
+            }
+        });
+
         findPreference("log")
                 .setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
