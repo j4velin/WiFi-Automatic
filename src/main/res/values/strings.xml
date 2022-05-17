@@ -12,6 +12,9 @@
     <string name="turn_wifi_off_when_">Turn WiFi off when&#8230;</string>
     <string name="screen_is_off">screen is off</string>
     <string name="not_connected_to_any_network">not connected to any network</string>
+    <string name="enable_disable_bluetooth">Enable/Disable Bluetooth With WiFi</string>
+    <string name="when_wifi_state_changes">Toggle Bluetooth based on Wifi state</string>
+    <string name="wifi_off_bluetooth_connected">&#8230;unless a Bluetooth device is connected</string>
     <string name="sleep_policy">Your WiFi sleep policy is set to automatically disable WiFi as soon
         as the display goes off. You can change the policy in the Android \'Advanced WiFi settings\'
     </string>
