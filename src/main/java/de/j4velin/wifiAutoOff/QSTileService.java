@@ -15,7 +15,11 @@ public class QSTileService extends TileService {
         boolean isEnabled = getPackageManager().getComponentEnabledSetting(
                 new ComponentName(QSTileService.this, Receiver.class)) !=
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
-        Preferences.changeEnableState(getApplicationContext(), !isEnabled);
+        boolean enable = !isEnabled;
+        Preferences.changeEnableState(getApplicationContext(), enable);
+        if (enable) {
+            Start.start(getApplicationContext());
+        }
     }
 
     @Override

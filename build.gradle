@@ -1,66 +1,47 @@
 buildscript {
     repositories {
         google()
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
-        jcenter()
+        mavenCentral()
     }
     dependencies {
-        if (rootProject.ext.has("gradle_classpath")) {
-            classpath rootProject.ext.gradle_classpath
-        } else {
-            logger.warn('classpath not found in rootProject')
-            classpath 'com.android.tools.build:gradle:4.0.2'
-        }
+        classpath 'com.android.tools.build:gradle:9.3.1'
     }
 }
 
 plugins {
-  id "org.sonarqube" version "2.7"
+  id "org.sonarqube" version "7.3.1.8318"
 }
 
 repositories {
     google()
-    maven {
-        url 'https://maven.google.com/'
-        name 'Google'
-    }
-    jcenter()
+    mavenCentral()
 }
 
 apply plugin: 'com.android.application'
 
 android {
 
-    if (rootProject.ext.has("compileSdkVersion")) {
-        compileSdkVersion rootProject.ext.compileSdkVersion
-        buildToolsVersion rootProject.ext.buildToolsVersion
-    } else {
-        logger.warn('compileSdkVersion not found in rootProject')
-        compileSdkVersion 29
-        buildToolsVersion "29.0.2"
-    }
+    compileSdk 37
 
     defaultConfig {
         applicationId "de.j4velin.wifiAutoOff"
-        minSdkVersion 14
+        minSdk 23
+        targetSdk 28
+        versionCode 1920
+        versionName "1.9.2"
         if (!project.file("key.properties").exists()) {
             resValue "string", "maps_api_key", "0000"
         }
     }
 
-    signingConfigs {
-        release
+    buildFeatures {
+        buildConfig = true
+        resValues = true
     }
 
-    flavorDimensions "main"
+    flavorDimensions = ["main"]
 
     productFlavors {
-        play {
-            dimension "main"
-        }
         fdroid {
             dimension "main"
         }
@@ -68,49 +49,22 @@ android {
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
-            zipAlignEnabled true
             minifyEnabled true
             shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
-        }
-        debug {
-            signingConfig signingConfigs.release
-            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-project.txt'
         }
     }
 
-    lintOptions {
-        disable "ExtraTranslation"
-        if (System.getenv("TRAVIS")) {
-            ignoreWarnings true
-            abortOnError false
-        }
+    lint {
+        // ExpiredTargetSdkVersion is a Google Play requirement; not applicable to F-Droid builds
+        disable "ExtraTranslation", "ExpiredTargetSdkVersion"
     }
+    namespace 'de.j4velin.wifiAutoOff'
 }
+
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    playImplementation 'com.android.support:cardview-v7:27.1.1'
-    playImplementation 'com.shamanland:fab:0.0.8'
-    playImplementation 'com.google.android.gms:play-services-location:15.0.1'
-    playImplementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.recyclerview:recyclerview:1.4.0'
+    implementation 'androidx.core:core:1.19.0'
 }
-
-def props = new Properties()
-
-if (project.file("key.properties").exists()) {
-    props.load(new FileInputStream(project.file("key.properties")))
-} else {
-    logger.warn('Using sample keystore!!')
-    props.load(new FileInputStream(project.file("key.properties.sample")))
-}
-
-android.signingConfigs.release.storeFile project.file(props.keyStore)
-
-android.signingConfigs.release.storePassword props.keyStorePassword
-
-android.signingConfigs.release.keyAlias props.keyAlias
-
-android.signingConfigs.release.keyPassword props.keyAliasPassword

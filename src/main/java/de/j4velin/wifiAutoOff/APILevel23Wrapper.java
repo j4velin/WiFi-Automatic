@@ -26,7 +26,7 @@ public class APILevel23Wrapper {
 
     public static void setAlarmWhileIdle(AlarmManager am, int type, long time,
                                          PendingIntent intent) {
-        am.setAndAllowWhileIdle(type, time, intent);
+        am.setExactAndAllowWhileIdle(type, time, intent);
     }
 
 }

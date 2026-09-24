@@ -5,6 +5,10 @@
         android:key="status"/>
     <PreferenceCategory android:title="@string/turn_wifi_on_">
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="on_screen_on"
+            android:title="@string/event_screen_on"/>
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="on_unlock"
             android:title="@string/when_device_gets_unlocked"/>
@@ -36,6 +40,32 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="off_at"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/dont_turn_off_when_">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="off_only_low_battery"
+            android:title="@string/only_low_battery"/>
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="keep_ssids"
+            android:title="@string/keep_ssids"
+            android:summary="@string/keep_ssids_summary"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/enable_disable_bluetooth">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="wifi_toggle_bluetooth"
+            android:title="@string/when_wifi_state_changes"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="wifi_bluetooth_connected"
+            android:layout="@layout/preference_hidden"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="bluetooth_auto_off_idle"
+            android:summary="@string/bluetooth_auto_off_idle_summary"
+            android:title="@string/bluetooth_auto_off_idle"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/general_settings">
         <CheckBoxPreference

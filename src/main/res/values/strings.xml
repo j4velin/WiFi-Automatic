@@ -12,6 +12,18 @@
     <string name="turn_wifi_off_when_">Turn WiFi off when&#8230;</string>
     <string name="screen_is_off">screen is off</string>
     <string name="not_connected_to_any_network">not connected to any network</string>
+    <string name="bluetooth_auto_off_category">Bluetooth auto-off</string>
+    <string name="enable_disable_bluetooth">WiFi and Bluetooth link</string>
+    <string name="when_wifi_state_changes">Toggle Bluetooth based on WiFi state</string>
+    <string name="wifi_off_bluetooth_connected">&#8230;unless a Bluetooth device is connected</string>
+    <string name="bluetooth_auto_off_idle">Turn Bluetooth off after 10 min without a connected device</string>
+    <string name="bluetooth_auto_off_idle_summary">Works independently of WiFi automation. The timer is canceled when a Bluetooth device connects.</string>
+    <string name="dont_turn_off_when_">Don\'t turn WiFi off when&#8230;</string>
+    <string name="only_low_battery">battery is above 50%</string>
+    <string name="keep_ssids">connected to these networks</string>
+    <string name="keep_ssids_summary">Comma-separated SSIDs. Requires location permission to read the current network name.</string>
+    <string name="event_battery_skip">Not turning off WiFi: battery at %d%%</string>
+    <string name="event_ssid_skip">Not turning off WiFi: connected to %s</string>
     <string name="sleep_policy">Your WiFi sleep policy is set to automatically disable WiFi as soon
         as the display goes off. You can change the policy in the Android \'Advanced WiFi settings\'
     </string>
@@ -81,6 +93,8 @@
     <string name="event_no_network_canceled">No network timer canceled</string>
     <string name="event_screen_off_timer">Screen off timer set (%d min)</string>
     <string name="event_no_network_timer">No network timer set (%d min)</string>
+    <string name="event_bluetooth_idle_timer">Bluetooth idle timer set (%d min)</string>
+    <string name="event_bluetooth_idle_off">Turning Bluetooth off after %d min without a connection</string>
     <string name="event_screen_off">Display turned off</string>
     <string name="event_screen_on">Display turned on</string>
     <string name="delete_log">Delete log</string>

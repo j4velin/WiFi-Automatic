@@ -19,15 +19,19 @@ package de.j4velin.wifiAutoOff;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.NetworkInfo;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiManager;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.bluetooth.BluetoothAdapter;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
@@ -55,6 +59,7 @@ public class Receiver extends BroadcastReceiver {
 
     static final int TIMEOUT_NO_NETWORK = 5;
     static final int TIMEOUT_SCREEN_OFF = 10;
+    static final int DEFAULT_LOW_BATTERY = 30;
     static final int ON_EVERY_TIME_MIN = 120;
     static final String ON_AT_TIME = "8:00";
     static final String OFF_AT_TIME = "22:00";
@@ -70,12 +75,13 @@ public class Receiver extends BroadcastReceiver {
         String action = (id == TIMER_SCREEN_OFF) ? "SCREEN_OFF_TIMER" : "NO_NETWORK_TIMER";
         Intent timerIntent =
                 new Intent(context, Receiver.class).putExtra("timer", id).setAction(action);
-        if (PendingIntent.getBroadcast(context, id, timerIntent, PendingIntent.FLAG_NO_CREATE) ==
-                null) {
+        if (PendingIntent.getBroadcast(context, id, timerIntent,
+                PendingIntent.FLAG_NO_CREATE | PendingIntent.FLAG_IMMUTABLE) == null) {
             Util.setTimer(context, AlarmManager.RTC_WAKEUP,
                     System.currentTimeMillis() + 60000 * time, PendingIntent
                             .getBroadcast(context, id, timerIntent,
-                                    PendingIntent.FLAG_UPDATE_CURRENT));
+                                    PendingIntent.FLAG_UPDATE_CURRENT |
+                                            PendingIntent.FLAG_IMMUTABLE));
             Log.insert(context, context.getString(
                     id == TIMER_SCREEN_OFF ? R.string.event_screen_off_timer :
                             R.string.event_no_network_timer, time), Log.Type.TIMER);
@@ -94,8 +100,8 @@ public class Receiver extends BroadcastReceiver {
     private boolean stopTimer(final Context context, int id) {
         Intent timerIntent = new Intent(context, Receiver.class).putExtra("timer", id)
                 .setAction(id == TIMER_SCREEN_OFF ? "SCREEN_OFF_TIMER" : "NO_NETWORK_TIMER");
-        PendingIntent pendingIntent =
-                PendingIntent.getBroadcast(context, id, timerIntent, PendingIntent.FLAG_NO_CREATE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id, timerIntent,
+                PendingIntent.FLAG_NO_CREATE | PendingIntent.FLAG_IMMUTABLE);
         if (pendingIntent != null) {
             ((AlarmManager) context.getSystemService(Context.ALARM_SERVICE)).cancel(pendingIntent);
             pendingIntent.cancel();
@@ -112,7 +118,7 @@ public class Receiver extends BroadcastReceiver {
      * @return default SharedPreferences for given context
      */
     @SuppressLint("InlinedApi")
-    private static SharedPreferences getSharedPreferences(final Context context) {
+    public static SharedPreferences getSharedPreferences(final Context context) {
         String prefFileName = context.getPackageName() + "_preferences";
         return context.getSharedPreferences(prefFileName, Context.MODE_MULTI_PROCESS);
     }
@@ -198,6 +204,81 @@ public class Receiver extends BroadcastReceiver {
                 wm.getConnectionInfo().getSupplicantState() == SupplicantState.COMPLETED);
     }
 
+    private static boolean isBluetoothConnected() {
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        if (adapter == null) return false;
+        for (BluetoothDevice device : adapter.getBondedDevices()) {
+            try {
+                Method m = device.getClass().getMethod("isConnected", (Class[]) null);
+                if ((boolean) m.invoke(device, (Object[]) null)) {
+                    return true;
+                }
+            } catch (Exception e) {
+                // hidden API not available - assume not connected
+            }
+        }
+        return false;
+    }
+
+    private static void setBluetooth(final boolean enable) {
+        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        if (adapter == null) return;
+        if (enable) {
+            adapter.enable();
+        } else {
+            adapter.disable();
+        }
+    }
+
+    /**
+     * Checks user-configured conditions under which an automatic WiFi turn-off
+     * should be skipped: battery above threshold or connected to a protected SSID.
+     *
+     * @param context the context
+     * @param prefs   shared preferences
+     * @return true if the automatic turn-off should NOT happen
+     */
+    private static boolean shouldSkipAutoOff(final Context context,
+                                              final SharedPreferences prefs) {
+        // "only turn off when battery is below X%"
+        if (prefs.getBoolean("off_only_low_battery", false)) {
+            Intent battery = context.getApplicationContext()
+                    .registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+            if (battery != null) {
+                int level = battery.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+                int scale = battery.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+                if (level >= 0 && scale > 0) {
+                    int percent = (int) (100f * level / scale);
+                    if (percent >= prefs.getInt("low_battery_level", DEFAULT_LOW_BATTERY)) {
+                        Log.insert(context, context.getString(R.string.event_battery_skip,
+                                percent), Log.Type.TIMER);
+                        return true;
+                    }
+                }
+            }
+        }
+        // "never turn off while connected to one of these SSIDs"
+        String keepSsids = prefs.getString("keep_ssids", "").trim();
+        if (!keepSsids.isEmpty() && isWiFiConnected(context)) {
+            WifiManager wm = (WifiManager) context.getApplicationContext()
+                    .getSystemService(Context.WIFI_SERVICE);
+            String current = wm.getConnectionInfo().getSSID();
+            if (current != null) {
+                current = current.replace("\"", "").trim();
+                if (!current.isEmpty() && !"<unknown ssid>".equals(current)) {
+                    for (String ssid : keepSsids.split(",")) {
+                        if (current.equalsIgnoreCase(ssid.replace("\"", "").trim())) {
+                            Log.insert(context, context.getString(R.string.event_ssid_skip,
+                                    current), Log.Type.TIMER);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     @SuppressLint("InlinedApi")
     @Override
     public void onReceive(final Context context, final Intent intent) {
@@ -206,11 +287,16 @@ public class Receiver extends BroadcastReceiver {
         SharedPreferences prefs = getSharedPreferences(context);
         if (intent.hasExtra("timer")) {
             // one of the timers expired -> turn wifi off
-            changeWiFi(context, false);
+            if (!shouldSkipAutoOff(context, prefs)) {
+                changeWiFi(context, false);
+            }
             stopTimer(context, intent.getIntExtra("timer", 0));
         } else if (intent.hasExtra("changeWiFi")) {
             // for "ON AT" or "OFF AT" options
-            changeWiFi(context, intent.getBooleanExtra("changeWiFi", false));
+            boolean turnOn = intent.getBooleanExtra("changeWiFi", false);
+            if (turnOn || !shouldSkipAutoOff(context, prefs)) {
+                changeWiFi(context, turnOn);
+            }
             Start.createTimers(context);
         } else {
             switch (action) {
@@ -246,15 +332,28 @@ public class Receiver extends BroadcastReceiver {
                 case UnlockReceiver.USER_PRESENT_ACTION:
                 case Intent.ACTION_USER_PRESENT:
                 case ScreenChangeDetector.SCREEN_ON_ACTION:
-                    if (action.equals(ScreenChangeDetector.SCREEN_ON_ACTION)) {
+                    final boolean screenOn = action.equals(ScreenChangeDetector.SCREEN_ON_ACTION);
+                    if (screenOn) {
                         Log.insert(context, R.string.event_screen_on, Log.Type.SCREEN_ON);
                     } else {
                         Log.insert(context, R.string.event_unlocked, Log.Type.UNLOCKED);
                     }
-                    // user unlocked the device -> stop TIMER_SCREEN_OFF, might turn on
-                    // WiFi
-                    stopTimer(context, TIMER_SCREEN_OFF);
-                    if (prefs.getBoolean("on_unlock", true)) {
+                    final boolean pref_on_screen_on = prefs.getBoolean("on_screen_on", false);
+                    if (pref_on_screen_on && screenOn) {
+                        boolean screenOffTimer = stopTimer(context, TIMER_SCREEN_OFF);
+                        if (!((WifiManager) context.getApplicationContext()
+                                .getSystemService(Context.WIFI_SERVICE)).isWifiEnabled()) {
+                            changeWiFi(context, true);
+                        }
+                        if (screenOffTimer) {
+                            startTimer(context, TIMER_SCREEN_OFF,
+                                    prefs.getInt("screen_off_timeout", TIMEOUT_SCREEN_OFF));
+                        }
+                    }
+                    if ((pref_on_screen_on && !screenOn) || prefs.getBoolean("on_unlock", true)) {
+                        // user unlocked the device -> stop TIMER_SCREEN_OFF, might turn on
+                        // WiFi
+                        stopTimer(context, TIMER_SCREEN_OFF);
                         boolean noNetTimer = stopTimer(context, TIMER_NO_NETWORK);
                         if (((WifiManager) context.getApplicationContext()
                                 .getSystemService(Context.WIFI_SERVICE)).isWifiEnabled()) {
@@ -275,6 +374,9 @@ public class Receiver extends BroadcastReceiver {
                     if (nwi.isConnected()) {
                         if (!nwi.getState().equals(previousState)) {
                             Log.insert(context, R.string.event_connected, Log.Type.WIFI_CONNECTED);
+                        }
+                        if (prefs.getBoolean("wifi_toggle_bluetooth", false)) {
+                            setBluetooth(true);
                         }
                         stopTimer(context, TIMER_NO_NETWORK);
                     } else if (nwi.getState().equals(NetworkInfo.State.DISCONNECTED)) {
@@ -297,6 +399,9 @@ public class Receiver extends BroadcastReceiver {
                             if (BuildConfig.DEBUG) {
                                 Logger.log("Wifi already connected");
                             }
+                            if (prefs.getBoolean("wifi_toggle_bluetooth", false)) {
+                                setBluetooth(true);
+                            }
                         } else {
                             if (prefs.getBoolean("off_no_network", true)) {
                                 startTimer(context, TIMER_NO_NETWORK,
@@ -317,6 +422,15 @@ public class Receiver extends BroadcastReceiver {
                         Log.insert(context, R.string.event_disabled, Log.Type.WIFI_OFF);
                         stopTimer(context, TIMER_SCREEN_OFF);
                         stopTimer(context, TIMER_NO_NETWORK);
+
+                        if (prefs.getBoolean("wifi_toggle_bluetooth", false)) {
+                            if (!prefs.getBoolean("wifi_bluetooth_connected", false)) {
+                                setBluetooth(false);
+                            }
+                            else if (isBluetoothConnected() == false) {
+                                setBluetooth(false);
+                            }
+                        }
                     }
                     break;
                 case WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION:
@@ -332,6 +446,9 @@ public class Receiver extends BroadcastReceiver {
                         if (!nwi2.getState().equals(previousState)) {
                             Log.insert(context, R.string.event_connected, Log.Type.WIFI_CONNECTED);
                         }
+                        if (prefs.getBoolean("wifi_toggle_bluetooth", false)) {
+                            setBluetooth(true);
+                        }
                         stopTimer(context, TIMER_NO_NETWORK);
                     } else if (nwi2.getState().equals(NetworkInfo.State.DISCONNECTED) &&
                             !isWiFiConnected(context)) {
@@ -343,7 +460,14 @@ public class Receiver extends BroadcastReceiver {
                             startTimer(context, TIMER_NO_NETWORK,
                                     prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK));
                         }
-                    }
+                        if (prefs.getBoolean("wifi_toggle_bluetooth", false)) {
+                            if (!prefs.getBoolean("wifi_bluetooth_connected", false)) {
+                                setBluetooth(false);
+                            }
+                            else if (isBluetoothConnected() == false) {
+                                setBluetooth(false);
+                            }
+                        }                    }
                     previousState = nwi2.getState();
                     break;
                 case POWER_CONNECTED:

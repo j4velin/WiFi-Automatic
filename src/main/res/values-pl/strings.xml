@@ -1,42 +1,100 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="for_at_least">przez co najmniej %d minut</string>
+    <string name="for_at_least">przez co najmniej %d min</string>
     <string name="at_summary">codziennie o %s</string>
-    <string name="every_summary">co każde %s</string>
+    <string name="every_summary">co %s</string>
     <string name="advanced_wifi_settings">Zaawansowane ustawienia WiFi</string>
     <string name="more_apps">Więcej aplikacji</string>
-    <string name="donate">Darowizna</string>
-    <string name="turn_wifi_on_">Uruchom włączenie WiFi&#8230;</string>
-    <string name="when_device_gets_unlocked">urządzenie zostanie odblokowane</string>
-    <string name="turn_wifi_off_when_">Uruchom wyłączenie WiFi gdy&#8230;</string>
+    <string name="donate">Wesprzyj autora</string>
+    <string name="turn_wifi_on_">Włącz WiFi&#8230;</string>
+    <string name="when_device_gets_unlocked">po odblokowaniu urządzenia</string>
+    <string name="turn_wifi_off_when_">Wyłącz WiFi, gdy&#8230;</string>
     <string name="screen_is_off">ekran jest wyłączony</string>
-    <string name="not_connected_to_any_network">nie jest podłączony do żadnej sieci</string>
-    <string name="sleep_policy">Twoje ustawienia WiFi są ustawione na automatyczne wyłączenie gdy tylko wyświetlacz zgaśnie. Możesz zmienić te ustawienia w \'Zaawansowane ustawienia WiFi\' Androida</string>
+    <string name="not_connected_to_any_network">brak połączenia z jakąkolwiek siecią</string>
+    <string name="bluetooth_auto_off_category">Automatyczne wyłączanie Bluetooth</string>
+    <string name="enable_disable_bluetooth">Powiązanie WiFi i Bluetooth</string>
+    <string name="when_wifi_state_changes">Przełączaj Bluetooth razem ze stanem WiFi</string>
+    <string name="wifi_off_bluetooth_connected">&#8230;chyba że urządzenie Bluetooth jest połączone</string>
+    <string name="bluetooth_auto_off_idle">Wyłącz Bluetooth po 10 min bez podłączonego urządzenia</string>
+    <string name="bluetooth_auto_off_idle_summary">Działa niezależnie od automatyzacji WiFi. Licznik zostanie anulowany po połączeniu urządzenia Bluetooth.</string>
+    <string name="dont_turn_off_when_">Nie wyłączaj WiFi, gdy&#8230;</string>
+    <string name="only_low_battery">poziom baterii przekracza 50%</string>
+    <string name="keep_ssids">połączono z tymi sieciami</string>
+    <string name="keep_ssids_summary">Nazwy SSID rozdzielone przecinkami. Odczyt bieżącej sieci wymaga dostępu do lokalizacji.</string>
+    <string name="event_battery_skip">WiFi pozostaje włączone: bateria ma %d%%</string>
+    <string name="event_ssid_skip">WiFi pozostaje włączone: połączono z %s</string>
+    <string name="sleep_policy">System jest ustawiony tak, aby wyłączać WiFi natychmiast po wygaszeniu ekranu. Możesz to zmienić w zaawansowanych ustawieniach WiFi Androida.</string>
     <string name="adv_wifi_settings">Zaawansowane ustawienia WiFi</string>
-    <string name="settings_not_found_">Ustawień nie znaleziono!</string>
-    <string name="minutes_before_turning_off_wifi_">Minut przed wyłączeniem WiFi:</string>
-    <string name="turn_wifi_on_at_">Uruchom włączenie WiFi o:</string>
-    <string name="turn_wifi_off_at_">Uruchom wyłączenie WiFi o:</string>
-    <string name="turn_wifi_on_every">Uruchom włączenie WiFi co &#8230;</string>
-    <string name="invalid_input_number_has_to_be_">Nieprawidłowy wpis: Liczba musi być >= %1$d i &lt;= %2$d</string>
-    <string name="power_title">po podłączeniu do zewnętrznego źródła zasilania</string>
+    <string name="settings_not_found_">Nie znaleziono ustawień!</string>
+    <string name="minutes_before_turning_off_wifi_">Minuty do wyłączenia WiFi:</string>
+    <string name="turn_wifi_on_at_">Włącz WiFi o:</string>
+    <string name="turn_wifi_off_at_">Wyłącz WiFi o:</string>
+    <string name="turn_wifi_on_every">Włączaj WiFi co&#8230;</string>
+    <string name="invalid_input_number_has_to_be_">Nieprawidłowa wartość: liczba musi być >= %1$d i &lt;= %2$d</string>
+    <string name="power_title">podczas ładowania</string>
+    <string name="power_summary">Podczas ładowania ignoruj również ustawienie „ekran jest wyłączony”</string>
 
     <string-array name="time_names">
-        <item>5 minut</item>
-        <item>15 minut</item>
-        <item>30 minut</item>
-        <item>1 godzine</item>
-        <item>2 godziny</item>
-        <item>5 godzin</item>
-        <item>10 godzin</item>
+        <item>5 min</item>
+        <item>15 min</item>
+        <item>30 min</item>
+        <item>1 godz.</item>
+        <item>2 godz.</item>
+        <item>5 godz.</item>
+        <item>10 godz.</item>
     </string-array>
 
     <string name="general_settings">Ustawienia ogólne</string>
     <string name="airplane_title">Tryb samolotowy</string>
     <string name="airplane_summary">Nie włączaj WiFi w trybie samolotowym</string>
-    <string name="when_entering_location">gdy znajdziesz się w określonych miejscach</string>
-    <string name="buy_pro">Tylko jedna lokalizacja jest wspierana w darmowej wersji aplikacjii. Czy chcesz teraz uaktualnić do wersji pro??</string>
-    <string name="location_text">Włącz WiFi gdy znajdziesz się w tej lokalizacji:</string>
-    <string name="location_summary">Użyj informacji o lokalizacji komórki, aby włączyć WiFi w określonych miejscach</string>
+    <string name="when_entering_location">po wejściu do tych lokalizacji</string>
+    <string name="buy_pro">Darmowa wersja aplikacji obsługuje tylko jedną lokalizację. Przejść teraz na wersję Pro?</string>
+    <string name="location_text">Włącz WiFi po wejściu do tych lokalizacji:</string>
+    <string name="location_summary">Używaj lokalizacji sieci komórkowej do włączania WiFi w określonych miejscach</string>
+    <string name="no_connected">WiFi rozłączone</string>
+    <string name="click_to_select_network">Dotknij, aby wybrać sieć WiFi</string>
+    <string name="wifi_not_enabled">WiFi wyłączone</string>
+    <string name="click_to_turn_on">Dotknij, aby włączyć</string>
+    <string name="location_settings_warning">Ustawienia urządzenia uniemożliwiają aplikacji określenie lokalizacji</string>
+    <string name="interval">Interwał:</string>
+    <string name="active_location_scan">Aktywne wyszukiwanie lokalizacji</string>
+    <string name="more_info">Więcej informacji</string>
+    <string name="no_permission">Aplikacja nie ma dostępu do lokalizacji</string>
+    <string name="log_empty">Brak wpisów w dzienniku</string>
+    <string name="log_summary">Pokazuje ostatnie zdarzenia, które wywołały zmianę stanu WiFi</string>
+    <string name="log_title">Dziennik</string>
+    <string name="event_airplane">WiFi nie zostało włączone: urządzenie jest w trybie samolotowym</string>
+    <string name="event_turn_on">Włączanie WiFi</string>
+    <string name="event_turn_off">Wyłączanie WiFi</string>
+    <string name="event_location">Wejście do lokalizacji: %s</string>
+    <string name="event_display_off_ignored_ac">Wygaszenie ekranu zignorowane: urządzenie jest podłączone do zasilania</string>
+    <string name="event_unlocked">Urządzenie odblokowane</string>
+    <string name="event_connected">WiFi połączone</string>
+    <string name="event_disconnected">WiFi rozłączone</string>
+    <string name="event_enabled">WiFi włączone</string>
+    <string name="event_disabled">WiFi wyłączone</string>
+    <string name="event_ac">Podłączono zasilanie zewnętrzne</string>
+    <string name="event_ac_disconnected">Odłączono zasilanie zewnętrzne</string>
+    <string name="event_screen_off_canceled">Anulowano licznik wygaszenia ekranu</string>
+    <string name="event_no_network_canceled">Anulowano licznik braku sieci</string>
+    <string name="event_screen_off_timer">Ustawiono licznik wygaszenia ekranu (%d min)</string>
+    <string name="event_no_network_timer">Ustawiono licznik braku sieci (%d min)</string>
+    <string name="event_bluetooth_idle_timer">Ustawiono licznik bezczynnego Bluetooth (%d min)</string>
+    <string name="event_bluetooth_idle_off">Wyłączanie Bluetooth po %d min bez połączenia</string>
+    <string name="event_screen_off">Ekran wyłączony</string>
+    <string name="event_screen_on">Ekran włączony</string>
+    <string name="delete_log">Usuń dziennik</string>
+    <string name="turn_on_off">Włącz/wyłącz</string>
+    <string name="hotspot_active">WiFi nie zostało włączone: hotspot jest aktywny</string>
+    <string name="unable_to_change">Nie można zmienić stanu WiFi</string>
+    <string name="unable_to_change_reason">Nie można zmienić stanu WiFi: %s</string>
+    <string name="error_reason_airplane">Urządzenie jest w trybie samolotowym</string>
+    <string name="airplane_notice">Uwaga: w tej wersji Androida aplikacje nie mogą zmieniać stanu WiFi w trybie samolotowym.</string>
+    <string name="app_disabled">Aplikacja wyłączona</string>
+    <string name="app_enabled">Aplikacja włączona</string>
+    <string name="hide_notification">Dotknij, aby ukryć to powiadomienie</string>
+    <string name="notification_desc">To powiadomienie jest potrzebne, aby WiFi Automatic działało w tle na Androidzie 8 i nowszym. Możesz wyłączyć jego wyświetlanie.</string>
+    <string name="location_permission_denied">Ta funkcja nie zadziała bez dostępu do lokalizacji</string>
+    <string name="location_permission_29">Włączanie WiFi na podstawie lokalizacji wymaga dostępu do niej także wtedy, gdy aplikacja jest zamknięta lub nieużywana. Przyznać uprawnienie teraz?</string>
 </resources>

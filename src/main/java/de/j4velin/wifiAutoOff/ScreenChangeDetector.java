@@ -22,6 +22,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
@@ -86,10 +87,15 @@ public class ScreenChangeDetector extends Service {
             if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
                 context.sendBroadcast(
                         new Intent(context, Receiver.class).setAction(SCREEN_OFF_ACTION));
-            } else if (Intent.ACTION_SCREEN_ON.equals(intent.getAction()) &&
-                    !((KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE))
+            } else if (Intent.ACTION_SCREEN_ON.equals(intent.getAction())) {
+                final SharedPreferences prefs = Receiver.getSharedPreferences(context);
+                if (!prefs.getBoolean("on_screen_on", false)) {
+                    if (((KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE))
                             .inKeyguardRestrictedInputMode()) {
-                // SCREEN_ON is only send if there is no lockscreen active! Otherwise the Receiver will get USER_PRESENT
+                        // SCREEN_ON is only send if there is no lockscreen active! Otherwise the Receiver will get USER_PRESENT
+                        return;
+                    }
+                }
                 context.sendBroadcast(
                         new Intent(context, Receiver.class).setAction(SCREEN_ON_ACTION));
             }
