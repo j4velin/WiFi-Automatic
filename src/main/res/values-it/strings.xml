@@ -6,7 +6,6 @@
     <string name="at_summary">ogni giorno alle %s</string>
     <string name="every_summary">ogni %s</string>
     <string name="advanced_wifi_settings">Impostazioni WiFi avanzate</string>
-    <string name="more_apps">Altre apps</string>
     <string name="donate">Donazione</string>
     <string name="turn_wifi_on_">Accendi il WiFi&#8230;</string>
     <string name="when_device_gets_unlocked">quando il device viene sbloccato</string>
@@ -41,28 +40,16 @@
     <string name="general_settings">Impostazioni Generali</string>
     <string name="airplane_title">Modalita` aereo</string>
     <string name="airplane_summary">Non abilitare il WiFi in modalita` aereo</string>
-    <string name="when_entering_location">quanto ci si trova in queste posizioni</string>
-    <string name="buy_pro">Solo una posizione e` supportata nella versione free dell\'app. Vuoi installare la versione pro ora?
-    </string>
-    <string name="location_text">Accendi il WiFi quando sei in queste posizioni:</string>
-    <string name="location_summary">Usa le informazioni della posizione della cella per accendere il WiFi in una determinata posizione
-    </string>
     <string name="no_connected">WiFi disconnesso</string>
     <string name="click_to_select_network">Clicca per selezionare la rete WiFi</string>
     <string name="wifi_not_enabled">WiFi disabilitato</string>
     <string name="click_to_turn_on">Clicca per accendere</string>
-    <string name="location_settings_warning">Le tue impostazioni non permettono all\'app di determinare la tua posizione</string>
-    <string name="interval">Intervallo:</string>
-    <string name="active_location_scan">Attiva lo scan della posizione</string>
-    <string name="more_info">Altre informazioni</string>
-    <string name="no_permission">L\'App non ha i permessi per accedere alla tua posizione</string>
     <string name="log_empty">Nessun log ancora</string>
     <string name="log_summary">Mostra gli ultimi eventi che hanno cambiato lo stato del WiFi</string>
     <string name="log_title">Log</string>
     <string name="event_airplane">Non accendere il WiFi perche` il device e` in modalita` aereo</string>
     <string name="event_turn_on">Accendi il WiFi</string>
     <string name="event_turn_off">Spegni il WiFi</string>
-    <string name="event_location">Posizione inserita: %s</string>
     <string name="event_display_off_ignored_ac">L\'evento schermo spento e` stato ignorato perche` il device e` in carica
     </string>
     <string name="event_unlocked">Device sbloccato</string>

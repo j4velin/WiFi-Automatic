@@ -5,7 +5,6 @@
     <string name="at_summary">codziennie o %s</string>
     <string name="every_summary">co każde %s</string>
     <string name="advanced_wifi_settings">Zaawansowane ustawienia WiFi</string>
-    <string name="more_apps">Więcej aplikacji</string>
     <string name="donate">Darowizna</string>
     <string name="turn_wifi_on_">Uruchom włączenie WiFi&#8230;</string>
     <string name="when_device_gets_unlocked">urządzenie zostanie odblokowane</string>
@@ -35,8 +34,4 @@
     <string name="general_settings">Ustawienia ogólne</string>
     <string name="airplane_title">Tryb samolotowy</string>
     <string name="airplane_summary">Nie włączaj WiFi w trybie samolotowym</string>
-    <string name="when_entering_location">gdy znajdziesz się w określonych miejscach</string>
-    <string name="buy_pro">Tylko jedna lokalizacja jest wspierana w darmowej wersji aplikacjii. Czy chcesz teraz uaktualnić do wersji pro??</string>
-    <string name="location_text">Włącz WiFi gdy znajdziesz się w tej lokalizacji:</string>
-    <string name="location_summary">Użyj informacji o lokalizacji komórki, aby włączyć WiFi w określonych miejscach</string>
 </resources>

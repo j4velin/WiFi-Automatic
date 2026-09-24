@@ -139,7 +139,6 @@ abstract class Start {
             }
         }
 
-        GeofenceUpdateService.enqueueJob(c);
         APILevel26ForegroundService.start(c);
 
         if (BuildConfig.DEBUG) Logger.log("all timers set/cleared");

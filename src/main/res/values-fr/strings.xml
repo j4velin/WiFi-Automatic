@@ -5,7 +5,6 @@
     <string name="at_summary">tous les jours à %s</string>
     <string name="every_summary">toutes les %s</string>
     <string name="advanced_wifi_settings">Options avancées</string>
-    <string name="more_apps">Plus d\'applications</string>
     <string name="donate">Donation</string>
     <string name="turn_wifi_on_">Activer le Wi-Fi&#8230;</string>
     <string name="when_device_gets_unlocked">au déverrouillage de l\'écran</string>
@@ -36,18 +35,9 @@
     <string name="general_settings">Paramètres généraux</string>
     <string name="airplane_title">Mode avion</string>
     <string name="airplane_summary">Ne pas activer le Wi-Fi en mode avion</string>
-    <string name="when_entering_location">en entrant dans ces lieux</string>
-    <string name="buy_pro">Un seul lieu disponible dans la version gratuite de l\'application. Voulez-vous passer à la version pro maintenant ?</string>
-    <string name="location_text">Activer le Wi-Fi en entrant dans ces lieux :</string>
-    <string name="location_summary">Utiliser la localisation cellulaire pour activer le Wi-Fi à des lieux spécifiés</string>
     <string name="timeout_too_short">Le paramètre \"aucun délai réseau\" peut être trop court pour rechercher des localisations. Modifier à 5 min maintenant ?</string>
     <string name="no_connected">Wi-Fi déconnecté</string>
     <string name="click_to_select_network">Appuyez pour sélectionner un réseau Wi-Fi</string>
     <string name="wifi_not_enabled">Wi-Fi désactivé</string>
     <string name="click_to_turn_on">Appuyez pour activer</string>
-    <string name="location_settings_warning">Vos paramètres empêchent de déterminer votre localisation</string>
-    <string name="interval">Intervalle :</string>
-    <string name="active_location_scan">Scanne localisation actif</string>
-    <string name="more_info">Plus d\'info</string>
-    <string name="no_permission">L\'application n\'a pas l\'autorisation d\'accéder à votre localisation</string>
 </resources>

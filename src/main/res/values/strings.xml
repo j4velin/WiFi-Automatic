@@ -5,7 +5,6 @@
     <string name="at_summary">everyday at %s</string>
     <string name="every_summary">every %s</string>
     <string name="advanced_wifi_settings">Advanced WiFi settings</string>
-    <string name="more_apps">More apps</string>
     <string name="donate">Donate</string>
     <string name="turn_wifi_on_">Turn WiFi on&#8230;</string>
     <string name="when_device_gets_unlocked">when device gets unlocked</string>
@@ -41,32 +40,16 @@
     <string name="general_settings">General settings</string>
     <string name="airplane_title">Airplane mode</string>
     <string name="airplane_summary">Don\'t enable WiFi when in airplane mode</string>
-    <string name="when_entering_location">when entering these locations</string>
-    <string name="buy_pro">Only one location is support in the free version of the app. Do you want
-        to upgrade to the pro version now?
-    </string>
-    <string name="location_text">Turn on WiFi when entering these locations:</string>
-    <string name="location_summary">Use cell location information to turn WiFi on at specified
-        locations
-    </string>
     <string name="no_connected">WiFi disconnected</string>
     <string name="click_to_select_network">Click to select WiFi network</string>
     <string name="wifi_not_enabled">WiFi disabled</string>
     <string name="click_to_turn_on">Click to turn on</string>
-    <string name="location_settings_warning">Your settings prevent the app from detect your
-        location
-    </string>
-    <string name="interval">Interval:</string>
-    <string name="active_location_scan">Active location scanning</string>
-    <string name="more_info">More info</string>
-    <string name="no_permission">App does not have permission to access your location</string>
     <string name="log_empty">No log entries yet</string>
     <string name="log_summary">Shows the last events which triggered a WiFi change</string>
     <string name="log_title">Log</string>
     <string name="event_airplane">Not turning WiFi on because device is in airplane mode</string>
     <string name="event_turn_on">Turning WiFi on</string>
     <string name="event_turn_off">Turning WiFi off</string>
-    <string name="event_location">Location entered: %s</string>
     <string name="event_display_off_ignored_ac">Screen off event ignored because device is connected
         to external power
     </string>
@@ -98,7 +81,4 @@
     <string name="notification_desc">This notification is necessary to keep WiFi Automatic running
         on Android 8+ devices. You can safely disable it from being shown.
     </string>
-    <string name="location_permission_denied">This feature will not work without location permission</string>
-    <string name="location_permission_29">Enabling WiFi based on your location requires the permission to access your location,
-        even when the app is closed or not in use. Do you want to grant this permission now?</string>
 </resources>

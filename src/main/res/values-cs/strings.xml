@@ -5,7 +5,6 @@
     <string name="at_summary">každý den v %s</string>
     <string name="every_summary">každé %s</string>
     <string name="advanced_wifi_settings">Rozšířené WiFi nastavení</string>
-    <string name="more_apps">Další aplikace</string>
     <string name="donate">Podpořit</string>
     <string name="turn_wifi_on_">Zapnout WiFi&#8230;</string>
     <string name="when_device_gets_unlocked">po odemčení přístroje</string>
@@ -36,17 +35,8 @@
     <string name="general_settings">Hlavní nastavení</string>
     <string name="airplane_title">Mód Letadlo</string>
     <string name="airplane_summary">Nezapínat WiFi v módu Letadlo</string>
-    <string name="when_entering_location">při vstupu do těchto lokací</string>
-    <string name="buy_pro">Ve volné verzi této aplikaci je podporována pouze jedna lokace. Chcete nyní aktualizovat na pro verzi?</string>
-    <string name="location_text">Zapnout WiFi při vstupu do těchto lokací:</string>
-    <string name="location_summary">Používat informace telefonních ústředen pro zapnutí WiFi ve specifických lokacích</string>
     <string name="no_connected">WiFi odpojeno</string>
     <string name="click_to_select_network">Kliknout pro výběr WiFi sítě</string>
     <string name="wifi_not_enabled">WiFi vypnuto</string>
     <string name="click_to_turn_on">Kliknutím zapnout</string>
-    <string name="location_settings_warning">Nastavení zamezuje aplikaci detekovat vaše umístění</string>
-    <string name="interval">Interval:</string>
-    <string name="active_location_scan">Aktivní skenování umístění</string>
-    <string name="more_info">Více informací</string>
-    <string name="no_permission">Aplikace nemá oprávnění pro zjištění vašeho umístění</string>
 </resources>

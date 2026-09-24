@@ -4,8 +4,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.app.JobIntentService;
+import androidx.annotation.NonNull;
+import androidx.core.app.JobIntentService;
 
 /**
  * Service to call {@link Log#deleteOldLogs(Context, long)} every {@link Log#KEEP_DURATION} ms

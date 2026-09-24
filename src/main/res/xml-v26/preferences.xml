@@ -26,10 +26,6 @@
             android:key="power_connected"
             android:summary="@string/power_summary"
             android:title="@string/power_title"/>
-        <Preference
-            android:key="locations"
-            android:summary="@string/location_summary"
-            android:title="@string/when_entering_location"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/turn_wifi_off_when_">
         <CheckBoxPreference

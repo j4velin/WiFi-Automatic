@@ -6,7 +6,6 @@
     <string name="at_summary">todos dias às %s</string>
     <string name="every_summary">cada %s</string>
     <string name="advanced_wifi_settings">Ajustes avançados de WiFi</string>
-    <string name="more_apps">Mais apps</string>
     <string name="donate">Doar</string>
     <string name="turn_wifi_on_">Ligue o WiFi&#8230;</string>
     <string name="when_device_gets_unlocked">ao desbloquear o dispositivo</string>
@@ -42,32 +41,16 @@
     <string name="general_settings">Configurações Gerais</string>
     <string name="airplane_title">Modo avião</string>
     <string name="airplane_summary">Não habilitar WiFi ao estrar em modo avião</string>
-    <string name="when_entering_location">ao entrar nestas localizações</string>
-    <string name="buy_pro">A versão gratuita do app permite uma só Localização. Deseja
-        atualizar para a versão pro?
-    </string>
-    <string name="location_text">Ligue o WiFi ao entrar nestes locais:</string>
-    <string name="location_summary">Use as informações de localização do seu telefone para ligar o WiFi em locais
-        definidas
-    </string>
     <string name="no_connected">Wi-Fi desconectado</string>
     <string name="click_to_select_network">Pressione para selecionar uma rede WiFi</string>
     <string name="wifi_not_enabled">Wifi desativado</string>
     <string name="click_to_turn_on">Pressione para ligar</string>
-    <string name="location_settings_warning">Sua configuração atual impede que o aplicativo detecte sua
-         Localização
-    </string>
-    <string name="interval">Intervalo:</string>
-    <string name="active_location_scan">Verificação de localização ativa</string>
-    <string name="more_info">Mais informações</string>
-    <string name="no_permission">O aplicativo não tem permissão para acessar sua localização</string>
     <string name="log_empty">Ainda não há registros</string>
     <string name="log_summary">Mostra os últimos eventos que mudaram o status do WiFi</string>
     <string name="log_title">Registro</string>
     <string name="event_airplane">O WiFi não será ativado porque o dispositivo está no modo avião</string>
     <string name="event_turn_on">Ativando WiFi</string>
     <string name="event_turn_off">Desativando WiFi</string>
-    <string name="event_location">Localização inserida: %s</string>
     <string name="event_display_off_ignored_ac">Status da tela ignorado devido ao dispositivo estar conectado
          para uma tomada
     </string>

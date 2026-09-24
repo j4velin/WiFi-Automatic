@@ -5,7 +5,6 @@
     <string name="at_summary">täglich um %s</string>
     <string name="every_summary">alle %s</string>
     <string name="advanced_wifi_settings">Erweiterte WLAN-Einstellungen</string>
-    <string name="more_apps">Weitere Apps</string>
     <string name="donate">Spenden</string>
     <string name="turn_wifi_on_">Schalte WLAN ein&#8230;</string>
     <string name="when_device_gets_unlocked">wenn das Gerät entsperrt wird</string>
@@ -47,14 +46,6 @@
     <string name="airplane_summary">Schalte WLAN nicht ein, wenn sich das Gerät im Flugmodus
         befindet
     </string>
-    <string name="when_entering_location">beim Betreten dieser Orte</string>
-    <string name="buy_pro">In der kostenlosen Version der App wird nur ein Ort unterstützt. Möchtest
-        du jetzt auf die Pro-Version aufwerten?
-    </string>
-    <string name="location_text">Beim Betreten folgender Orte wird das WLAN eingeschaltet:</string>
-    <string name="location_summary">Verwende Funkmasten-Informationen um WLAN an festgelegten Orten
-        einzuschalten
-    </string>
     <string name="timeout_too_short">\'Kein Netz in Reichweite\' Einstellung könnte für die
         Standort-Optionen zu kurz sein. Jetzt auf die Einstellung \'5 min\' ändern?
     </string>
@@ -62,14 +53,6 @@
     <string name="click_to_select_network">Hier klicken um WLAN-Netzwerk auszuwählen</string>
     <string name="wifi_not_enabled">WLAN ausgeschaltet</string>
     <string name="click_to_turn_on">Hier klicken zum einzuschalten</string>
-    <string name="location_settings_warning">Deine Einstellungen verbieten der App deinen Standort
-        zu bestimmen, diese Funktion wird daher nicht funktionieren. Klicke hier um die
-        Standort-Einstellungen zu ändern
-    </string>
-    <string name="interval">Intervall:</string>
-    <string name="active_location_scan">Aktive Standort-Bestimmung</string>
-    <string name="more_info">Mehr dazu</string>
-    <string name="no_permission">Die App hat keine Berechtigung zum Zugiff auf den Standort</string>
     <string name="log_empty">Keine Log-Einträge vorhanden</string>
     <string name="log_summary">Zeigt die letzten von der App registrierten Ereignisse</string>
     <string name="log_title">Log</string>
@@ -77,7 +60,6 @@
     </string>
     <string name="event_turn_on">Schalte WLAN ein</string>
     <string name="event_turn_off">Schalte WLAN aus</string>
-    <string name="event_location">Standort betreten: %s</string>
     <string name="event_display_off_ignored_ac">Bildschirm wurde ausgeschaltet, aber Gerät ist ans
         Stromnetz angeschloßen
     </string>

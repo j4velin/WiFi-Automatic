@@ -15,7 +15,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 
 @TargetApi(Build.VERSION_CODES.O)
 public class APILevel26ForegroundService extends Service {

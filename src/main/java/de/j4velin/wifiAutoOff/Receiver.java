@@ -41,10 +41,8 @@ import java.lang.reflect.Method;
  */
 public class Receiver extends BroadcastReceiver {
 
-    public final static String LOCATION_ENTERED_ACTION = "LOCATION_ENTERED";
     // to prevent SecurityException: Not allowed to send ACTION_POWER_CONNECTED
     public final static String POWER_CONNECTED = "POWER_CONNECTED";
-    public final static String EXTRA_LOCATION_NAME = "name";
     private static NetworkInfo.State previousState = null;
 
     private static final int TIMER_SCREEN_OFF = 1;
@@ -214,22 +212,6 @@ public class Receiver extends BroadcastReceiver {
             Start.createTimers(context);
         } else {
             switch (action) {
-                case LOCATION_ENTERED_ACTION:
-                    if (!((WifiManager) context.getApplicationContext()
-                            .getSystemService(Context.WIFI_SERVICE)).isWifiEnabled()) {
-                        Log.insert(context, context.getString(R.string.event_location,
-                                intent.getStringExtra(EXTRA_LOCATION_NAME)),
-                                Log.Type.LOCATION_ENTERED);
-                        if (prefs.getBoolean("off_no_network", true)) {
-                            // start the timer before actually turning on the WiFi to set the NO_NETWORK
-                            // timer to at least 10 min. The set timer in the following WIFI_STATE_CHANGED_ACTION
-                            // will then have no effect, as the timer is already set
-                            startTimer(context, TIMER_NO_NETWORK, Math.max(10,
-                                    prefs.getInt("no_network_timeout", TIMEOUT_NO_NETWORK)));
-                        }
-                        changeWiFi(context, true);
-                    } // else: WiFi is already enabled, do nothing
-                    break;
                 case ScreenChangeDetector.SCREEN_OFF_ACTION:
                     if (prefs.getBoolean("off_screen_off", true)) {
                         if (!prefs.getBoolean("ignore_screen_off", false)) {

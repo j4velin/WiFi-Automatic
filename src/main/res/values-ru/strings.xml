@@ -5,7 +5,6 @@
     <string name="at_summary">каждый день в %s</string>
     <string name="every_summary">каждые %s</string>
     <string name="advanced_wifi_settings">Расширенные настройки WiFi</string>
-    <string name="more_apps">Другие приложения</string>
     <string name="donate">Пожертвовать</string>
     <string name="turn_wifi_on_">Включать WiFi…</string>
     <string name="when_device_gets_unlocked">когда устройство разблокировано</string>
@@ -36,26 +35,16 @@
     <string name="general_settings">Общие настройки</string>
     <string name="airplane_title">Режим полета</string>
     <string name="airplane_summary">Не включать WiFi в \'режиме полета\'</string>
-    <string name="when_entering_location">при нахождении в этих местах</string>
-    <string name="buy_pro">В бесплатной версии доступна настройка только одного местоположения. Вы хотите перейти на Pro версию сейчас?</string>
-    <string name="location_text">Включать WiFi при нахождении в этих местах:</string>
-    <string name="location_summary">Использовать информацию о своем местоположении, для включения WiFi в определённых местах</string>
     <string name="no_connected">WiFi не подключен</string>
     <string name="click_to_select_network">Нажмите для выбора WiFi сети</string>
     <string name="wifi_not_enabled">WiFi выключен</string>
     <string name="click_to_turn_on">Нажмите чтобы включить</string>
-    <string name="location_settings_warning">Настройки вашего телефона запрещают приложению определять местоположение</string>
-    <string name="interval">Интервал:</string>
-    <string name="active_location_scan">Активная проверка местоположения</string>
-    <string name="more_info">Подробнее</string>
-    <string name="no_permission">У приложения нет прав доступа к вашему местоположению</string>
     <string name="log_empty">В журнале нет записей</string>
     <string name="log_summary">Просмотр последних событий в работе приложения</string>
     <string name="log_title">Журнал</string>
     <string name="event_airplane">WiFi не был включен, потому что устройство находится в \'режиме полета\'</string>
     <string name="event_turn_on">Включение WiFi</string>
     <string name="event_turn_off">Выключение WiFi</string>
-    <string name="event_location">Нахождение в местоположении: %s</string>
     <string name="event_display_off_ignored_ac">Отключение экрана не произошло, так как устройство подключено к зарядке</string>
     <string name="event_unlocked">Устройство разблокировано</string>
     <string name="event_connected">WiFi подключен</string>
@@ -81,6 +70,4 @@
     <string name="app_enabled">Приложение активно</string>
     <string name="hide_notification">Нажмите сюда, что бы скрыть это уведомление</string>
     <string name="notification_desc">Это уведомление необходимо для работы WiFi Automatic на устройствах Android 8+. Вы можете без проблем отключить его.</string>
-    <string name="location_permission_denied">Эта функция не работает без разрешенного доступа к местоположению</string>
-    <string name="location_permission_29">Для включения WiFi в зависимости от вашего местоположения требуется разрешение на доступ к местоположению, даже если приложение закрыто или не активно. Вы хотите дать это разрешение сейчас?</string>
 </resources>
